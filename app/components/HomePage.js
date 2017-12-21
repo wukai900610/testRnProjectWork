@@ -1,36 +1,23 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
-import {StackNavigator} from 'react-navigation';
 
-const Screen = ({navigation}) => (<View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }}>
-    <Button onPress={() => navigation.navigate('Details')} title="跳转到详情"/>
-</View>);
+// const MySettingsScreen = ({navigation}) => (<MyNavScreen banner="Settings Screen" navigation={navigation}/>);
 
-const ScreenDetail = () => (<View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }}>
-    <Text>详情页</Text>
-</View>);
+class HomePage extends React.Component {
 
-const HomePage = StackNavigator({
-    Home: {
-        screen: Screen,
-        navigationOptions: {
-            headerTitle: '主页'
-        }
-    },
-    Details: {
-        screen: ScreenDetail,
-        navigationOptions: {
-            headerTitle: '详情页'
-        }
+    _skip() {
+        this.props.navigation.navigate("Details");
     }
-});
+    render(navigation) {
 
+        return (<View style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+            <Text>这是主页</Text>
+            <Button onPress={this._skip.bind(this)} title="去详情"/>
+        </View>);
+    }
+}
 export default HomePage;
