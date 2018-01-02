@@ -18,4 +18,10 @@ util.ajax = axios.create({
     // }]
 });
 
+let requestPreix = 'http://10.10.136.56:5050'
+util.api = {
+    // banner:'/api/content/list.jspx',
+    homeList:requestPreix + '/api/content/list.jspx'
+}
+
 export default util;
