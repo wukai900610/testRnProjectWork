@@ -24,6 +24,7 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            reduxStateStr:'hello',
             listData: [],
             banner:[{
                 // url:'http://localhost:8080/u/cms/www/201708/241709064xci.jpg'
@@ -69,12 +70,12 @@ class HomePage extends React.Component {
 
     render() {
         const {dispatch, homePage} = this.props;
+        console.log(this.props.homePage);
         return (<ScrollView style={styles.homePageView}>
             <TouchableOpacity onPress={()=> {
-                        dispatch(setHomePageAdd(this.state.listData));
-                        console.log(this.props.homePage);
+                        dispatch(setHomePageAdd(this.state.reduxStateStr));
                     }}>
-                <Text>change state</Text>
+                <Text>change state : {this.props.homePage.env}</Text>
             </TouchableOpacity>
             <ScrollView style={styles.banner} horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={{width:deviceWidth,height:deviceHeight}}>
