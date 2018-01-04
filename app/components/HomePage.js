@@ -6,9 +6,13 @@ import {
     FlatList,
     TouchableOpacity,
     ScrollView,
-    Dimensions，
+    Dimensions,
     Image
 } from 'react-native';
+
+import {connect} from 'react-redux';
+import {setHomePageAdd} from '../actions/actions';
+
 import Util from '../libs/libs';
 
 let {
@@ -64,7 +68,14 @@ class HomePage extends React.Component {
     };
 
     render() {
+        const {dispatch, homePage} = this.props;
         return (<ScrollView style={styles.homePageView}>
+            <TouchableOpacity onPress={()=> {
+                        dispatch(setHomePageAdd(this.state.listData));
+                        console.log(this.props.homePage);
+                    }}>
+                <Text>change state</Text>
+            </TouchableOpacity>
             <ScrollView style={styles.banner} horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={{width:deviceWidth,height:deviceHeight}}>
                     <Image source={{uri:'http://facebook.github.io/react/img/logo_og.png'}}/>
@@ -140,7 +151,15 @@ class HomePage extends React.Component {
         });
     }
 }
-export default HomePage;
+function mapStateToProps(state) {
+    const {homePage} = state;
+
+    return {
+        homePage
+    }
+}
+
+export default connect(mapStateToProps)(HomePage);
 
 const styles = {
     homePageView: {
