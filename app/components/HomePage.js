@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {setHomePageAdd} from '../actions/actions';
+import {ajaxHomeData,loadFail} from '../actions/actions';
 
 import Util from '../libs/libs';
 
@@ -24,7 +24,6 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            reduxStateStr:'hello',
             listData: [],
             banner:[{
                 // url:'http://localhost:8080/u/cms/www/201708/241709064xci.jpg'
@@ -34,16 +33,6 @@ class HomePage extends React.Component {
 
     _skip() {
         this.props.navigation.navigate("Details");
-    }
-
-    _getList(url, param) {
-        return new Promise((resolve, reject) => {
-            Util.ajax.get(url, {params: param}).then((response) => {
-                resolve(response.data)
-            }).catch((err) => {
-                reject(err)
-            });
-        })
     }
 
     _renderItem = ({item}) => {
@@ -70,13 +59,14 @@ class HomePage extends React.Component {
 
     render() {
         const {dispatch, homePage} = this.props;
-        console.log(this.props.homePage);
+
         return (<ScrollView style={styles.homePageView}>
             <TouchableOpacity onPress={()=> {
-                        dispatch(setHomePageAdd(this.state.reduxStateStr));
+                        dispatch(loadFail());
                     }}>
-                <Text>change state : {this.props.homePage.env}</Text>
+                <Text>点我加载失败</Text>
             </TouchableOpacity>
+
             <ScrollView style={styles.banner} horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={{width:deviceWidth,height:deviceHeight}}>
                     <Image source={{uri:'http://facebook.github.io/react/img/logo_og.png'}}/>
@@ -119,7 +109,10 @@ class HomePage extends React.Component {
                 <View style={styles.newsBoxTitle}>
                     <Text style={styles.newsBoxTitleText}>最新新闻</Text>
                 </View>
-                <FlatList data={this.state.listData} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>
+
+                <Text>{this.props.homePage.isLoading ? '正在加载' : ''}</Text>
+
+                <FlatList data={homePage.homeList.data} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>
             </View>
         </ScrollView>);
     }
@@ -138,18 +131,12 @@ class HomePage extends React.Component {
         //     console.log(error);
         // });
 
-        this._getList(Util.api.homeList, {
+        this.props.dispatch(ajaxHomeData(Util.api.homeList,{
             channelIds: 103,
             count: 6,
             pageSize: 12,
             first: 0
-        }).then((data) => {
-            this.setState((state) => {
-                return {listData: data.data};
-            });
-        }, (error) => {
-            console.log(error);
-        });
+        }));
     }
 }
 function mapStateToProps(state) {

@@ -1,17 +1,33 @@
 const initialState = {
-    env: 'production'
+    isLoading:false,
+    isLoadSuccess:true,
+    homeList:[]
 }
 
 export default(state = initialState, action) => {
-    if (action.type === 'SET_ADD') {
-        let {env} = action
+    if (action.type === 'HOME_LOADING') {
+        let {isLoading} = action
         return {
             ...state,
-            env
+            isLoading
         }
-    } else if (action.type === 'RESET') {
-        return initialState
-    } else {
+    }else if (action.type === 'HOME_LOAD_SUCCESS') {
+        let {isLoading,homeList} = action
+
+        return {
+            ...state,
+            isLoading,
+            homeList
+        }
+    }else if (action.type === 'HOME_LOAD_FAIL') {
+        let {isLoading,isLoadSuccess} = action
+
+        return {
+            ...state,
+            isLoading,
+            isLoadSuccess
+        }
+    }else{
         return state
     }
 }
