@@ -7,8 +7,10 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
-    Image
+    Image,
+    Alert
 } from 'react-native';
+import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
 
 import {connect} from 'react-redux';
 import {ajaxHomeData,loadFail} from '../actions/actions';
@@ -57,81 +59,95 @@ class HomePage extends React.Component {
         </View>
     };
 
+    _onRefresh(PullRefresh) {
+        let _this = this;
+        setTimeout(function () {
+            PullRefresh.onRefreshEnd();
+        }, 1000);
+    }
+
     render() {
         const {dispatch, homePage} = this.props;
 
-        return (<ScrollView style={styles.homePageView}>
-            <TouchableOpacity onPress={()=> {
-                        dispatch(loadFail());
-                    }}>
-                <Text>点我加载失败</Text>
-            </TouchableOpacity>
+        let {isLoadSuccess} = this.props.homePage;
 
-            <ScrollView style={styles.banner} horizontal={true} showsHorizontalScrollIndicator={false}>
-                <View style={{width:deviceWidth,height:deviceHeight}}>
-                    <Image source={{uri:'http://facebook.github.io/react/img/logo_og.png'}}/>
-                </View>
-                <View style={{width:deviceWidth,height:deviceHeight}}>
-                    <Text>2</Text>
-                </View>
-            </ScrollView>
-            <View style={styles.mainNav}>
-                <View style={styles.mainNavItem}>
-                    <Text>1</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>2</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>3</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>4</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>1</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>2</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>3</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>4</Text>
-                </View>
-                <View style={styles.mainNavItem}>
-                    <Text>4</Text>
-                </View>
-            </View>
+        if(!isLoadSuccess){
+            Alert.alert(
+                '警告',
+                '数据加载失败了',
+                [
+                    {text: '确认', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+            )
+        }
 
-            <View style={styles.newsBox}>
-                <View style={styles.newsBoxTitle}>
-                    <Text style={styles.newsBoxTitleText}>最新新闻</Text>
+        return (
+            <PullRefreshScrollView
+                ref="PullRefresh"
+                style={styles.homePageView}
+                onRefresh={this._onRefresh.bind(this)}>
+                <TouchableOpacity onPress={()=> {
+                            dispatch(loadFail());
+                        }}>
+                    <Text>点我加载失败</Text>
+                </TouchableOpacity>
+
+                <ScrollView style={styles.banner} horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <View style={{width:deviceWidth,height:deviceHeight}}>
+                        <Image source={{uri:'http://facebook.github.io/react/img/logo_og.png'}}/>
+                    </View>
+                    <View style={{width:deviceWidth,height:deviceHeight}}>
+                        <Text>2</Text>
+                    </View>
+                </ScrollView>
+                <View style={styles.mainNav}>
+                    <View style={styles.mainNavItem}>
+                        <Text>1</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>2</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>3</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>4</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>1</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>2</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>3</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>4</Text>
+                    </View>
+                    <View style={styles.mainNavItem}>
+                        <Text>4</Text>
+                    </View>
                 </View>
 
-                <Text>{this.props.homePage.isLoading ? '正在加载' : ''}</Text>
+                <View style={styles.newsBox}>
+                    <View style={styles.newsBoxTitle}>
+                        <Text style={styles.newsBoxTitleText}>最新新闻</Text>
+                    </View>
 
-                <FlatList data={homePage.homeList.data} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>
-            </View>
-        </ScrollView>);
+                    <Text>{this.props.homePage.isLoading ? '正在加载' : ''}</Text>
+
+                    <FlatList data={homePage.homeList.data} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>
+                </View>
+            </PullRefreshScrollView>
+        )
     }
 
     componentDidMount() {
-        //getbanner
-        // this._getList(Util.api.homeList, {
-        //     channelIds: 135,
-        //     count: 5,
-        //     first: 0
-        // }).then((data) => {
-        //     this.setState((state) => {
-        //         return {listData: data.data};
-        //     });
-        // }, (error) => {
-        //     console.log(error);
-        // });
+        const {dispatch, homePage} = this.props;
 
-        this.props.dispatch(ajaxHomeData(Util.api.homeList,{
+        dispatch(ajaxHomeData(Util.api.homeList,{
             channelIds: 103,
             count: 6,
             pageSize: 12,

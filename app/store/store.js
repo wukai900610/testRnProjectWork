@@ -3,7 +3,7 @@
  * Songlcy create by 2017-01-10
  * @flow
  */
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import rootReducer from '../reducers/rootReducer';
@@ -13,7 +13,7 @@ const logger = createLogger();
 let store = createStore(rootReducer,{},
     compose(
         applyMiddleware(thunk, logger),
-        window.devToolsExtension ? window.devToolsExtension() : f => f,
+        // window.devToolsExtension ? window.devToolsExtension() : f => f,
     )
 );
 
