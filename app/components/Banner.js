@@ -13,6 +13,9 @@ class Banner extends React.Component {
             },{
                 name:'banner2',
                 id:2
+            },{
+                name:'banner3',
+                id:3
             }],
             height:this.props.height ? this.props.height : 160
         };
@@ -20,39 +23,36 @@ class Banner extends React.Component {
 
     _renderItem(dataArr){
         let itemArr=[];
-        for(var i=0; i<dataArr.length; i++){
+        for(let i=0; i<dataArr.length; i++){
             itemArr.push(
                 <View
                     style={styles.slide}
                     key={dataArr[i].id}
-                    title={<Text numberOfLines={1}>{dataArr[i].name}</Text>}>
+                    title={<Text>{dataArr[i].name}</Text>}>
                     <Text style={styles.text}>{dataArr[i].name}</Text>
                 </View>
             );
         }
-
         return itemArr;
     }
 
     render() {
         return (
             <View style={styles.banner}>
-                <Swiper
-                    style={{height:this.state.height}}
-                    paginationStyle={{
+                <Swiper height={200} paginationStyle={{
                       bottom: -23, left: null, right: 30
                     }}>
                     {this._renderItem(this.state.banner)}
                 </Swiper>
             </View>
-
         );
     }
 }
 export default Banner;
 
 const styles = {
-    banner:{
+    banner: {
+        flex: 1,
         marginBottom:30
     },
     slide: {
@@ -65,5 +65,5 @@ const styles = {
         color: '#fff',
         fontSize: 30,
         fontWeight: 'bold'
-    }
+    },
 }

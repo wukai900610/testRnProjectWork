@@ -6,36 +6,75 @@ class HomeNav extends React.Component {
         super(props);
 
         this.state = {
-            navList:[],
+            homeNavList:[{
+                name:'新闻',
+                path:'',
+                channelId:106,
+            }]
         };
-    }
-
-    _renderItem(dataArr){
-        let itemArr=[];
-        for(var i=0; i<dataArr.length; i++){
-            itemArr.push(
-                <View
-                    style={styles.slide}
-                    key={dataArr[i].id}
-                    title={<Text numberOfLines={1}>{dataArr[i].name}</Text>}>
-                    <Text style={styles.text}>{dataArr[i].name}</Text>
-                </View>
-            );
-        }
-
-        return itemArr;
     }
 
     render() {
         return (
-            <View style={styles.banner}>
-
+            <View style={styles.homeNav}>
+                <View style={styles.homeNavBox}>
+                    <View style={styles.homeNavItem}>
+                        <Text>1</Text>
+                    </View>
+                    <View style={styles.homeNavItem}>
+                        <Text>2</Text>
+                    </View>
+                    <View style={styles.homeNavItem}>
+                        <Text>3</Text>
+                    </View>
+                </View>
+                <View style={styles.homeNavBox}>
+                    <View style={styles.homeNavItem}>
+                        <Text>4</Text>
+                    </View>
+                    <View style={styles.homeNavItem}>
+                        <Text>5</Text>
+                    </View>
+                    <View style={styles.homeNavItem}>
+                        <Text>6</Text>
+                    </View>
+                </View>
+                <View style={styles.homeNavBox}>
+                    <View style={styles.homeNavItem}>
+                        <Text>7</Text>
+                    </View>
+                    <View style={styles.homeNavItem}>
+                        <Text>8</Text>
+                    </View>
+                    <View style={styles.homeNavItem}>
+                        <Text>9</Text>
+                    </View>
+                </View>
             </View>
-
         );
     }
 }
 export default HomeNav;
 
 const styles = {
+    homeNav: {
+        paddingTop: 20,
+        paddingLeft: 40,
+        paddingRight: 40,
+    },
+    homeNavBox: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    homeNavItem: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+        // marginLeft: 10,
+        // marginRight: 10,
+        width: 70,
+        height: 70,
+        backgroundColor: '#f1f1f1'
+    },
 }
