@@ -3,9 +3,9 @@ import {View, Text} from 'react-native';
 import {TabNavigator,StackNavigator} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from './components/HomePage';
-import AboutUs from './components/AboutUs';
-import Details from './components/Details';
+import HomePage from './page/HomePage';
+import AboutUs from './page/AboutUs';
+import Details from './page/Details';
 
 const RootTabs = TabNavigator({
     Home: {

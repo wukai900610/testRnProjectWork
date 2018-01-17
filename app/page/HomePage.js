@@ -17,6 +17,8 @@ import {ajaxHomeData,loadFail} from '../actions/actions';
 
 import Util from '../libs/libs';
 
+import Banner from '../components/Banner';
+
 let {
     height: deviceHeight,
     width: deviceWidth
@@ -27,9 +29,6 @@ class HomePage extends React.Component {
         super(props);
         this.state = {
             listData: [],
-            banner:[{
-                // url:'http://localhost:8080/u/cms/www/201708/241709064xci.jpg'
-            }]
         };
     }
 
@@ -87,20 +86,15 @@ class HomePage extends React.Component {
                 ref="PullRefresh"
                 style={styles.homePageView}
                 onRefresh={this._onRefresh.bind(this)}>
+
+                <Banner banner={[1,2,3]}></Banner>
+
                 <TouchableOpacity onPress={()=> {
                             dispatch(loadFail());
                         }}>
                     <Text>点我加载失败</Text>
                 </TouchableOpacity>
 
-                <ScrollView style={styles.banner} horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <View style={{width:deviceWidth,height:deviceHeight}}>
-                        <Image source={{uri:'http://facebook.github.io/react/img/logo_og.png'}}/>
-                    </View>
-                    <View style={{width:deviceWidth,height:deviceHeight}}>
-                        <Text>2</Text>
-                    </View>
-                </ScrollView>
                 <View style={styles.mainNav}>
                     <View style={styles.mainNavItem}>
                         <Text>1</Text>
@@ -145,9 +139,7 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        const {dispatch, homePage} = this.props;
-
-        dispatch(ajaxHomeData(Util.api.homeList,{
+        this.props.dispatch(ajaxHomeData(Util.api.homeList,{
             channelIds: 103,
             count: 6,
             pageSize: 12,
@@ -168,11 +160,6 @@ export default connect(mapStateToProps)(HomePage);
 const styles = {
     homePageView: {
         backgroundColor: '#fff'
-    },
-    banner:{
-        flex: 1,
-        height: 140,
-        backgroundColor:'#ccc'
     },
     mainNav: {
         flex: 1,
