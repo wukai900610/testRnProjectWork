@@ -39,7 +39,7 @@ class Banner extends React.Component {
     render() {
         return (
             <View style={styles.banner}>
-                <Swiper height={200} paginationStyle={{
+                <Swiper height={this.state.height} autoplay={true} paginationStyle={{
                       bottom: -23, left: null, right: 30
                     }}>
                     {this._renderItem(this.state.banner)}

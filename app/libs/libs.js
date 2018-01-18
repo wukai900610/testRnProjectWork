@@ -2,6 +2,25 @@ import axios from 'axios';
 
 let util = {};
 
+//字符串截取
+util.strSplit = (str,strLength)=>{
+    var newStr='';
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        if(realLength >= strLength){
+            return newStr + '...';
+        }
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) {
+            realLength += 1;
+        } else {
+            realLength += 2;
+        }
+        newStr = newStr + str[i];
+    }
+    return newStr;
+}
+
 const ajaxUrl = '';
 
 util.ajax = axios.create({

@@ -39,7 +39,10 @@ const AppNavigator = StackNavigator({
         screen: RootTabs,
     },
     Details: {
-        screen: Details
+        screen: Details,
+        // navigationOptions: {
+        //   header: null,
+        // }
     }
 });
 
