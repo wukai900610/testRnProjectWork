@@ -27,7 +27,7 @@ export function loadFail () {
 export function ajaxHomeData(url,paramsObj) {
     return function(dispatch, getState) {
         //如果是正在加载中将不采取任务措施
-        if (getState().isLoading){
+        if (getState().homePage.isLoading){
             return;
         }
 
@@ -42,12 +42,5 @@ export function ajaxHomeData(url,paramsObj) {
         }).catch((err) => {
             dispatch(loadFail())
         });
-
-        // fetch('https://hacker-news.firebaseio.com/v0/jobstories.json')
-        //     .then(res => {
-        //         console.log(res);
-        //
-        //     }).catch(e => {
-        // });
     }
 }

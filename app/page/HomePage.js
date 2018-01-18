@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import {ajaxHomeData,loadFail} from '../actions/actions';
 
 import Util from '../libs/libs';
+import HomeHeader from '../components/HomeHeader';
 import Banner from '../components/Banner';
 import HomeNav from '../components/HomeNav';
 import HomeList from '../components/HomeList';
@@ -29,8 +30,20 @@ class HomePage extends React.Component {
         };
     }
 
+    _fetchData(){
+        const {dispatch} = this.props;
+
+        dispatch(ajaxHomeData(Util.api.homeList,{
+            channelIds: 103,
+            count: 6,
+            pageSize: 12,
+            first: 0
+        }));
+    }
+
     _onRefresh(PullRefresh) {
-        let _this = this;
+        this._fetchData()
+
         setTimeout(function () {
             PullRefresh.onRefreshEnd();
         }, 1000);
@@ -45,11 +58,7 @@ class HomePage extends React.Component {
                 style={styles.homePageView}
                 onRefresh={this._onRefresh.bind(this)}>
 
-                <TouchableOpacity style={styles.btnFail} onPress={()=> {
-                            dispatch(loadFail());
-                        }}>
-                    <Text>点我加载失败</Text>
-                </TouchableOpacity>
+                <HomeHeader navigation={navigation}></HomeHeader>
 
                 <Banner banner={[1,2,3]}></Banner>
 
@@ -61,14 +70,8 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props;
 
-        dispatch(ajaxHomeData(Util.api.homeList,{
-            channelIds: 103,
-            count: 6,
-            pageSize: 12,
-            first: 0
-        }));
+        this._fetchData()
     }
 }
 function mapStateToProps(state) {
@@ -83,6 +86,7 @@ export default connect(mapStateToProps)(HomePage);
 
 const styles = {
     homePageView: {
+        marginTop: 20,
         backgroundColor: '#fff'
     }
 }

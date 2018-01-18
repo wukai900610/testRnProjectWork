@@ -4,7 +4,8 @@ import {
     Text,
     TouchableOpacity,
     FlatList,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 
 import DateFormat from 'moment';
@@ -35,16 +36,40 @@ class HomeNav extends React.Component {
         </View>
     };
 
+    // shouldComponentUpdate(nextProps, nextState){
+    //     if(nextProps.homePage.isLoadSuccess !== this.props.homePage.isLoadSuccess){
+    //         console.log('不相等');
+    //     }else{
+    //         console.log('相等');
+    //     }
+    //     return nextProps.homePage.isLoadSuccess !== this.props.homePage.isLoadSuccess;
+    // }
+
+    renderComponent(homePage){
+        if(homePage.isLoading){
+            return (
+                <View style={styles.loadingBox}>
+                    <ActivityIndicator color="#2795ee"/>
+                    <Text style={styles.loadingText}>正在加载...</Text>
+                </View>
+            )
+        }else{
+            return (<FlatList data={homePage.homeList.data} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>)
+        }
+    }
+
     render() {
         const {dispatch, homePage} = this.props;
         let {isLoadSuccess} = homePage;
-
+        console.log(isLoadSuccess);
         if(!isLoadSuccess){
             Alert.alert(
                 '警告',
                 '数据加载失败了',
                 [
-                    {text: '确认', onPress: () => console.log('OK Pressed')},
+                    {text: '确认', onPress: () => {
+
+                    }},
                 ],
                 { cancelable: false }
             )
@@ -56,9 +81,7 @@ class HomeNav extends React.Component {
                     <Text style={styles.newsBoxTitleText}>头条</Text>
                 </View>
 
-                <Text>{homePage.isLoading ? '正在加载' : ''}</Text>
-
-                <FlatList data={homePage.homeList.data} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>
+                {this.renderComponent(homePage)}
             </View>
         );
     }
@@ -83,6 +106,15 @@ const styles = {
     newsBoxTitleText:{
         fontWeight:'bold',
         fontSize:16
+    },
+    loadingBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height : 50,
+    },
+    loadingText: {
+        marginLeft:10
     },
     newsBoxItem: {
         marginBottom: 10,
