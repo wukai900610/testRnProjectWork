@@ -7,9 +7,23 @@ class HomeNav extends React.Component {
 
         this.state = {
             homeNavList:[{
-                name:'新闻',
-                path:'',
+                name:'信用动态',
                 channelId:106,
+            },{
+                name:'政策法归',
+                channelId:107
+            },{
+                name:'信用论丛',
+                channelId:107
+            },{
+                name:'新闻动态',
+                channelId:107
+            },{
+                name:'通知公告',
+                channelId:107
+            },{
+                name:'新闻动态',
+                channelId:107
             }]
         };
     }

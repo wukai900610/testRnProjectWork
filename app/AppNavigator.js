@@ -1,21 +1,21 @@
 import React from 'react';
-import {View, Text} from 'react-native';
 import {TabNavigator,StackNavigator} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import SearchPage from './page/SearchPage';
 import HomePage from './page/HomePage';
-import AboutUs from './page/AboutUs';
-import Details from './page/Details';
+import GsPage from './page/GsPage';
+import serviceHallPage from './page/serviceHallPage';
+import AboutPage from './page/AboutPage';
+import DetailPage from './page/DetailPage';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/RegisterPage';
 
 const RootTabs = TabNavigator({
-    Home: {
+    HomePage: {
         screen: HomePage,
         navigationOptions: {
-            tabBarLabel: '金电智诚',
-            title: '主页',
+            tabBarLabel: '主页',
             header: null,
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-home'
@@ -24,10 +24,11 @@ const RootTabs = TabNavigator({
             }}/>)
         }
     },
-    gsInfo: {
-        screen: AboutUs,
+    GsPage: {
+        screen: GsPage,
         navigationOptions: {
             tabBarLabel: '公示信息',
+            header: null,
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -35,10 +36,11 @@ const RootTabs = TabNavigator({
             }}/>)
         }
     },
-    serviceHall: {
-        screen: AboutUs,
+    serviceHallPage: {
+        screen: serviceHallPage,
         navigationOptions: {
             tabBarLabel: '服务大厅',
+            header: null,
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -46,11 +48,11 @@ const RootTabs = TabNavigator({
             }}/>)
         }
     },
-    AboutUs: {
-        screen: AboutUs,
+    AboutPage: {
+        screen: AboutPage,
         navigationOptions: {
-            tabBarLabel: '我们',
-            title: '我们',
+            tabBarLabel: '我的',
+            header: null,
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -61,20 +63,21 @@ const RootTabs = TabNavigator({
 });
 
 const AppNavigator = StackNavigator({
-    Home: {
+    RootTabs: {
         screen: RootTabs,
     },
-    Details: {
-        screen: Details,
-        // navigationOptions: {
-        //   header: null,
-        // }
+    DetailPage: {
+        screen: DetailPage,
+        navigationOptions: {
+            title: '详情'
+        }
     },
     SearchPage: {
         screen: SearchPage,
-        // navigationOptions: {
-        //   header: null,
-        // }
+        navigationOptions: {
+            title: '搜索'
+          // header: null,
+        }
     },
     LoginPage: {
         screen: LoginPage,

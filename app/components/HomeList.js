@@ -17,7 +17,7 @@ class HomeNav extends React.Component {
     }
 
     _skip(detailItem) {
-        this.props.navigation.navigate("Details",detailItem);
+        this.props.navigation.navigate("DetailPage",detailItem);
     }
 
     _renderItem = ({item}) => {
