@@ -14,6 +14,11 @@ class HomeNav extends React.Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        // return true;
+        return false;
+    }
+
     render() {
         return (
             <View style={styles.homeNav}>

@@ -70,7 +70,6 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-
         this._fetchData()
     }
 }

@@ -21,31 +21,20 @@ class HomeNav extends React.Component {
     }
 
     _renderItem = ({item}) => {
-        return <View style={styles.newsBoxItem}>
-            <TouchableOpacity onPress={this._skip.bind(this,item)}>
-                <View style={styles.newsBoxItemBox}>
-                    <Text style={styles.newsBoxItemChannel}>
-                        [{item.channel}]
-                    </Text>
-                    <Text style={styles.newsBoxItemTitle}>
-                        {Util.strSplit(item.title,20)}
-                    </Text>
-                    <Text style={styles.newsBoxItemDate}>{DateFormat(item.releaseDate).format('YYYY-MM-DD')}</Text>
-                </View>
-            </TouchableOpacity>
-        </View>
+        return <TouchableOpacity style={styles.newsBoxItem} onPress={this._skip.bind(this,item)}>
+            <View style={styles.newsBoxItemBox}>
+                <Text style={styles.newsBoxItemChannel}>
+                    [{item.channel}]
+                </Text>
+                <Text style={styles.newsBoxItemTitle}>
+                    {Util.strSplit(item.title,20)}
+                </Text>
+                <Text style={styles.newsBoxItemDate}>{DateFormat(item.releaseDate).format('YYYY-MM-DD')}</Text>
+            </View>
+        </TouchableOpacity>
     };
 
-    // shouldComponentUpdate(nextProps, nextState){
-    //     if(nextProps.homePage.isLoadSuccess !== this.props.homePage.isLoadSuccess){
-    //         console.log('不相等');
-    //     }else{
-    //         console.log('相等');
-    //     }
-    //     return nextProps.homePage.isLoadSuccess !== this.props.homePage.isLoadSuccess;
-    // }
-
-    renderComponent(homePage){
+    renderListUl(homePage){
         if(homePage.isLoading){
             return (
                 <View style={styles.loadingBox}>
@@ -60,9 +49,9 @@ class HomeNav extends React.Component {
 
     render() {
         const {dispatch, homePage} = this.props;
-        let {isLoadSuccess} = homePage;
-        console.log(isLoadSuccess);
-        if(!isLoadSuccess){
+        let {status} = homePage;
+
+        if(status == 'loadFail'){
             Alert.alert(
                 '警告',
                 '数据加载失败了',
@@ -81,7 +70,7 @@ class HomeNav extends React.Component {
                     <Text style={styles.newsBoxTitleText}>头条</Text>
                 </View>
 
-                {this.renderComponent(homePage)}
+                {this.renderListUl(homePage)}
             </View>
         );
     }
@@ -117,7 +106,8 @@ const styles = {
         marginLeft:10
     },
     newsBoxItem: {
-        marginBottom: 10,
+        // marginBottom: 10,
+        paddingTop: 10,
         paddingBottom: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#f1f1f1'

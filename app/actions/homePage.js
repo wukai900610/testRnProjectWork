@@ -1,9 +1,12 @@
 import Util from '../libs/libs';
 
+let num=0;
+
 export function loading () {
     return {
         type: 'HOME_LOADING',
-        isLoading:true
+        isLoading:true,
+        status:''
     }
 }
 
@@ -12,7 +15,7 @@ export function loadSuccess (param) {
         type: 'HOME_LOAD_SUCCESS',
         isLoading : false,
         homeList: param,
-        isLoadSuccess: true
+        status:'loadSuccess'
     }
 }
 
@@ -20,7 +23,7 @@ export function loadFail () {
     return {
         type: 'HOME_LOAD_FAIL',
         isLoading : false,
-        isLoadSuccess: false
+        status:'loadFail'
     }
 }
 

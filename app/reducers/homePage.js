@@ -1,31 +1,33 @@
 const initialState = {
     isLoading:false,
-    isLoadSuccess:true,
+    status:'',
     homeList:[]
 }
 
 export default(state = initialState, action) => {
     if (action.type === 'HOME_LOADING') {
-        let {isLoading} = action
+        let {isLoading,status} = action
         return {
             ...state,
-            isLoading
+            isLoading,
+            status
         }
     }else if (action.type === 'HOME_LOAD_SUCCESS') {
-        let {isLoading,homeList} = action
+        let {isLoading,homeList,status} = action
 
         return {
             ...state,
             isLoading,
-            homeList
+            homeList,
+            status
         }
     }else if (action.type === 'HOME_LOAD_FAIL') {
-        let {isLoading,isLoadSuccess} = action
+        let {isLoading,status} = action
 
         return {
             ...state,
             isLoading,
-            isLoadSuccess
+            status
         }
     }else{
         return state

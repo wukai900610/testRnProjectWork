@@ -12,19 +12,20 @@ class Details extends React.Component {
     constructor(props) {
         super(props);
 
-        let domain = 'http://10.10.136.56:8080';
+        let domain = 'http://10.10.136.56:5050/wap';
         const {navigation} = this.props;
         const params = navigation.state.params;
 
         this.state={
-            url:params.url.replace('http://localhost:8080',domain)
+            // url:params.url.replace('http://localhost:8080',domain)
+            url:domain+params.url
         }
     }
 
     render() {
         const {navigation} = this.props;
         const params = navigation.state.params;
-
+        
         return (<View style={{
                 flex: 1,
                 alignItems: 'center',
@@ -39,14 +40,14 @@ class Details extends React.Component {
                 // ref={ webview => { this.webview = webview; } }
                 scalesPageToFit={true}
                 // startInLoadingState={true}
-                domStorageEnabled={true}
-                javaScriptEnabled={true}
+                // domStorageEnabled={true}
+                // javaScriptEnabled={true}
                 // onNavigationStateChange={this._onNavigationStateChange.bind(this)}
 
                 // injectedJavaScript="document.addEventListener('message', function(e) {eval(e.data);});"
                 // onMessage={this.onMessage}
 
-                source={{uri:this.state.url}}
+                source={{uri: this.state.url}}
                 style={[styles.webview,{width:deviceWidth, height:deviceHeight}]}>
             </WebView>
         </View>);

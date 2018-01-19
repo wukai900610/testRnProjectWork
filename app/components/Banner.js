@@ -36,7 +36,15 @@ class Banner extends React.Component {
         return itemArr;
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        if(this.props.height !== nextProps.height){
+            return true;
+        }
+        return false;
+    }
+
     render() {
+
         return (
             <View style={styles.banner}>
                 <Swiper height={this.state.height} autoplay={true} paginationStyle={{

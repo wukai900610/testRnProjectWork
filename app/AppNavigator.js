@@ -7,6 +7,8 @@ import SearchPage from './page/SearchPage';
 import HomePage from './page/HomePage';
 import AboutUs from './page/AboutUs';
 import Details from './page/Details';
+import LoginPage from './page/LoginPage';
+import RegisterPage from './page/RegisterPage';
 
 const RootTabs = TabNavigator({
     Home: {
@@ -47,8 +49,8 @@ const RootTabs = TabNavigator({
     AboutUs: {
         screen: AboutUs,
         navigationOptions: {
-            tabBarLabel: '关于我们',
-            title: '关于我们',
+            tabBarLabel: '我们',
+            title: '我们',
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -70,6 +72,18 @@ const AppNavigator = StackNavigator({
     },
     SearchPage: {
         screen: SearchPage,
+        // navigationOptions: {
+        //   header: null,
+        // }
+    },
+    LoginPage: {
+        screen: LoginPage,
+        // navigationOptions: {
+        //   header: null,
+        // }
+    },
+    RegisterPage: {
+        screen: RegisterPage,
         // navigationOptions: {
         //   header: null,
         // }

@@ -11,6 +11,11 @@ class Header extends React.Component {
         this.props.navigation.navigate("SearchPage");
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        // return true;
+        return false;
+    }
+
     render() {
         return (
             <View style={styles.header}>
