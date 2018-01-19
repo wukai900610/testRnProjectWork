@@ -21,15 +21,17 @@ class HomeNav extends React.Component {
     }
 
     _renderItem = ({item}) => {
-        return <TouchableOpacity style={styles.newsBoxItem} onPress={this._skip.bind(this,item)}>
-            <View style={styles.newsBoxItemBox}>
-                <Text style={styles.newsBoxItemChannel}>
-                    [{item.channel}]
+        return <TouchableOpacity style={styles.newsBoxItemBox} onPress={this._skip.bind(this,item)}>
+            <Text style={styles.newsBoxItemChannel}>
+                [{item.channel}]
+            </Text>
+            <Text style={styles.newsBoxItemTitle}>
+                {Util.strSplit(item.title,20)}
+            </Text>
+            <View style={styles.newsBoxItemDate}>
+                <Text style={styles.newsBoxItemDateText}>
+                    {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
                 </Text>
-                <Text style={styles.newsBoxItemTitle}>
-                    {Util.strSplit(item.title,20)}
-                </Text>
-                <Text style={styles.newsBoxItemDate}>{DateFormat(item.releaseDate).format('YYYY-MM-DD')}</Text>
             </View>
         </TouchableOpacity>
     };
@@ -105,16 +107,13 @@ const styles = {
     loadingText: {
         marginLeft:10
     },
-    newsBoxItem: {
-        // marginBottom: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f1f1f1'
-    },
     newsBoxItemBox: {
         flex:1,
-        flexDirection: 'row'
+        alignItems: 'center',
+        flexDirection: 'row',
+        height:40,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f1f1f1'
     },
     newsBoxItemChannel: {
         paddingRight:5,
@@ -127,9 +126,12 @@ const styles = {
         fontSize: 16
     },
     newsBoxItemDate: {
-        position:'absolute',
-        top:4,
-        right:0,
+        flex:1,
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        height:40,
+    },
+    newsBoxItemDateText: {
         color: '#333745',
         fontSize: 10
     }

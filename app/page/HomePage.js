@@ -60,7 +60,16 @@ class HomePage extends React.Component {
 
                 <HomeHeader navigation={navigation}></HomeHeader>
 
-                <Banner banner={[1,2,3]}></Banner>
+                <Banner banner={[{
+                    name:'banner1',
+                    id:1
+                },{
+                    name:'banner2',
+                    id:2
+                },{
+                    name:'banner3',
+                    id:3
+                }]}></Banner>
 
                 <HomeNav></HomeNav>
 

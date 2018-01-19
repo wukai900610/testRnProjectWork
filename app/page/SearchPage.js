@@ -24,10 +24,12 @@ class SearchPage extends React.Component {
         // const {dispatch, homePage, navigation} = this.props;
 
         return (
-            <View>
-                <Text>
-                    SearchPage
-                </Text>
+            <View style={styles.SearchPage}>
+                <View style={styles.SearchBox}>
+                    <Text>
+                        SearchPage
+                    </Text>
+                </View>
             </View>
         )
     }
@@ -45,5 +47,8 @@ export default SearchPage;
 
 const styles = {
     SearchPage: {
+    },
+    SearchBox: {
+        
     }
 }

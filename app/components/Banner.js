@@ -7,21 +7,13 @@ class Banner extends React.Component {
         super(props);
 
         this.state = {
-            banner:[{
-                name:'banner1',
-                id:1
-            },{
-                name:'banner2',
-                id:2
-            },{
-                name:'banner3',
-                id:3
-            }],
+            banner: this.props.banner,
             height:this.props.height ? this.props.height : 160
         };
     }
 
     _renderItem(dataArr){
+        console.log(dataArr);
         let itemArr=[];
         for(let i=0; i<dataArr.length; i++){
             itemArr.push(
