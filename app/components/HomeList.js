@@ -20,22 +20,6 @@ class HomeNav extends React.Component {
         this.props.navigation.navigate("DetailPage",detailItem);
     }
 
-    _renderItem = ({item}) => {
-        return <TouchableOpacity style={styles.newsBoxItemBox} onPress={this._skip.bind(this,item)}>
-            <Text style={styles.newsBoxItemChannel}>
-                [{item.channel}]
-            </Text>
-            <Text style={styles.newsBoxItemTitle}>
-                {Util.strSplit(item.title,20)}
-            </Text>
-            <View style={styles.newsBoxItemDate}>
-                <Text style={styles.newsBoxItemDateText}>
-                    {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
-                </Text>
-            </View>
-        </TouchableOpacity>
-    };
-
     renderListUl(homePage){
         if(homePage.isLoading){
             return (
@@ -44,8 +28,27 @@ class HomeNav extends React.Component {
                     <Text style={styles.loadingText}>正在加载...</Text>
                 </View>
             )
-        }else{
-            return (<FlatList data={homePage.homeList.data} keyExtractor={(item, index) => item.id} renderItem={this._renderItem}/>)
+        }
+
+        if(homePage.status == 'loadSuccess'){
+            let data = [];
+            homePage.homeList.data.map((item,index)=>
+                data.push(<TouchableOpacity style={styles.newsBoxItemBox} onPress={this._skip.bind(this,item)}>
+                    <Text style={styles.newsBoxItemChannel}>
+                        [{item.channel}]
+                    </Text>
+                    <Text style={styles.newsBoxItemTitle}>
+                        {Util.strSplit(item.title,20)}
+                    </Text>
+                    <View style={styles.newsBoxItemDate}>
+                        <Text style={styles.newsBoxItemDateText}>
+                            {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
+                        </Text>
+                    </View>
+                </TouchableOpacity>)
+            )
+
+            return data;
         }
     }
 

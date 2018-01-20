@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, WebView, Dimensions} from 'react-native';
 
+import Util from '../libs/libs';
+
 let WEBVIEW_REF = 'webview';
 
 let {
@@ -12,20 +14,18 @@ class Details extends React.Component {
     constructor(props) {
         super(props);
 
-        let domain = 'http://10.10.136.56:5050/wap';
         const {navigation} = this.props;
         const params = navigation.state.params;
 
         this.state={
-            // url:params.url.replace('http://localhost:8080',domain)
-            url:domain+params.url
+            url: Util.domain + '/wap' + params.url
         }
     }
 
     render() {
         const {navigation} = this.props;
         const params = navigation.state.params;
-        
+
         return (<View style={{
                 flex: 1,
                 alignItems: 'center',

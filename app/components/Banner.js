@@ -12,26 +12,10 @@ class Banner extends React.Component {
         };
     }
 
-    _renderItem(dataArr){
-        console.log(dataArr);
-        let itemArr=[];
-        for(let i=0; i<dataArr.length; i++){
-            itemArr.push(
-                <View
-                    style={styles.slide}
-                    key={dataArr[i].id}
-                    title={<Text>{dataArr[i].name}</Text>}>
-                    <Text style={styles.text}>{dataArr[i].name}</Text>
-                </View>
-            );
-        }
-        return itemArr;
-    }
-
     shouldComponentUpdate(nextProps, nextState){
-        if(this.props.height !== nextProps.height){
-            return true;
-        }
+        // if(this.props.height !== nextProps.height){
+        //     return true;
+        // }
         return false;
     }
 
@@ -42,7 +26,16 @@ class Banner extends React.Component {
                 <Swiper height={this.state.height} autoplay={true} paginationStyle={{
                       bottom: -23, left: null, right: 30
                     }}>
-                    {this._renderItem(this.state.banner)}
+                    {
+                        this.state.banner.map((item,index)=>
+                            <View
+                                style={styles.slide}
+                                key={item.id}
+                                title={<Text>{item.name}</Text>}>
+                                <Text style={styles.text}>{item.name}</Text>
+                            </View>
+                        )
+                    }
                 </Swiper>
             </View>
         );
