@@ -33,12 +33,12 @@ class HomeNav extends React.Component {
         if(homePage.status == 'loadSuccess'){
             let data = [];
             homePage.homeList.data.map((item,index)=>
-                data.push(<TouchableOpacity style={styles.newsBoxItemBox} onPress={this._skip.bind(this,item)}>
+                data.push(<TouchableOpacity key={index} style={styles.newsBoxItemBox} onPress={this._skip.bind(this,item)}>
                     <Text style={styles.newsBoxItemChannel}>
                         [{item.channel}]
                     </Text>
                     <Text style={styles.newsBoxItemTitle}>
-                        {Util.strSplit(item.title,20)}
+                        {Util.strSplit(item.title,25)}
                     </Text>
                     <View style={styles.newsBoxItemDate}>
                         <Text style={styles.newsBoxItemDateText}>

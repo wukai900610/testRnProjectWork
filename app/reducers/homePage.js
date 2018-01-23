@@ -1,7 +1,8 @@
 const initialState = {
     isLoading:false,
     status:'',
-    homeList:[]
+    homeList:[],
+    noData:false
 }
 
 export default(state = initialState, action) => {
@@ -28,6 +29,13 @@ export default(state = initialState, action) => {
             ...state,
             isLoading,
             status
+        }
+    }else if (action.type === 'LIST_NO_DATA') {
+        let {noData} = action
+
+        return {
+            ...state,
+            noData
         }
     }else{
         return state

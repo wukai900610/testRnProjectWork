@@ -7,6 +7,7 @@ import HomePage from './page/HomePage';
 import GsPage from './page/GsPage';
 import serviceHallPage from './page/serviceHallPage';
 import AboutPage from './page/AboutPage';
+import ListPage from './page/ListPage';
 import DetailPage from './page/DetailPage';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/RegisterPage';
@@ -65,6 +66,12 @@ const RootTabs = TabNavigator({
 const AppNavigator = StackNavigator({
     RootTabs: {
         screen: RootTabs,
+    },
+    ListPage: {
+        screen: ListPage,
+        navigationOptions: {
+            title: '列表'
+        }
     },
     DetailPage: {
         screen: DetailPage,

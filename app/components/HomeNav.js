@@ -1,5 +1,9 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {
+    View,
+    Text,
+    TouchableOpacity
+} from 'react-native';
 
 class HomeNav extends React.Component {
     constructor(props) {
@@ -8,24 +12,61 @@ class HomeNav extends React.Component {
         this.state = {
             homeNavList:[{
                 name:'信用动态',
-                channelId:106,
+                channelId:94,
+                hasChild:true,
             },{
-                name:'政策法归',
-                channelId:107
+                name:'政策法规',
+                channelId:95,
+                hasChild:true,
             },{
                 name:'信用论丛',
-                channelId:107
+                channelId:96,
+                hasChild:true,
             },{
                 name:'新闻动态',
-                channelId:107
+                channelId:135,
+                hasChild:false,
             },{
                 name:'通知公告',
-                channelId:107
+                channelId:136,
+                hasChild:false,
             },{
-                name:'新闻动态',
-                channelId:107
+                name:'信用报告',
+                channelId:149,
+                hasChild:false,
             }]
         };
+    }
+
+    _skip(detailItem) {
+        this.props.navigation.navigate("ListPage",detailItem);
+    }
+
+    homeNav(){
+        let homeNav = [];
+        let _this = this;
+        let step = 2;
+        this.state.homeNavList.map((item,index)=>{
+            if(index % 3 == 0){
+                let end = index + step > (this.state.homeNavList.length-1) ? (this.state.homeNavList.length-1) : index + step;
+
+                let arrItem = [];
+                for(let i = index;i<=end;i++){
+                    arrItem.push(
+                        <TouchableOpacity key={i} style={styles.homeNavItem} onPress={()=>{this._skip(this.state.homeNavList[i])}}>
+                            <Text>{this.state.homeNavList[i].name}</Text>
+                        </TouchableOpacity>
+                    )
+                }
+                homeNav.push(
+                    <View key={index} style={styles.homeNavBox}>
+                        {arrItem}
+                    </View>
+                )
+            }
+        });
+
+        return homeNav;
     }
 
     shouldComponentUpdate(nextProps, nextState){
@@ -36,39 +77,7 @@ class HomeNav extends React.Component {
     render() {
         return (
             <View style={styles.homeNav}>
-                <View style={styles.homeNavBox}>
-                    <View style={styles.homeNavItem}>
-                        <Text>1</Text>
-                    </View>
-                    <View style={styles.homeNavItem}>
-                        <Text>2</Text>
-                    </View>
-                    <View style={styles.homeNavItem}>
-                        <Text>3</Text>
-                    </View>
-                </View>
-                <View style={styles.homeNavBox}>
-                    <View style={styles.homeNavItem}>
-                        <Text>4</Text>
-                    </View>
-                    <View style={styles.homeNavItem}>
-                        <Text>5</Text>
-                    </View>
-                    <View style={styles.homeNavItem}>
-                        <Text>6</Text>
-                    </View>
-                </View>
-                <View style={styles.homeNavBox}>
-                    <View style={styles.homeNavItem}>
-                        <Text>7</Text>
-                    </View>
-                    <View style={styles.homeNavItem}>
-                        <Text>8</Text>
-                    </View>
-                    <View style={styles.homeNavItem}>
-                        <Text>9</Text>
-                    </View>
-                </View>
+                {this.homeNav()}
             </View>
         );
     }

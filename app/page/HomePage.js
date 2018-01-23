@@ -4,7 +4,6 @@ import {
     Text,
     Button,
     TouchableOpacity,
-    ScrollView,
     // Dimensions,
 } from 'react-native';
 import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
@@ -33,10 +32,9 @@ class HomePage extends React.Component {
     _fetchData(){
         const {dispatch} = this.props;
 
-        dispatch(ajaxHomeData(Util.api.homeList,{
+        dispatch(ajaxHomeData(Util.api.list,{
             channelIds: 103,
             count: 6,
-            pageSize: 12,
             first: 0
         }));
     }
@@ -60,6 +58,10 @@ class HomePage extends React.Component {
 
                 <HomeHeader navigation={navigation}></HomeHeader>
 
+                <TouchableOpacity onPress={()=>{navigation.navigate("LoginPage")}}><Text>LoginPage</Text></TouchableOpacity>
+
+                <TouchableOpacity onPress={()=>navigation.navigate("RegisterPage")}><Text>RegisterPage</Text></TouchableOpacity>
+
                 <Banner banner={[{
                     name:'banner1',
                     id:1
@@ -71,7 +73,7 @@ class HomePage extends React.Component {
                     id:3
                 }]}></Banner>
 
-                <HomeNav></HomeNav>
+                <HomeNav navigation={navigation}></HomeNav>
 
                 <HomeList homePage={homePage} navigation={navigation}></HomeList>
             </PullRefreshScrollView>

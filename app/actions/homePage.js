@@ -1,7 +1,5 @@
 import Util from '../libs/libs';
 
-let num=0;
-
 export function loading () {
     return {
         type: 'HOME_LOADING',
