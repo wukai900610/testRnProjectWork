@@ -40,8 +40,6 @@ class ListPage extends React.Component {
         this._fetchData(payload,'refresh')
 
         first = 0;
-
-        console.log(payload);
     }
 
     _footRefresh = () => {

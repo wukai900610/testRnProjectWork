@@ -37,8 +37,8 @@ util.ajax = axios.create({
     // }]
 });
 
-util.domain = 'http://10.10.136.56:5050';
-// util.domain = 'http://xyhb.hebi.gov.cn';
+// util.domain = 'http://10.10.136.56:5050';
+util.domain = 'http://xyhb.hebi.gov.cn';
 
 util.api = {
     // banner:'/api/content/list.jspx',

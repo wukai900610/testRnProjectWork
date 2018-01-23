@@ -39,50 +39,44 @@ export function ajaxListPageData(url,paramsObj,refresh) {
         if(refresh == 'refresh'){
             dispatch(listLoading('listLoadingHead'));
 
-            setTimeout(function () {
-                Util.ajax.get(url, {params: paramsObj}).then((response) => {
-                    if(response.status==200){
-                        if(response.data.data.length == 0){
-                            dispatch(listLoadSuccess(response.data));
-                            dispatch(listNoData());
-                        }else{
-                            dispatch(listLoadSuccess(response.data));
-                        }
+            Util.ajax.get(url, {params: paramsObj}).then((response) => {
+                if(response.status==200){
+                    if(response.data.data.length == 0){
+                        dispatch(listLoadSuccess(response.data));
+                        dispatch(listNoData());
                     }else{
-                        dispatch(listLoadFail());
+                        dispatch(listLoadSuccess(response.data));
                     }
-                }).catch((err) => {
+                }else{
                     dispatch(listLoadFail());
-                });
-            }, 500);
+                }
+            }).catch((err) => {
+                dispatch(listLoadFail());
+            });
         }else{
             dispatch(listLoading('listLoadingFoot'));
 
-            setTimeout(function () {
-                Util.ajax.get(url, {params: paramsObj}).then((response) => {
-                    if(response.status==200){
-                        if(response.data.data.length == 0){
-                            dispatch(listNoData());
-                        }else{
-                            let oldListPageData = getState().listPage.listPageData;
-                            oldListPageData.data = oldListPageData.data.concat(response.data.data)
-
-                            let newListPageData ={
-                                ...response.data,
-                                data:oldListPageData.data
-                            }
-
-                            console.log(newListPageData);
-
-                            dispatch(listLoadSuccess(newListPageData));
-                        }
+            Util.ajax.get(url, {params: paramsObj}).then((response) => {
+                if(response.status==200){
+                    if(response.data.data.length == 0){
+                        dispatch(listNoData());
                     }else{
-                        dispatch(listLoadFail());
+                        let oldListPageData = getState().listPage.listPageData;
+                        oldListPageData.data = oldListPageData.data.concat(response.data.data)
+
+                        let newListPageData ={
+                            ...response.data,
+                            data:oldListPageData.data
+                        }
+
+                        dispatch(listLoadSuccess(newListPageData));
                     }
-                }).catch((err) => {
+                }else{
                     dispatch(listLoadFail());
-                });
-            }, 500);
+                }
+            }).catch((err) => {
+                dispatch(listLoadFail());
+            });
         }
 
 
