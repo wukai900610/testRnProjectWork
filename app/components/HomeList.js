@@ -16,7 +16,7 @@ class HomeNav extends React.Component {
         super(props);
     }
 
-    _skip(detailItem) {
+    _goToPage(detailItem) {
         this.props.navigation.navigate("DetailPage",detailItem);
     }
 
@@ -33,7 +33,7 @@ class HomeNav extends React.Component {
         if(homePage.status == 'loadSuccess'){
             let data = [];
             homePage.homeList.data.map((item,index)=>
-                data.push(<TouchableOpacity key={index} style={styles.newsBoxItemBox} onPress={this._skip.bind(this,item)}>
+                data.push(<TouchableOpacity key={index} style={styles.newsBoxItemBox} onPress={this._goToPage.bind(this,item)}>
                     <Text style={styles.newsBoxItemChannel}>
                         [{item.channel}]
                     </Text>

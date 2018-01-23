@@ -38,7 +38,7 @@ class HomeNav extends React.Component {
         };
     }
 
-    _skip(detailItem) {
+    _goToPage(detailItem) {
         this.props.navigation.navigate("ListPage",detailItem);
     }
 
@@ -53,7 +53,7 @@ class HomeNav extends React.Component {
                 let arrItem = [];
                 for(let i = index;i<=end;i++){
                     arrItem.push(
-                        <TouchableOpacity key={i} style={styles.homeNavItem} onPress={()=>{this._skip(this.state.homeNavList[i])}}>
+                        <TouchableOpacity key={i} style={styles.homeNavItem} onPress={()=>{this._goToPage(this.state.homeNavList[i])}}>
                             <Text>{this.state.homeNavList[i].name}</Text>
                         </TouchableOpacity>
                     )

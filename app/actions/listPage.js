@@ -43,6 +43,7 @@ export function ajaxListPageData(url,paramsObj,refresh) {
                 Util.ajax.get(url, {params: paramsObj}).then((response) => {
                     if(response.status==200){
                         if(response.data.data.length == 0){
+                            dispatch(listLoadSuccess(response.data));
                             dispatch(listNoData());
                         }else{
                             dispatch(listLoadSuccess(response.data));

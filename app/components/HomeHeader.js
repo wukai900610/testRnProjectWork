@@ -7,7 +7,7 @@ class Header extends React.Component {
         super(props);
     }
 
-    _goNavigate(){
+    _goToPage(){
         this.props.navigation.navigate("SearchPage");
     }
 
@@ -21,7 +21,7 @@ class Header extends React.Component {
             <View style={styles.header}>
                 <Text style={styles.headerText}>金电智诚</Text>
                 <TouchableOpacity style={styles.searchBox}
-                    onPress={this._goNavigate.bind(this)}>
+                    onPress={this._goToPage.bind(this)}>
                     <Ionicons
                         style={styles.searchBtn}
                         name='ios-search'

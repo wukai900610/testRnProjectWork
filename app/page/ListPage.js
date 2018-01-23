@@ -40,10 +40,11 @@ class ListPage extends React.Component {
         this._fetchData(payload,'refresh')
 
         first = 0;
+
+        console.log(payload);
     }
 
     _footRefresh = () => {
-
         const { navigation, payload } = this.state;
         const params = navigation.state.params;
 
@@ -61,10 +62,14 @@ class ListPage extends React.Component {
         dispatch(ajaxListPageData(Util.api.list,obj,type));
     }
 
-    renderCell = (info: Object) => {
+    _goToPage(detailItem){
+        this.props.navigation.navigate("DetailPage",detailItem);
+    }
+
+    renderItem = (info: Object) => {
         let item = info.item;
         return (
-            <TouchableOpacity id={item.id} style={styles.newsBoxItemBox}>
+            <TouchableOpacity id={item.id} onPress={()=>{this._goToPage(item)}} style={styles.newsBoxItemBox}>
                 <Text style={styles.newsBoxItemChannel}>
                     [{item.channel}]
                 </Text>
@@ -87,6 +92,10 @@ class ListPage extends React.Component {
         if(!params.hasChild){
             this._headRefresh();
         }
+    }
+
+    componentWillUnmount(){
+        first = 0;
     }
 
     render() {
@@ -112,7 +121,7 @@ class ListPage extends React.Component {
                     keyExtractor={(item: any, index: number) => {
                         return index
                     }}
-                    renderItem={this.renderCell}
+                    renderItem={this.renderItem}
                     refreshState={refreshState}
                     onHeaderRefresh={this._headRefresh}
                     onFooterRefresh={this._footRefresh}
@@ -120,7 +129,7 @@ class ListPage extends React.Component {
                     // 可选
                     footerRefreshingText= '数据加载中...'
                     footerFailureText = '数据加载失败'
-                    footerNoMoreDataText= '-已经没有数据啦-'
+                    footerNoMoreDataText= '-没有数据-'
                 />
             </View>
         )
