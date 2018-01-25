@@ -4,6 +4,7 @@ import {
     Text,
     Button,
     TouchableOpacity,
+    ScrollView
     // Dimensions,
 } from 'react-native';
 import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
@@ -58,9 +59,14 @@ class HomePage extends React.Component {
 
                 <HomeHeader navigation={navigation}></HomeHeader>
 
-                <TouchableOpacity onPress={()=>{navigation.navigate("LoginPage")}}><Text>LoginPage</Text></TouchableOpacity>
+                <ScrollView horizontal={true}>
 
-                <TouchableOpacity onPress={()=>navigation.navigate("RegisterPage")}><Text>RegisterPage</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{navigation.navigate("LoginPage")}}><Text>LoginPage</Text></TouchableOpacity>
+
+                    <TouchableOpacity onPress={()=>navigation.navigate("RegisterPage")}><Text>RegisterPage</Text></TouchableOpacity>
+                </ScrollView>
+
+
 
                 <Banner banner={[{
                     name:'banner1',

@@ -32,7 +32,7 @@ class GsPage extends React.Component {
                     id:1
                 }]}></Banner>
 
-                <View style={styles.itemBox}>
+                <View style={styles.itemGrid}>
                     <View style={styles.item}>
                         <Text>
                             1
@@ -44,7 +44,7 @@ class GsPage extends React.Component {
                         </Text>
                     </View>
                 </View>
-                <View style={styles.itemBox}>
+                <View style={styles.itemGrid}>
                     <View style={styles.item}>
                         <Text>
                             1
@@ -56,7 +56,7 @@ class GsPage extends React.Component {
                         </Text>
                     </View>
                 </View>
-                <View style={styles.itemBox}>
+                <View style={styles.itemGrid}>
                     <View style={styles.item}>
                         <Text>
                             1
@@ -85,19 +85,18 @@ export default GsPage;
 
 const styles = {
     GsPage: {
-        paddingTop:20,
+        marginTop:20,
         backgroundColor:'#fff'
     },
-    itemBox: {
-        flex: 1,
+    itemGrid: {
         flexDirection: 'row',
         paddingLeft:10,
+        marginBottom: 10,
     },
     item: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10,
         marginRight: 10,
         height: 150,
         backgroundColor: '#f1f1f1'

@@ -6,34 +6,56 @@ const initialState = {
 }
 
 export default(state = initialState, action) => {
-    if (action.type === 'LIST_LOADING') {
-        let {status} = action
+    let newState = JSON.stringify(state)
+    newState = JSON.parse(newState)
+
+    if (action.type === 'CREATE_LISTPAGE_SUB_STORE') {
+        let {channelId} = action;
+        let channelStore = 'listPage'+channelId;
+
         return {
             ...state,
-            status
+            [channelStore]:{
+                status:'',
+                listPageData:{
+                    data:[]
+                },
+                payload:{
+                    count: 10,
+                    first: 0,
+                    channelIds: channelId
+                }
+            }
         }
+    }else if (action.type === 'LIST_LOADING') {
+        let {status,params} = action
+        let channelStore = 'listPage' + params.channelIds
+
+        newState[channelStore].status = status;
+
+        return newState
     }else if (action.type === 'LIST_LOAD_SUCCESS') {
-        let {listPageData,status} = action
+        let {listPageData,status,params} = action
+        let channelStore = 'listPage' + params.channelIds
 
-        return {
-            ...state,
-            listPageData,
-            status
-        }
+        newState[channelStore].listPageData = listPageData;
+        newState[channelStore].status = status;
+
+        return newState
     }else if (action.type === 'LIST_LOAD_FAIL') {
-        let {status} = action
+        let {status,params} = action
+        let channelStore = 'listPage' + params.channelIds
 
-        return {
-            ...state,
-            status
-        }
+        newState[channelStore].status = status;
+
+        return newState
     }else if (action.type === 'LIST_NO_DATA') {
-        let {status} = action
+        let {status,params} = action
+        let channelStore = 'listPage' + params.channelIds
 
-        return {
-            ...state,
-            status
-        }
+        newState[channelStore].status = status;
+
+        return newState
     }else{
         return state
     }

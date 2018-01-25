@@ -14,14 +14,60 @@ class HomeNav extends React.Component {
                 name:'信用动态',
                 channelId:94,
                 hasChild:true,
+                child:[
+                    {
+                        name:'国内动态',
+                        channelId:103,
+                    },
+                    {
+                        name:'省内动态',
+                        channelId:104,
+                    }
+                ]
             },{
                 name:'政策法规',
                 channelId:95,
                 hasChild:true,
+                child:[
+                    {
+                        name:'国家动态',
+                        channelId:105,
+                    },
+                    {
+                        name:'外省动态',
+                        channelId:106,
+                    },
+                    {
+                        name:'本地动态',
+                        channelId:121,
+                    },
+                    {
+                        name:'省内动态',
+                        channelId:122,
+                    }
+                ]
             },{
                 name:'信用论丛',
                 channelId:96,
                 hasChild:true,
+                child:[
+                    {
+                        name:'信用研究',
+                        channelId:123,
+                    },
+                    {
+                        name:'信用知识',
+                        channelId:124,
+                    },
+                    {
+                        name:'专家言论',
+                        channelId:125,
+                    },
+                    {
+                        name:'典型案例',
+                        channelId:126,
+                    }
+                ]
             },{
                 name:'新闻动态',
                 channelId:135,
@@ -39,7 +85,11 @@ class HomeNav extends React.Component {
     }
 
     _goToPage(detailItem) {
-        this.props.navigation.navigate("ListPage",detailItem);
+        if(detailItem.hasChild){
+            this.props.navigation.navigate("ListPageWithTabBar",detailItem);
+        }else{
+            this.props.navigation.navigate("ListPage",detailItem);
+        }
     }
 
     homeNav(){

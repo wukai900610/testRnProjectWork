@@ -8,6 +8,7 @@ import GsPage from './page/GsPage';
 import serviceHallPage from './page/serviceHallPage';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
+import ListPageWithTabBar from './page/ListPageWithTabBar';
 import DetailPage from './page/DetailPage';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/RegisterPage';
@@ -71,6 +72,12 @@ const AppNavigator = StackNavigator({
         screen: ListPage,
         navigationOptions: {
             title: '列表'
+        }
+    },
+    ListPageWithTabBar: {
+        screen: ListPageWithTabBar,
+        navigationOptions: {
+            title: '带导航的列表'
         }
     },
     DetailPage: {

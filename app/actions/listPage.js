@@ -1,67 +1,81 @@
 import Util from '../libs/libs';
 
-export function listLoading (status) {
+//创建子栏目列表仓库
+export function createListPageSubStore (channelId) {
     return {
-        type: 'LIST_LOADING',
-        status:status
+        type: 'CREATE_LISTPAGE_SUB_STORE',
+        channelId:channelId
     }
 }
 
-export function listLoadSuccess (param) {
+export function listLoading (status,paramsObj) {
+    return {
+        type: 'LIST_LOADING',
+        status:status,
+        params : paramsObj
+    }
+}
+
+export function listLoadSuccess (response,paramsObj) {
     return {
         type: 'LIST_LOAD_SUCCESS',
         status : 'listLoadSuccess',
-        listPageData: param
+        listPageData: response,
+        params : paramsObj
     }
 }
 
-export function listLoadFail (param) {
+export function listLoadFail (paramsObj) {
     return {
         type: 'LIST_LOAD_FAIL',
-        status : 'listLoadFail'
+        status : 'listLoadFail',
+        params : paramsObj
     }
 }
 
-export function listNoData () {
+export function listNoData (paramsObj) {
     return {
         type: 'LIST_NO_DATA',
-        status:'noData'
+        status:'noData',
+        params : paramsObj
     }
 }
 
 export function ajaxListPageData(url,paramsObj,refresh) {
     return function(dispatch, getState) {
+        let channelStore = 'listPage' + paramsObj.channelIds
         //如果是正在加载中将不采取任务措施
-        if (getState().listPage.isHeadLoading || getState().listPage.isFootLoading){
+        if (getState().listPage[channelStore].status == 'listLoadingHead' || getState().listPage[channelStore].status == 'listLoadingFoot'){
             return;
         }
 
         if(refresh == 'refresh'){
-            dispatch(listLoading('listLoadingHead'));
+            dispatch(listLoading('listLoadingHead',paramsObj));
 
             Util.ajax.get(url, {params: paramsObj}).then((response) => {
                 if(response.status==200){
                     if(response.data.data.length == 0){
-                        dispatch(listLoadSuccess(response.data));
-                        dispatch(listNoData());
+                        dispatch(listLoadSuccess(response.data,paramsObj));
+                        dispatch(listNoData(paramsObj));
                     }else{
-                        dispatch(listLoadSuccess(response.data));
+                        dispatch(listLoadSuccess(response.data,paramsObj));
                     }
                 }else{
-                    dispatch(listLoadFail());
+                    dispatch(listLoadFail(paramsObj));
                 }
             }).catch((err) => {
-                dispatch(listLoadFail());
+                dispatch(listLoadFail(paramsObj));
             });
         }else{
-            dispatch(listLoading('listLoadingFoot'));
-
+            dispatch(listLoading('listLoadingFoot',paramsObj));
             Util.ajax.get(url, {params: paramsObj}).then((response) => {
                 if(response.status==200){
                     if(response.data.data.length == 0){
-                        dispatch(listNoData());
+                        dispatch(listNoData(paramsObj));
                     }else{
-                        let oldListPageData = getState().listPage.listPageData;
+                        let oldListPageData = JSON.stringify(getState().listPage[channelStore].listPageData);
+                        oldListPageData = JSON.parse(oldListPageData)
+
                         oldListPageData.data = oldListPageData.data.concat(response.data.data)
 
                         let newListPageData ={
@@ -69,17 +83,14 @@ export function ajaxListPageData(url,paramsObj,refresh) {
                             data:oldListPageData.data
                         }
 
-                        dispatch(listLoadSuccess(newListPageData));
+                        dispatch(listLoadSuccess(newListPageData,paramsObj));
                     }
                 }else{
-                    dispatch(listLoadFail());
+                    dispatch(listLoadFail(paramsObj));
                 }
             }).catch((err) => {
-                dispatch(listLoadFail());
+                dispatch(listLoadFail(paramsObj));
             });
         }
-
-
-
     }
 }

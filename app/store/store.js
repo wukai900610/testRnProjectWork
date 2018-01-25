@@ -13,6 +13,7 @@ const logger = createLogger();
 let store = createStore(rootReducer,{},
     compose(
         applyMiddleware(thunk, logger),
+        // applyMiddleware(thunk),
         // window.devToolsExtension ? window.devToolsExtension() : f => f,
     )
 );
