@@ -5,7 +5,6 @@ import {
     Button,
     TouchableOpacity,
     ScrollView
-    // Dimensions,
 } from 'react-native';
 import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
 
@@ -17,11 +16,6 @@ import HomeHeader from '../components/HomeHeader';
 import Banner from '../components/Banner';
 import HomeNav from '../components/HomeNav';
 import HomeList from '../components/HomeList';
-
-// let {
-//     height: deviceHeight,
-//     width: deviceWidth
-// } = Dimensions.get('window');
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -65,8 +59,6 @@ class HomePage extends React.Component {
 
                     <TouchableOpacity onPress={()=>navigation.navigate("RegisterPage")}><Text>RegisterPage</Text></TouchableOpacity>
                 </ScrollView>
-
-
 
                 <Banner banner={[{
                     name:'banner1',

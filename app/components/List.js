@@ -13,6 +13,7 @@ import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 import { ajaxListPageData } from '../actions/actions';
 
 import DateFormat from 'moment';
+import Immutable from 'immutable';
 import Util from '../libs/libs';
 
 let first = 0;
@@ -91,16 +92,15 @@ class List extends React.Component {
         first = 0;
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     if(nextProps.payload.channelIds === this.props.payload.channelIds){
-    //         return false;
-    //     }else{
-    //         return true;
-    //     }
-    //
-    //     console.log(this.props.payload.channelIds);
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        let _props = Immutable.fromJS(this.props)
+        let _nextProps = Immutable.fromJS(nextProps)
+        if(Immutable.is(_props,_nextProps)){
+            return false;
+        }
 
+        return true;
+    }
 
     render() {
         const { listPage, navigation } = this.props;

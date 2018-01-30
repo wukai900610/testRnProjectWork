@@ -1,8 +1,4 @@
 const initialState = {
-    status:'',
-    listPageData:{
-        data:[]
-    }
 }
 
 export default(state = initialState, action) => {

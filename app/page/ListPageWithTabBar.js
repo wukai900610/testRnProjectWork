@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Text } from 'react-native';
+import { Dimensions, } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
 import { connect } from 'react-redux';
@@ -7,8 +7,7 @@ import { createListPageSubStore, ajaxListPageData } from '../actions/actions';
 
 import Util from '../libs/libs';
 
-import ListComponent from '../components/ListComponent';
-// import List from '../components/List';
+import List from '../components/List';
 
 const initialLayout = {
     height: 0,
@@ -60,16 +59,21 @@ class ListPageWithTabBar extends React.Component {
         }
     }
 
-    _renderHeader = props => (
-        <TabBar
-            {...props}
-            scrollEnabled
-            indicatorStyle={styles.indicator}
-            style={styles.tabbar}
-            tabStyle={styles.tab}
-            labelStyle={styles.label}
-        />
-    );
+    _renderHeader = props => {
+        let { navigation } = this.props;
+        let navParams = navigation.state.params;
+        
+        return (
+            <TabBar
+                {...props}
+                scrollEnabled
+                indicatorStyle={styles.indicator}
+                style={styles.tabbar}
+                tabStyle={{width:navParams.child.length <= 2 ? initialLayout.width/2 : 120}}
+                labelStyle={styles.label}
+            />
+        )
+    };
 
     _renderScene = ({ route }) => {
         const { listPage, navigation } = this.props;
@@ -90,8 +94,7 @@ class ListPageWithTabBar extends React.Component {
             }
 
             return (
-                // <Text>11</Text>
-                <ListComponent {...props}/>
+                <List {...props}/>
             )
         }
     };
@@ -127,9 +130,9 @@ const styles = {
     tabbar: {
         backgroundColor: '#fff',
     },
-    tab: {
-        width: 120,
-    },
+    // tab: {
+    //     width: 200,
+    // },
     indicator: {
         backgroundColor: '#2584da',
     },
