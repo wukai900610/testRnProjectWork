@@ -16,7 +16,6 @@ import DateFormat from 'moment';
 import Immutable from 'immutable';
 import Util from '../libs/libs';
 
-let first = 0;
 class List extends React.Component {
     constructor(props) {
         super(props)
@@ -29,8 +28,6 @@ class List extends React.Component {
         let {payload} = thisListPage;
 
         this._fetchData(payload,'refresh')
-
-        first = 0;
     }
 
     _footRefresh = () => {
@@ -39,12 +36,7 @@ class List extends React.Component {
         let thisListPage = listPage['listPage'+params.channelId];
         let {payload} = thisListPage;
 
-        first = first + 10;
-
-        this._fetchData({
-            ...payload,
-            first
-        },'loadMore')
+        this._fetchData(payload,'loadMore')
     }
 
     _fetchData(obj,type){
@@ -86,10 +78,6 @@ class List extends React.Component {
         if(thisListPage.listPageData.data.length == 0){
             this._headRefresh();
         }
-    }
-
-    componentWillUnmount(){
-        first = 0;
     }
 
     shouldComponentUpdate(nextProps, nextState) {

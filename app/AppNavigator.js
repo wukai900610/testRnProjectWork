@@ -70,14 +70,18 @@ const AppNavigator = StackNavigator({
     },
     ListPage: {
         screen: ListPage,
-        navigationOptions: {
-            title: '列表'
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.name
+            }
         }
     },
     ListPageWithTabBar: {
         screen: ListPageWithTabBar,
-        navigationOptions: {
-            title: '带导航的列表'
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.name
+            }
         }
     },
     DetailPage: {

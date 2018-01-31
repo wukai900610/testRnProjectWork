@@ -1,5 +1,6 @@
 const initialState = {
 }
+const pageStep = 10
 
 export default(state = initialState, action) => {
     let newState = JSON.stringify(state)
@@ -17,7 +18,7 @@ export default(state = initialState, action) => {
                     data:[]
                 },
                 payload:{
-                    count: 10,
+                    count: pageStep,
                     first: 0,
                     channelIds: channelId
                 }
@@ -28,6 +29,7 @@ export default(state = initialState, action) => {
         let channelStore = 'listPage' + params.channelIds
 
         newState[channelStore].status = status;
+        newState[channelStore].payload.first = params.first;
 
         return newState
     }else if (action.type === 'LIST_LOAD_SUCCESS') {
@@ -36,6 +38,8 @@ export default(state = initialState, action) => {
 
         newState[channelStore].listPageData = listPageData;
         newState[channelStore].status = status;
+
+        newState[channelStore].payload.first = params.first + pageStep;
 
         return newState
     }else if (action.type === 'LIST_LOAD_FAIL') {

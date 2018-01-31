@@ -43,53 +43,58 @@ export function listNoData (paramsObj) {
 
 export function ajaxListPageData(url,paramsObj,refresh) {
     return function(dispatch, getState) {
-        let channelStore = 'listPage' + paramsObj.channelIds
+        let channelStore = 'listPage' + paramsObj.channelIds;
         //如果是正在加载中将不采取任务措施
         if (getState().listPage[channelStore].status == 'listLoadingHead' || getState().listPage[channelStore].status == 'listLoadingFoot'){
             return;
         }
 
         if(refresh == 'refresh'){
-            dispatch(listLoading('listLoadingHead',paramsObj));
+            dispatch(listLoading('listLoadingHead',{...paramsObj,first:0}));
 
-            Util.ajax.get(url, {params: paramsObj}).then((response) => {
+            let newPayload = getState().listPage[channelStore].payload;
+
+            Util.ajax.get(url, {params: newPayload}).then((response) => {
                 if(response.status==200){
                     if(response.data.data.length == 0){
-                        dispatch(listLoadSuccess(response.data,paramsObj));
-                        dispatch(listNoData(paramsObj));
+                        dispatch(listLoadSuccess(response.data,newPayload));
+                        dispatch(listNoData(newPayload));
                     }else{
-                        dispatch(listLoadSuccess(response.data,paramsObj));
+                        dispatch(listLoadSuccess(response.data,newPayload));
                     }
                 }else{
-                    dispatch(listLoadFail(paramsObj));
+                    dispatch(listLoadFail(newPayload));
                 }
             }).catch((err) => {
-                dispatch(listLoadFail(paramsObj));
+                dispatch(listLoadFail(newPayload));
             });
         }else{
             dispatch(listLoading('listLoadingFoot',paramsObj));
-            Util.ajax.get(url, {params: paramsObj}).then((response) => {
+
+            let newPayload = getState().listPage[channelStore].payload;
+
+            Util.ajax.get(url, {params: newPayload}).then((response) => {
                 if(response.status==200){
                     if(response.data.data.length == 0){
-                        dispatch(listNoData(paramsObj));
+                        dispatch(listNoData(newPayload));
                     }else{
                         let oldListPageData = JSON.stringify(getState().listPage[channelStore].listPageData);
-                        oldListPageData = JSON.parse(oldListPageData)
+                        oldListPageData = JSON.parse(oldListPageData);
 
-                        oldListPageData.data = oldListPageData.data.concat(response.data.data)
+                        oldListPageData.data = oldListPageData.data.concat(response.data.data);
 
                         let newListPageData ={
                             ...response.data,
                             data:oldListPageData.data
-                        }
+                        };
 
-                        dispatch(listLoadSuccess(newListPageData,paramsObj));
+                        dispatch(listLoadSuccess(newListPageData,newPayload));
                     }
                 }else{
-                    dispatch(listLoadFail(paramsObj));
+                    dispatch(listLoadFail(newPayload));
                 }
             }).catch((err) => {
-                dispatch(listLoadFail(paramsObj));
+                dispatch(listLoadFail(newPayload));
             });
         }
     }

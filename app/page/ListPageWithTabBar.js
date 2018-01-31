@@ -1,10 +1,11 @@
 import React from 'react';
-import { Dimensions, } from 'react-native';
+import { Dimensions, Text } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
 import { connect } from 'react-redux';
 import { createListPageSubStore, ajaxListPageData } from '../actions/actions';
 
+import Immutable from 'immutable';
 import Util from '../libs/libs';
 
 import List from '../components/List';
@@ -62,7 +63,7 @@ class ListPageWithTabBar extends React.Component {
     _renderHeader = props => {
         let { navigation } = this.props;
         let navParams = navigation.state.params;
-        
+
         return (
             <TabBar
                 {...props}
