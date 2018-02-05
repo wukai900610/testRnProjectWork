@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 
-class LoginPage extends React.Component {
+import NewButton from '../components/newButton';
+
+class LoginPage extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,25 +13,36 @@ class LoginPage extends React.Component {
     }
 
     render() {
+        let { navigation } = this.props;
         return (
             <View style={styles.LoginPage}>
-                <View style={styles.LoginBox}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="帐号"
-                        onChangeText={(username) => this.setState({username})}
-                        value={this.state.username}
-                    />
+                <View style={styles.LoginInputBox}>
+                    <View style={styles.LoginLabel}>
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder="帐号"
+                            onChangeText={(username) => this.setState({username})}
+                            value={this.state.username}
+                        />
+                    </View>
+                    <View style={styles.LoginLabel}>
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder="密码"
+                            onChangeText={(password) => this.setState({password})}
+                            value={this.state.password}
+                        />
+                    </View>
                 </View>
-                <View style={styles.LoginBox}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="密码"
-                        onChangeText={(password) => this.setState({password})}
-                        value={this.state.password}
-                    />
+
+                <NewButton title="登陆" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{console.log(123)}} />
+
+                <View style={styles.LoginButtom}>
+                    <NewButton title="注册" onPress={()=>{navigation.navigate('RegisterPage')}} />
+
+                    <NewButton title="忘记密码" onPress={()=>{console.log('忘记密码')}} />
                 </View>
-                <Button color="#007fff" title="登陆" style={styles.loginBtn} onPress={()=>{}} />
+
             </View>
         );
     }
@@ -42,21 +55,32 @@ const styles = {
         flex: 1,
         // alignItems: 'center',
         // justifyContent: 'center'
+        backgroundColor:'#fff'
     },
-    LoginBox: {
+    LoginInputBox: {
         marginBottom:20,
+    },
+    LoginLabel: {
+        // marginBottom:10,
     },
     TextInput: {
         paddingLeft:10,
         alignItems: 'center',
         height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        color:'#999'
+        borderColor: '#ccc',
+        borderBottomWidth: 1,
+        color:'#333'
     },
-    loginBtn: {
-        alignItems: 'center',
+    LoginBtn: {
         height: 40,
-        backgroundColor: '#007fff'
+        backgroundColor: '#2795ee'
+    },
+    LoginBtnText: {
+        color:'#fff',
+        fontSize:16
+    },
+    LoginButtom: {
+        flexDirection:'row',
+        justifyContent:'flex-end'
     }
 }

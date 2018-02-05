@@ -94,20 +94,19 @@ const AppNavigator = StackNavigator({
         screen: SearchPage,
         navigationOptions: {
             title: '搜索'
-          // header: null,
         }
     },
     LoginPage: {
         screen: LoginPage,
-        // navigationOptions: {
-        //   header: null,
-        // }
+        navigationOptions: {
+            title: '登陆',
+        }
     },
     RegisterPage: {
         screen: RegisterPage,
-        // navigationOptions: {
-        //   header: null,
-        // }
+        navigationOptions: {
+            title: '注册',
+        }
     }
 });
 

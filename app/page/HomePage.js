@@ -57,7 +57,6 @@ class HomePage extends React.Component {
 
                     <TouchableOpacity onPress={()=>{navigation.navigate("LoginPage")}}><Text>LoginPage</Text></TouchableOpacity>
 
-                    <TouchableOpacity onPress={()=>navigation.navigate("RegisterPage")}><Text>RegisterPage</Text></TouchableOpacity>
                 </ScrollView>
 
                 <Banner banner={[{

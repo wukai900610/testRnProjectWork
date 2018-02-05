@@ -70,7 +70,8 @@ class ListPageWithTabBar extends React.Component {
                 scrollEnabled
                 indicatorStyle={styles.indicator}
                 style={styles.tabbar}
-                tabStyle={{width:navParams.child.length <= 2 ? initialLayout.width/2 : 120}}
+                // tabStyle={{width:navParams.child.length <= 2 ? initialLayout.width/2 : 120}}
+                tabStyle={{width:initialLayout.width / navParams.child.length}}
                 labelStyle={styles.label}
             />
         )
