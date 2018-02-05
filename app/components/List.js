@@ -3,7 +3,7 @@ import {
     View,
     Text,
     Button,
-    TouchableOpacity,
+    TouchableHighlight,
     FlatList,
     Image,
     Platform
@@ -54,7 +54,8 @@ class List extends React.Component {
     renderItem = (info: Object) => {
         let item = info.item;
         return (
-            <TouchableOpacity id={item.id} onPress={()=>{this._goToPage(item)}} style={styles.newsBoxItemBox}>
+            <TouchableHighlight id={item.id} underlayColor="#f1f1f1" activeOpacity={0.35} onPress={()=>{this._goToPage(item)}}>
+                <View style={styles.newsBoxItemBox}>
                 <Text style={styles.newsBoxItemChannel}>
                     [{item.channel}]
                 </Text>
@@ -66,7 +67,8 @@ class List extends React.Component {
                         {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
                     </Text>
                 </View>
-            </TouchableOpacity>
+                </View>
+            </TouchableHighlight>
         )
     }
 
@@ -117,10 +119,16 @@ class List extends React.Component {
                     keyExtractor={(item: any, index: number) => {
                         return index
                     }}
+                    ItemSeparatorComponent={() => <View style={{height:1,backgroundColor:'#f1f1f1'}}></View>}
                     renderItem={this.renderItem}
                     refreshState={refreshState}
                     onHeaderRefresh={this._headRefresh}
                     onFooterRefresh={this._footRefresh}
+
+                    getItemLayout={(data, index) => (
+                        //优化
+                        {length: 40, offset: 40 * index, index}
+                    )}
 
                     // 可选
                     footerRefreshingText= '数据加载中...'
@@ -149,8 +157,8 @@ const styles = {
         paddingLeft:10,
         paddingRight:10,
         height:40,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f1f1f1'
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#f1f1f1'
     },
     newsBoxItemChannel: {
         paddingRight:5,

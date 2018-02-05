@@ -2,7 +2,7 @@ import React from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
+    TouchableHighlight,
     FlatList,
     Alert,
     ActivityIndicator
@@ -33,7 +33,8 @@ class HomeNav extends React.Component {
         if(homePage.status == 'loadSuccess'){
             let data = [];
             homePage.homeList.data.map((item,index)=>
-                data.push(<TouchableOpacity key={index} style={styles.newsBoxItemBox} onPress={this._goToPage.bind(this,item)}>
+                data.push(<TouchableHighlight key={index} underlayColor="#f1f1f1" activeOpacity={0.35} onPress={this._goToPage.bind(this,item)}>
+                        <View style={styles.newsBoxItemBox}>
                     <Text style={styles.newsBoxItemChannel}>
                         [{item.channel}]
                     </Text>
@@ -45,7 +46,8 @@ class HomeNav extends React.Component {
                             {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
                         </Text>
                     </View>
-                </TouchableOpacity>)
+                        </View>
+                </TouchableHighlight>)
             )
 
             return data;

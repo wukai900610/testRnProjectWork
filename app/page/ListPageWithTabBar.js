@@ -130,6 +130,7 @@ const styles = {
     },
     tabbar: {
         backgroundColor: '#fff',
+        height:45
     },
     // tab: {
     //     width: 200,
