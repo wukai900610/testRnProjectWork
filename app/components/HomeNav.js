@@ -16,12 +16,16 @@ class HomeNav extends React.PureComponent {
                 hasChild:true,
                 child:[
                     {
-                        name:'国内动态',
+                        name:'巩义动态',
                         channelId:103,
                     },
                     {
-                        name:'省内动态',
+                        name:'河南动态',
                         channelId:104,
+                    },
+                    {
+                        name:'国家动态',
+                        channelId:158,
                     }
                 ]
             },{
@@ -30,20 +34,16 @@ class HomeNav extends React.PureComponent {
                 hasChild:true,
                 child:[
                     {
-                        name:'国家动态',
+                        name:'巩义动态',
                         channelId:105,
                     },
                     {
-                        name:'外省动态',
+                        name:'河南动态',
                         channelId:106,
                     },
                     {
-                        name:'本地动态',
+                        name:'国家动态',
                         channelId:121,
-                    },
-                    {
-                        name:'省内动态',
-                        channelId:122,
                     }
                 ]
             },{
@@ -51,10 +51,6 @@ class HomeNav extends React.PureComponent {
                 channelId:96,
                 hasChild:true,
                 child:[
-                    {
-                        name:'信用研究',
-                        channelId:123,
-                    },
                     {
                         name:'信用知识',
                         channelId:124,
@@ -64,8 +60,12 @@ class HomeNav extends React.PureComponent {
                         channelId:125,
                     },
                     {
-                        name:'典型案例',
+                        name:'信用案例',
                         channelId:126,
+                    },
+                    {
+                        name:'信用承诺',
+                        channelId:147,
                     }
                 ]
             },{
