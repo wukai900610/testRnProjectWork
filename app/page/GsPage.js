@@ -129,7 +129,7 @@ const styles = {
     navLevelBox:{
         flex:1,
         flexDirection: 'row',
-        borderBottomWidth:1,
+        borderBottomWidth:0.5,
         borderColor:'#cdcdcd',
         backgroundColor:'#fff'
     },

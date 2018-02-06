@@ -38,6 +38,12 @@ const RootTabs = TabNavigator({
                 : 'ios-person-outline'} size={26} style={{
                 color: tintColor
             }}/>)
+        },
+        onTransitionStart: ()=>{
+            console.log('导航栏切换开始1');
+        },
+        onTransitionEnd: ()=>{
+            console.log('导航栏切换开始2'); 
         }
     },
     serviceHallPage: {

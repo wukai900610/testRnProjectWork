@@ -5,7 +5,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 // textStyle
 // onPress
 
-class newButton extends React.Component {
+class newButton extends React.PureComponent {
     constructor(props) {
         super(props);
     }

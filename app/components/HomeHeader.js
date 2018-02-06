@@ -2,18 +2,13 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class Header extends React.Component {
+class Header extends React.PureComponent {
     constructor(props) {
         super(props);
     }
 
     _goToPage(){
         this.props.navigation.navigate("SearchPage");
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
-        // return true;
-        return false;
     }
 
     render() {

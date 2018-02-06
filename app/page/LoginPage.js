@@ -3,7 +3,7 @@ import {View, Text, TextInput} from 'react-native';
 
 import NewButton from '../components/newButton';
 
-class LoginPage extends React.PureComponent {
+class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

@@ -5,7 +5,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-class HomeNav extends React.Component {
+class HomeNav extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -117,11 +117,6 @@ class HomeNav extends React.Component {
         });
 
         return homeNav;
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
-        // return true;
-        return false;
     }
 
     render() {
