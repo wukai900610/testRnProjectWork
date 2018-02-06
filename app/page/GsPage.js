@@ -18,31 +18,43 @@ class GsPage extends React.Component {
             navLevel1:[
                 {
                     title:'自然人行政许可',
-                    ico:require('../images/gsPageIco1.png')
+                    ico:require('../images/gsPageIco1.png'),
+                    type:'zrrxk'
                 },{
                     title:'自然人行政处罚',
-                    ico:require('../images/gsPageIco2.png')
+                    ico:require('../images/gsPageIco2.png'),
+                    type:'zrrcf'
                 }
             ],
             navLevel2:[
                 {
                     title:'法人行政许可',
-                    ico:require('../images/gsPageIco3.png')
+                    ico:require('../images/gsPageIco3.png'),
+                    type:'frxk'
                 },{
                     title:'法人行政处罚',
-                    ico:require('../images/gsPageIco4.png')
+                    ico:require('../images/gsPageIco4.png'),
+                    type:'frcf'
                 }
             ],
             navLevel3:[
                 {
                     title:'红榜名单',
-                    ico:require('../images/gsPageIco5.png')
+                    ico:require('../images/gsPageIco5.png'),
+                    type:'honmd'
                 },{
                     title:'黑榜名单',
-                    ico:require('../images/gsPageIco6.png')
+                    ico:require('../images/gsPageIco6.png'),
+                    type:'heimd'
                 }
             ]
         };
+    }
+
+    _goToPage(detailItem){
+        const { navigation } = this.props;
+
+        navigation.navigate("GsListPage",detailItem);
     }
 
     renderNavLevel(data){
@@ -51,7 +63,7 @@ class GsPage extends React.Component {
             if(index == 0){
                 navLevelArr.push(
                     <View style={[styles.navItem,{borderRightWidth:1}]} key={index}>
-                        <TouchableOpacity onPress={()=>{console.log(item)}}>
+                        <TouchableOpacity style={{alignItems: 'center'}} onPress={()=>{this._goToPage(item)}}>
                             <Image source={item.ico} style={styles.navImg} />
                             <Text>
                                 {item.title}
@@ -62,7 +74,7 @@ class GsPage extends React.Component {
             }else{
                 navLevelArr.push(
                     <View style={styles.navItem} key={index}>
-                        <TouchableOpacity onPress={()=>{console.log(item)}}>
+                        <TouchableOpacity style={{alignItems: 'center'}} onPress={()=>{this._goToPage(item)}}>
                             <Image source={item.ico} style={styles.navImg} />
                             <Text>
                                 {item.title}

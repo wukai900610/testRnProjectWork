@@ -45,8 +45,11 @@ class serviceHallPage extends React.Component {
         };
     }
 
-    _goToPage(item){
-        console.log(item);
+    _goToPage(detailItem){
+        const { navigation } = this.props;
+
+        // navigation.navigate("GsListPage",detailItem);
+        console.log(detailItem);
     }
 
     renderNavLevel(data){

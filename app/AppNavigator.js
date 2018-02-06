@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchPage from './page/SearchPage';
 import HomePage from './page/HomePage';
 import GsPage from './page/GsPage';
+import GsListPage from './page/GsListPage';
 import serviceHallPage from './page/serviceHallPage';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
@@ -30,7 +31,8 @@ const RootTabs = TabNavigator({
         screen: GsPage,
         navigationOptions: {
             tabBarLabel: '信用公示',
-            title: '信用公示',
+            headerTitle: '信用公示',
+            headerBackTitle:null,
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -42,7 +44,7 @@ const RootTabs = TabNavigator({
         screen: serviceHallPage,
         navigationOptions: {
             tabBarLabel: '服务大厅',
-            title: '服务大厅',
+            headerTitle: '服务大厅',
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -72,7 +74,8 @@ const AppNavigator = StackNavigator({
         screen: ListPage,
         navigationOptions: ({navigation,screenProps}) => {
             return {
-                title: navigation.state.params.name
+                title: navigation.state.params.name,
+                headerBackTitle:null,
             }
         }
     },
@@ -80,7 +83,8 @@ const AppNavigator = StackNavigator({
         screen: ListPageWithTabBar,
         navigationOptions: ({navigation,screenProps}) => {
             return {
-                title: navigation.state.params.name
+                title: navigation.state.params.name,
+                headerBackTitle:null,
             }
         }
     },
@@ -96,16 +100,26 @@ const AppNavigator = StackNavigator({
             title: '搜索'
         }
     },
+    GsListPage: {
+        screen: GsListPage,
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.title,
+            }
+        }
+    },
     LoginPage: {
         screen: LoginPage,
         navigationOptions: {
             title: '登陆',
+            headerBackTitle:null,
         }
     },
     RegisterPage: {
         screen: RegisterPage,
         navigationOptions: {
             title: '注册',
+            headerBackTitle:null,
         }
     }
 });
