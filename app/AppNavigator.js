@@ -29,8 +29,8 @@ const RootTabs = TabNavigator({
     GsPage: {
         screen: GsPage,
         navigationOptions: {
-            tabBarLabel: '公示信息',
-            header: null,
+            tabBarLabel: '信用公示',
+            title: '信用公示',
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{
@@ -42,7 +42,7 @@ const RootTabs = TabNavigator({
         screen: serviceHallPage,
         navigationOptions: {
             tabBarLabel: '服务大厅',
-            header: null,
+            title: '服务大厅',
             tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
                 ? 'ios-person'
                 : 'ios-person-outline'} size={26} style={{

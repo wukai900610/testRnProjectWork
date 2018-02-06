@@ -1,166 +1,159 @@
-// import React from 'react';
-// import {
-//     View,
-//     Text,
-//     Button,
-//     TouchableOpacity,
-//     ScrollView,
-// } from 'react-native';
-// // import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
-//
-// // import {connect} from 'react-redux';
-// // import {ajaxHomeData,loadFail} from '../actions/actions';
-//
-// import Util from '../libs/libs';
-//
-// class serviceHallPage extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//         };
-//     }
-//
-//     render() {
-//         // const {dispatch, homePage, navigation} = this.props;
-//
-//         return (
-//             <View>
-//                 <Text>
-//                     serviceHallPage
-//                 </Text>
-//             </View>
-//         )
-//     }
-// }
-//
-// // function mapStateToProps(state) {
-// //     const {homePage} = state;
-// //
-// //     return {
-// //         homePage
-// //     }
-// // }
-//
-// export default serviceHallPage;
-//
-// const styles = {
-//     SearchPage: {
-//     }
-// }
+import React from 'react';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    Image,
+    PixelRatio
+} from 'react-native';
+// import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
 
-import * as React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import { TabViewAnimated, TabBar } from 'react-native-tab-view';
-import SimplePage from './SimplePage';
+// import {connect} from 'react-redux';
+// import {ajaxHomeData,loadFail} from '../actions/actions';
 
-import type { Route, NavigationState } from 'react-native-tab-view/types';
+import Util from '../libs/libs';
 
-type State = NavigationState<
-  Route<{
-    key: string,
-    title: string,
-  }>
->;
-
-const initialLayout = {
-  height: 0,
-  width: Dimensions.get('window').width,
-};
-
-export default class TopBarTextExample extends React.Component<*, State> {
-  static title = 'Scrollable top bar';
-  static appbarElevation = 0;
-
-  state = {
-    index: 1,
-    routes: [
-      { key: '1', title: 'First' },
-      { key: '2', title: 'Second' },
-      { key: '3', title: 'Third' },
-      { key: '4', title: 'Fourth' },
-    ],
-  };
-
-  _handleIndexChange = index =>
-    this.setState({
-      index,
-    });
-
-  _renderHeader = props => (
-    <TabBar
-      {...props}
-      scrollEnabled
-      indicatorStyle={styles.indicator}
-      style={styles.tabbar}
-      tabStyle={styles.tab}
-      labelStyle={styles.label}
-    />
-  );
-
-  _renderScene = ({ route }) => {
-    switch (route.key) {
-      case '1':
-        return (
-          <SimplePage
-            state={this.state}
-            style={{ backgroundColor: '#ff4081' }}
-          />
-        );
-      case '2':
-        return (
-          <SimplePage
-            state={this.state}
-            style={{ backgroundColor: '#673ab7' }}
-          />
-        );
-      case '3':
-        return (
-          <SimplePage
-            state={this.state}
-            style={{ backgroundColor: '#4caf50' }}
-          />
-        );
-      case '4':
-        return (
-          <SimplePage
-            state={this.state}
-            style={{ backgroundColor: '#2196f3' }}
-          />
-        );
-      default:
-        return null;
+class serviceHallPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            navLevel1:[
+                {
+                    title:'信用报告',
+                    ico:require('../images/serviceHallPageIco1.png')
+                },{
+                    title:'自主查询',
+                    ico:require('../images/serviceHallPageIco2.png')
+                },{
+                    title:'企业直报',
+                    ico:require('../images/serviceHallPageIco3.png')
+                }
+            ],
+            navLevel2:[
+                {
+                    title:'举报信箱',
+                    ico:require('../images/serviceHallPageIco4.png')
+                }
+            ],
+            navLevel3:[
+                {
+                    title:'我的审批',
+                    ico:require('../images/serviceHallPageIco5.png')
+                }
+            ]
+        };
     }
-  };
 
-  render() {
-    return (
-      <TabViewAnimated
-        style={[styles.container, this.props.style]}
-        navigationState={this.state}
-        renderScene={this._renderScene}
-        renderHeader={this._renderHeader}
-        onIndexChange={this._handleIndexChange}
-        initialLayout={initialLayout}
-      />
-    );
-  }
+    _goToPage(item){
+        console.log(item);
+    }
+
+    renderNavLevel(data){
+        let navLevelArr=[];
+        data.map((item,index)=>{
+            navLevelArr.push(
+                <TouchableOpacity style={styles.navItem} key={index} onPress={()=>{this._goToPage(item)}}>
+                    <Image source={item.ico} style={styles.navImg} />
+                    <Text>
+                        {item.title}
+                    </Text>
+                </TouchableOpacity>
+
+            )
+        });
+
+        return navLevelArr;
+    }
+
+    render() {
+        let {navLevel1,navLevel2,navLevel3} = this.state;
+        return (
+            <ScrollView style={styles.serviceHallPage}>
+                <Image source={require('../images/serviceHallPage.jpg')} style={styles.banner} />
+
+                <View style={styles.navLevel}>
+                    <View style={styles.navLevelTitle}>
+                        <Text style={styles.navLevelTitleText}>信用服务</Text>
+                    </View>
+                    <View style={styles.navLevelBox}>
+                        {
+                            this.renderNavLevel(navLevel1)
+                        }
+                    </View>
+                </View>
+                <View style={styles.navLevel}>
+                    <View style={styles.navLevelTitle}>
+                        <Text style={styles.navLevelTitleText}>投诉建议</Text>
+                    </View>
+                    <View style={styles.navLevelBox}>
+                        {
+                            this.renderNavLevel(navLevel2)
+                        }
+                    </View>
+                </View>
+                <View style={styles.navLevel}>
+                    <View style={styles.navLevelTitle}>
+                        <Text style={styles.navLevelTitleText}>待办事宜</Text>
+                    </View>
+                    <View style={styles.navLevelBox}>
+                        {
+                            this.renderNavLevel(navLevel3)
+                        }
+                    </View>
+                </View>
+            </ScrollView>
+        )
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  tabbar: {
-    backgroundColor: '#222',
-  },
-  tab: {
-    width: 120,
-  },
-  indicator: {
-    backgroundColor: '#ffeb3b',
-  },
-  label: {
-    color: '#fff',
-    fontWeight: '400',
-  },
-});
+// function mapStateToProps(state) {
+//     const {homePage} = state;
+//
+//     return {
+//         homePage
+//     }
+// }
+
+export default serviceHallPage;
+
+const styles = {
+    serviceHallPage: {
+        backgroundColor:'#f7f7f7'
+    },
+    banner:{
+        marginBottom:10,
+        width:750 / PixelRatio.get(),
+        height: 320 / PixelRatio.get()
+    },
+    navLevel:{
+        flex:1,
+        // justifyContent: 'space-between',
+        marginBottom:10,
+        paddingTop:20,
+        paddingBottom:20,
+        backgroundColor:'#fff'
+    },
+    navLevelTitle:{
+        marginBottom:20,
+        paddingLeft:15,
+    },
+    navLevelTitleText:{
+        fontSize:16
+    },
+    navLevelBox:{
+        flex:1,
+        flexDirection: 'row',
+    },
+    navItem:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingLeft:15,
+        paddingRight:15,
+    },
+    navImg:{
+        marginBottom:10,
+        width:100 / PixelRatio.get(),
+        height: 100 / PixelRatio.get()
+    }
+}
