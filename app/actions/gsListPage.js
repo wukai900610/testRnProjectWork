@@ -8,6 +8,14 @@ export function createGsListPageSubStore (gsType) {
     }
 }
 
+export function GsSearch (keyword,paramsObj) {
+    return {
+        type: 'GS_SEARCH',
+        keyword : keyword,
+        params : paramsObj
+    }
+}
+
 export function GslistLoading (status,paramsObj) {
     return {
         type: 'GS_LIST_LOADING',
@@ -53,7 +61,7 @@ export function ajaxGsListPageData(url,paramsObj,refresh) {
             dispatch(GslistLoading('listLoadingHead',{...paramsObj,pageNo:1}));
 
             let newPayload = getState().gsListPage[channelStore].payload;
-
+            
             Util.ajax.get(url, {params: newPayload}).then((response) => {
                 if(response.status==200){
                     if(response.data.list.length == 0){

@@ -26,7 +26,6 @@ const styles = {
     button: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom:10,
         height: 30,
         borderRadius:5,
     },

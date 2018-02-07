@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { createGsListPageSubStore } from '../actions/actions';
 
 import GsList from '../components/GsList';
+import GsSearchBox from '../components/GsSearchBox';
 
 class GsListPage extends React.Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class GsListPage extends React.Component {
     render() {
         return (
             <View style={{flex:1}}>
+                <GsSearchBox {...this.props} />
                 {this.rendList()}
             </View>
         )

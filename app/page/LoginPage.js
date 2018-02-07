@@ -72,6 +72,7 @@ const styles = {
         color:'#333'
     },
     LoginBtn: {
+        marginBottom: 10,
         height: 40,
         backgroundColor: '#2795ee'
     },

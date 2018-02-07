@@ -12,7 +12,6 @@ import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 
 import { ajaxGsListPageData } from '../actions/actions';
 
-// import DateFormat from 'moment';
 import Immutable from 'immutable';
 import Util from '../libs/libs';
 
@@ -130,10 +129,9 @@ class GsList extends React.Component {
         let params = navigation.state.params;
         let thisListPage = gsListPage[params.type];
 
-        this._headRefresh();
-        // if(thisListPage.listPageData.data.length == 0){
-        //     this._headRefresh();
-        // }
+        if(thisListPage.listPageData.list.length == 0){
+            this._headRefresh();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {

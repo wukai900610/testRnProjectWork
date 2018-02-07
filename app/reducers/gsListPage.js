@@ -15,7 +15,7 @@ export default(state = initialState, action) => {
             [channelStore]:{
                 status:'',
                 listPageData:{
-                    data:[]
+                    list:[]
                 },
                 payload:{
                     type: gsType,
@@ -25,6 +25,13 @@ export default(state = initialState, action) => {
                 }
             }
         }
+    }else if (action.type === 'GS_SEARCH') {
+        let {keyword,params} = action
+        let channelStore = params.type
+
+        newState[channelStore].payload.keyword = keyword;
+
+        return newState
     }else if (action.type === 'GS_LIST_LOADING') {
         let {status,params} = action
         let channelStore = params.type
