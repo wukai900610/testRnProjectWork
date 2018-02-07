@@ -8,9 +8,6 @@ import {
     PixelRatio
 } from 'react-native';
 
-// import {connect} from 'react-redux';
-// import {ajaxHomeData,loadFail} from '../actions/actions';
-
 class GsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -19,11 +16,11 @@ class GsPage extends React.Component {
                 {
                     title:'自然人行政许可',
                     ico:require('../images/gsPageIco1.png'),
-                    type:'zrrxk'
+                    type:'zzrxk'
                 },{
                     title:'自然人行政处罚',
                     ico:require('../images/gsPageIco2.png'),
-                    type:'zrrcf'
+                    type:'zzrcf'
                 }
             ],
             navLevel2:[
@@ -89,7 +86,6 @@ class GsPage extends React.Component {
     }
 
     render() {
-        // const {dispatch, homePage, navigation} = this.props;
         let {navLevel1,navLevel2,navLevel3} = this.state;
         return (
             <ScrollView style={styles.GsPage}>
@@ -112,14 +108,6 @@ class GsPage extends React.Component {
         )
     }
 }
-
-// function mapStateToProps(state) {
-//     const {homePage} = state;
-//
-//     return {
-//         homePage
-//     }
-// }
 
 export default GsPage;
 

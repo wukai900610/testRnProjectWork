@@ -1,14 +1,7 @@
 import React from 'react';
 import {
-    View,
-    Text,
-    Button,
-    TouchableOpacity,
-    FlatList,
-    Image,
-    Platform
+    View
 } from 'react-native';
-import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 
 import { connect } from 'react-redux';
 import { createListPageSubStore } from '../actions/actions';

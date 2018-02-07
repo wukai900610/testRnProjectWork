@@ -56,17 +56,17 @@ class List extends React.Component {
         return (
             <TouchableHighlight id={item.id} underlayColor="#f1f1f1" activeOpacity={0.35} onPress={()=>{this._goToPage(item)}}>
                 <View style={styles.newsBoxItemBox}>
-                <Text style={styles.newsBoxItemChannel}>
-                    [{item.channel}]
-                </Text>
-                <Text style={styles.newsBoxItemTitle}>
-                    {Util.strSplit(item.title,20)}
-                </Text>
-                <View style={styles.newsBoxItemDate}>
-                    <Text style={styles.newsBoxItemDateText}>
-                        {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
+                    <Text style={styles.newsBoxItemChannel}>
+                        [{item.channel}]
                     </Text>
-                </View>
+                    <Text style={styles.newsBoxItemTitle}>
+                        {Util.strSplit(item.title,20)}
+                    </Text>
+                    <View style={styles.newsBoxItemDate}>
+                        <Text style={styles.newsBoxItemDateText}>
+                            {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
+                        </Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         )

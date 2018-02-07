@@ -43,16 +43,16 @@ util.domain = 'http://www.gyxyw.gov.cn';
 util.api = {
     list:util.domain + '/api/content/list.jspx',
 
-    //双公示 type(frxk,zzrxk,frcf,zzrcf) keyword count pageNo pageSize
+    //双公示 type(frxk,zzrxk,frcf,zzrcf) keyword pageNo pageSize
     selectSgsInfo:util.domain + '/selectSgsInfo.jspx',
     //红榜 type(1,2) searchVal pageNo pageSize
     lhjc_hob:util.domain + '/lhjc_hob.jspx',
     //黑榜 type(1,2) searchVal pageNo pageSize
     lhjc_heib:util.domain + '/lhjc_heib.jspx',
     //信用信息 type(fr,zzr) searchVal pageNo pageSize
-    xyxx:util.domain + '/list.jspx',
+    // xyxx:util.domain + '/list.jspx',
     //统一社会信用代码公示 searchVal pageNo pageSize
-    xydm:util.domain + '/xydm.jspx',
+    // xydm:util.domain + '/xydm.jspx',
 }
 
 export default util;

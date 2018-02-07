@@ -39,7 +39,7 @@ class HomeNav extends React.Component {
                         [{item.channel}]
                     </Text>
                     <Text style={styles.newsBoxItemTitle}>
-                        {Util.strSplit(item.title,25)}
+                        {Util.strSplit(item.title,20)}
                     </Text>
                     <View style={styles.newsBoxItemDate}>
                         <Text style={styles.newsBoxItemDateText}>

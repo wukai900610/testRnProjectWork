@@ -1,16 +1,53 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {
+    View
+} from 'react-native';
+
+import { connect } from 'react-redux';
+import { createGsListPageSubStore } from '../actions/actions';
+
+import GsList from '../components/GsList';
 
 class GsListPage extends React.Component {
+    constructor(props) {
+        super(props)
+
+        let { navigation, dispatch, gsListPage } = this.props;
+        let params = navigation.state.params;
+
+        //创建初始化栏目数据
+        let channelStore = gsListPage[params.type];
+        if(!channelStore){
+            dispatch(createGsListPageSubStore(params.type))
+        }
+    }
+
+    rendList(){
+        const { gsListPage, navigation } = this.props;
+        let params = navigation.state.params;
+        let thisListPage = gsListPage[params.type];
+
+        if(thisListPage){
+            return (
+                <GsList {...this.props} />
+            )
+        }
+    }
 
     render() {
-        return (<View style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-            <Text>公示列表</Text>
-        </View>);
+        return (
+            <View style={{flex:1}}>
+                {this.rendList()}
+            </View>
+        )
     }
 }
-export default GsListPage;
+function mapStateToProps(state) {
+    const {gsListPage} = state;
+
+    return {
+        gsListPage
+    }
+}
+
+export default connect(mapStateToProps)(GsListPage);
