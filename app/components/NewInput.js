@@ -7,7 +7,7 @@ class NewInput extends React.PureComponent {
         super(props);
 
         this.state={
-            text:''
+            text:'请输入关键词'
         }
     }
 

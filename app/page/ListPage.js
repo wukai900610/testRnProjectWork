@@ -6,7 +6,7 @@ import {
 import { connect } from 'react-redux';
 import { createListPageSubStore } from '../actions/actions';
 
-import List from '../components/List';
+import NewsList from '../components/NewsList';
 
 class ListPage extends React.Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class ListPage extends React.Component {
 
         if(thisListPage){
             return (
-                <List {...this.props} />
+                <NewsList {...this.props} />
             )
         }
     }

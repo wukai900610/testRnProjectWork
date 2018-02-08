@@ -8,7 +8,7 @@ import { createListPageSubStore, ajaxListPageData } from '../actions/actions';
 import Immutable from 'immutable';
 import Util from '../libs/libs';
 
-import List from '../components/List';
+import NewsList from '../components/NewsList';
 
 const initialLayout = {
     height: 0,
@@ -96,7 +96,7 @@ class ListPageWithTabBar extends React.Component {
             }
 
             return (
-                <List {...props}/>
+                <NewsList {...props}/>
             )
         }
     };

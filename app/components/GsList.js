@@ -60,7 +60,7 @@ class GsList extends React.Component {
                 <TouchableHighlight id={item.id} underlayColor="#f1f1f1" activeOpacity={0.35} onPress={()=>{this._goToPage(item)}}>
                     <View style={styles.newsBoxItemBox}>
                         <Text style={styles.newsBoxItemChannel}>
-                            [{item.xyztmc}]
+                            [{Util.strSplit(item.xyztmc,35)}]
                         </Text>
                         <View style={styles.newsBoxItemDate}>
                             <Text style={styles.newsBoxItemDateText}>
@@ -75,7 +75,7 @@ class GsList extends React.Component {
                 <TouchableHighlight id={item.id} underlayColor="#f1f1f1" activeOpacity={0.35} onPress={()=>{this._goToPage(item)}}>
                     <View style={styles.newsBoxItemBox}>
                         <Text style={styles.newsBoxItemChannel}>
-                            [{item.xyztmc}]
+                            [{Util.strSplit(item.xyztmc,35)}]
                         </Text>
                         <View style={styles.newsBoxItemDate}>
                             <Text style={styles.newsBoxItemDateText}>

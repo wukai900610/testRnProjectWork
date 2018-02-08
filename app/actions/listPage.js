@@ -41,6 +41,8 @@ export function listNoData (paramsObj) {
     }
 }
 
+let pageSize = 10
+
 export function ajaxListPageData(url,paramsObj,refresh) {
     return function(dispatch, getState) {
         let channelStore = 'listPage' + paramsObj.channelIds;
@@ -56,7 +58,7 @@ export function ajaxListPageData(url,paramsObj,refresh) {
 
             Util.ajax.get(url, {params: newPayload}).then((response) => {
                 if(response.status==200){
-                    if(response.data.data.length == 0){
+                    if(response.data.data.length < pageSize){
                         dispatch(listLoadSuccess(response.data,newPayload));
                         dispatch(listNoData(newPayload));
                     }else{
@@ -89,6 +91,10 @@ export function ajaxListPageData(url,paramsObj,refresh) {
                         };
 
                         dispatch(listLoadSuccess(newListPageData,newPayload));
+
+                        if(response.data.data.length < pageSize){
+                            dispatch(listNoData(newPayload));
+                        }
                     }
                 }else{
                     dispatch(listLoadFail(newPayload));

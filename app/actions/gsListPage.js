@@ -49,6 +49,8 @@ export function GslistNoData (paramsObj) {
     }
 }
 
+let pageSize = 10
+
 export function ajaxGsListPageData(url,paramsObj,refresh) {
     return function(dispatch, getState) {
         let channelStore = paramsObj.type;
@@ -61,10 +63,10 @@ export function ajaxGsListPageData(url,paramsObj,refresh) {
             dispatch(GslistLoading('listLoadingHead',{...paramsObj,pageNo:1}));
 
             let newPayload = getState().gsListPage[channelStore].payload;
-            
+
             Util.ajax.get(url, {params: newPayload}).then((response) => {
                 if(response.status==200){
-                    if(response.data.list.length == 0){
+                    if(response.data.list.length < pageSize){
                         dispatch(GslistLoadSuccess(response.data,newPayload));
                         dispatch(GslistNoData(newPayload));
                     }else{
@@ -97,6 +99,10 @@ export function ajaxGsListPageData(url,paramsObj,refresh) {
                         };
 
                         dispatch(GslistLoadSuccess(newListPageData,newPayload));
+
+                        if(response.data.list.length < pageSize){
+                            dispatch(GslistNoData(newPayload));
+                        }
                     }
                 }else{
                     dispatch(GslistLoadFail(newPayload));

@@ -16,7 +16,7 @@ import DateFormat from 'moment';
 import Immutable from 'immutable';
 import Util from '../libs/libs';
 
-class List extends React.Component {
+class NewsList extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -140,7 +140,7 @@ class List extends React.Component {
     }
 }
 
-export default List
+export default NewsList
 
 const styles = {
     listPage: {
