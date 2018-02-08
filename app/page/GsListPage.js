@@ -4,10 +4,11 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { createGsListPageSubStore } from '../actions/actions';
+import { createGsListPageSubStore, ajaxGsListPageData, GsSearch } from '../actions/actions';
+import Util from '../libs/libs';
 
 import GsList from '../components/GsList';
-import GsSearchBox from '../components/GsSearchBox';
+import ListSearchBox from '../components/ListSearchBox';
 
 class GsListPage extends React.Component {
     constructor(props) {
@@ -35,10 +36,21 @@ class GsListPage extends React.Component {
         }
     }
 
+    search(){
+        const { gsListPage, navigation, dispatch } = this.props;
+        let params = navigation.state.params;
+        let thisListPage = gsListPage[params.type];
+        let {payload} = thisListPage;
+        let keyword = this.listSearchBox.newInput.state.text;
+
+        dispatch(GsSearch(keyword,payload));
+        dispatch(ajaxGsListPageData(Util.api.selectSgsInfo,payload,'refresh'));
+    }
+
     render() {
         return (
             <View style={{flex:1}}>
-                <GsSearchBox {...this.props} />
+                <ListSearchBox ref={(e) => {this.listSearchBox = e;}} {...this.props} search={()=>{this.search()}} />
                 {this.rendList()}
             </View>
         )

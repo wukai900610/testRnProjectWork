@@ -6,6 +6,7 @@ import SearchPage from './page/SearchPage';
 import HomePage from './page/HomePage';
 import GsPage from './page/GsPage';
 import GsListPage from './page/GsListPage';
+import HhbListPageWithTabBar from './page/HhbListPageWithTabBar';
 import serviceHallPage from './page/serviceHallPage';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
@@ -43,7 +44,7 @@ const RootTabs = TabNavigator({
             console.log('导航栏切换开始1');
         },
         onTransitionEnd: ()=>{
-            console.log('导航栏切换开始2'); 
+            console.log('导航栏切换开始2');
         }
     },
     serviceHallPage: {
@@ -108,6 +109,14 @@ const AppNavigator = StackNavigator({
     },
     GsListPage: {
         screen: GsListPage,
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.title,
+            }
+        }
+    },
+    HhbListPageWithTabBar: {
+        screen: HhbListPageWithTabBar,
         navigationOptions: ({navigation,screenProps}) => {
             return {
                 title: navigation.state.params.title,

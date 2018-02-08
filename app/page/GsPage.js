@@ -38,11 +38,31 @@ class GsPage extends React.Component {
                 {
                     title:'红榜名单',
                     ico:require('../images/gsPageIco5.png'),
-                    type:'honmd'
+                    type:'honmd',
+                    child:[
+                        {
+                            name:'法人红榜名单',
+                            type:'frhonmd',
+                        },
+                        {
+                            name:'自然人红榜名单',
+                            type:'zzrhonmd',
+                        }
+                    ]
                 },{
                     title:'黑榜名单',
                     ico:require('../images/gsPageIco6.png'),
-                    type:'heimd'
+                    type:'heimd',
+                    child:[
+                        {
+                            name:'法人黑榜名单',
+                            type:'frheimd',
+                        },
+                        {
+                            name:'自然人黑榜名单',
+                            type:'zzrheimd',
+                        }
+                    ]
                 }
             ]
         };
@@ -51,7 +71,11 @@ class GsPage extends React.Component {
     _goToPage(detailItem){
         const { navigation } = this.props;
 
-        navigation.navigate("GsListPage",detailItem);
+        if(detailItem.type == 'honmd' || detailItem.type == 'heimd'){
+            navigation.navigate("HhbListPageWithTabBar",detailItem);
+        }else{
+            navigation.navigate("GsListPage",detailItem);
+        }
     }
 
     renderNavLevel(data){

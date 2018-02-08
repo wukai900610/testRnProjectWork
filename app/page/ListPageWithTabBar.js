@@ -5,7 +5,6 @@ import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import { connect } from 'react-redux';
 import { createListPageSubStore, ajaxListPageData } from '../actions/actions';
 
-import Immutable from 'immutable';
 import Util from '../libs/libs';
 
 import NewsList from '../components/NewsList';
