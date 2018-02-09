@@ -17,7 +17,7 @@ class HomeNav extends React.Component {
     }
 
     _goToPage(detailItem) {
-        this.props.navigation.navigate("DetailPage",detailItem);
+        this.props.navigation.navigate("NewsDetailPage",detailItem);
     }
 
     renderListUl(homePage){

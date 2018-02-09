@@ -48,7 +48,7 @@ class NewsList extends React.Component {
     _goToPage(detailItem){
         const { navigation } = this.props;
 
-        navigation.navigate("DetailPage",detailItem);
+        navigation.navigate("NewsDetailPage",detailItem);
     }
 
     renderItem = (info: Object) => {

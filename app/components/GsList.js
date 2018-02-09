@@ -46,8 +46,9 @@ class GsList extends React.Component {
 
     _goToPage(detailItem){
         const { navigation } = this.props;
+        let params = navigation.state.params;
 
-        navigation.navigate("DetailPage",detailItem);
+        navigation.navigate("GsDetailPage",{detail:detailItem,type:params.type});
     }
 
     renderItem = (info: Object) => {

@@ -7,11 +7,12 @@ import HomePage from './page/HomePage';
 import GsPage from './page/GsPage';
 import GsListPage from './page/GsListPage';
 import HhbListPageWithTabBar from './page/HhbListPageWithTabBar';
+import GsDetailPage from './page/GsDetailPage';
 import serviceHallPage from './page/serviceHallPage';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
 import ListPageWithTabBar from './page/ListPageWithTabBar';
-import DetailPage from './page/DetailPage';
+import NewsDetailPage from './page/NewsDetailPage';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/RegisterPage';
 
@@ -95,8 +96,8 @@ const AppNavigator = StackNavigator({
             }
         }
     },
-    DetailPage: {
-        screen: DetailPage,
+    NewsDetailPage: {
+        screen: NewsDetailPage,
         navigationOptions: {
             title: '详情'
         }
@@ -121,6 +122,12 @@ const AppNavigator = StackNavigator({
             return {
                 title: navigation.state.params.title,
             }
+        }
+    },
+    GsDetailPage: {
+        screen: GsDetailPage,
+        navigationOptions: {
+            title: '详情'
         }
     },
     LoginPage: {
