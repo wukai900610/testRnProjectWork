@@ -74,7 +74,7 @@ class HhbList extends React.Component {
                 <View style={styles.newsBoxItemBox}>
                     <View style={styles.newsBoxItemTitle}>
                         <Text style={styles.newsBoxItemChannel}>
-                            [{title}]
+                            [{Util.strSplit(title,30)}]
                         </Text>
                         <View style={styles.newsBoxItemDate}>
                             <Text style={styles.newsBoxItemDateText}>
@@ -83,7 +83,7 @@ class HhbList extends React.Component {
                         </View>
                     </View>
                     <Text>
-                        {Util.strSplit(item.sy,35)}
+                        {Util.strSplit(item.sy,30)}
                     </Text>
                 </View>
             </TouchableHighlight>

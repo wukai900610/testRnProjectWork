@@ -38,7 +38,7 @@ class NewInput extends React.PureComponent {
             <View style={[styles.newInput,this.props.style]}>
                 {this.renderClearTextBtn()}
 
-                <TextInput style={styles.inputText} value={this.state.text} autoCorrect={false} onChangeText={(text) => {this.setText(text)}} />
+                <TextInput {...this.props} style={styles.inputText} value={this.state.text} autoCorrect={false} onChangeText={(text) => {this.setText(text)}} />
             </View>
         );
     }

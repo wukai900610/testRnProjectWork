@@ -105,7 +105,6 @@ class HhbListPageWithTabBar extends React.Component {
             url = Util.api.lhjc_heib;
         }
 
-console.log(keyword);
         dispatch(HhbSearch(keyword,payload));
         dispatch(ajaxHhbListPageData(url,payload,'refresh'));
     }

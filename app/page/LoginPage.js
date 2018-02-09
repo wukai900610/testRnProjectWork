@@ -1,15 +1,17 @@
 import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 
-import NewButton from '../components/newButton';
+import NewButton from '../components/NewButton';
+import NewInput from '../components/NewInput';
 
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username:'',
-            password:''
-        };
+    }
+
+    login(){
+        let username = this.username.state.text;
+        let password = this.password.state.text;
     }
 
     render() {
@@ -18,24 +20,14 @@ class LoginPage extends React.Component {
             <View style={styles.LoginPage}>
                 <View style={styles.LoginInputBox}>
                     <View style={styles.LoginLabel}>
-                        <TextInput
-                            style={styles.TextInput}
-                            placeholder="帐号"
-                            onChangeText={(username) => this.setState({username})}
-                            value={this.state.username}
-                        />
+                        <NewInput placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
                     </View>
                     <View style={styles.LoginLabel}>
-                        <TextInput
-                            style={styles.TextInput}
-                            placeholder="密码"
-                            onChangeText={(password) => this.setState({password})}
-                            value={this.state.password}
-                        />
+                        <NewInput placeholder="密码" ref={(e) => {this.password = e;}} style={styles.TextInput} />
                     </View>
                 </View>
 
-                <NewButton title="登陆" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{console.log(123)}} />
+                <NewButton title="登陆" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{this.login()}} />
 
                 <View style={styles.LoginButtom}>
                     <NewButton title="注册" onPress={()=>{navigation.navigate('RegisterPage')}} />
@@ -61,15 +53,14 @@ const styles = {
         marginBottom:20,
     },
     LoginLabel: {
-        // marginBottom:10,
+        flexDirection: 'row',
     },
     TextInput: {
         paddingLeft:10,
-        alignItems: 'center',
         height: 40,
+        borderWidth:0,
         borderColor: '#ccc',
         borderBottomWidth: 1,
-        color:'#333'
     },
     LoginBtn: {
         marginBottom: 10,

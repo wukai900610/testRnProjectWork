@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import NewButton from '../components/newButton';
+import NewButton from '../components/NewButton';
 import NewInput from '../components/NewInput';
 
 // import { ajaxGsListPageData,GsSearch } from '../actions/actions';
@@ -12,21 +12,10 @@ class GsSearchBox extends React.PureComponent {
         super(props);
     }
 
-    // search(){
-    //     const { gsListPage, navigation, dispatch } = this.props;
-    //     let params = navigation.state.params;
-    //     let thisListPage = gsListPage[params.type];
-    //     let {payload} = thisListPage;
-    //     let keyword = this.newInput.state.text;
-    //     dispatch(GsSearch(keyword,payload));
-    //     dispatch(ajaxGsListPageData(Util.api.selectSgsInfo,payload,'refresh'));
-    // }
-
     render() {
         return (
             <View style={styles.search}>
-                <NewInput ref={(e) => {this.newInput = e;}} style={styles.NewInput} />
-                {/* <NewButton title="搜索" style={styles.searchBtn} textStyle={styles.searchBtnText} onPress={()=>{this.search()}} /> */}
+                <NewInput placeholder="请输入关键词" ref={(e) => {this.newInput = e;}} style={styles.NewInput} />
                 <NewButton title="搜索" style={styles.searchBtn} textStyle={styles.searchBtnText} onPress={this.props.search} />
             </View>
         );
