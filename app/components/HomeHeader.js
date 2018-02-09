@@ -15,14 +15,8 @@ class Header extends React.PureComponent {
         return (
             <View style={styles.header}>
                 <Text style={styles.headerText}>金电智诚</Text>
-                <TouchableOpacity style={styles.searchBox}
-                    onPress={this._goToPage.bind(this)}>
-                    <Ionicons
-                        style={styles.searchBtn}
-                        name='ios-search'
-                        size={26}
-                        onPress={()=> {
-                        }}/>
+                <TouchableOpacity style={styles.searchBox} onPress={this._goToPage.bind(this)}>
+                    <Ionicons style={styles.searchBtn} name='ios-search' size={26}/>
                 </TouchableOpacity>
             </View>
         );
