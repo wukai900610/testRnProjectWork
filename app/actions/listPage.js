@@ -8,6 +8,14 @@ export function createListPageSubStore (channelId) {
     }
 }
 
+export function listSearch (title,paramsObj) {
+    return {
+        type: 'LIST_SEARCH',
+        title : title,
+        params : paramsObj
+    }
+}
+
 export function listLoading (status,paramsObj) {
     return {
         type: 'LIST_LOADING',
@@ -45,7 +53,8 @@ let pageSize = 10
 
 export function ajaxListPageData(url,paramsObj,refresh) {
     return function(dispatch, getState) {
-        let channelStore = 'listPage' + paramsObj.channelIds;
+        let channelStore = paramsObj.channelIds ? 'listPage' + paramsObj.channelIds : 'listPageSearch';
+
         //如果是正在加载中将不采取任务措施
         if (getState().listPage[channelStore].status == 'listLoadingHead' || getState().listPage[channelStore].status == 'listLoadingFoot'){
             return;

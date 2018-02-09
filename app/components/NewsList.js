@@ -24,7 +24,8 @@ class NewsList extends React.Component {
     _headRefresh = () => {
         const { listPage, navigation } = this.props;
         let params = navigation.state.params;
-        let thisListPage = listPage['listPage'+params.channelId];
+        let thisListPage = params ? listPage['listPage'+params.channelId] : listPage['listPageSearch'];
+
         let {payload} = thisListPage;
 
         this._fetchData(payload,'refresh')
@@ -33,7 +34,7 @@ class NewsList extends React.Component {
     _footRefresh = () => {
         const { listPage, navigation } = this.props;
         let params = navigation.state.params;
-        let thisListPage = listPage['listPage'+params.channelId];
+        let thisListPage = params ? listPage['listPage'+params.channelId] : listPage['listPageSearch'];
         let {payload} = thisListPage;
 
         this._fetchData(payload,'loadMore')
@@ -75,9 +76,9 @@ class NewsList extends React.Component {
     componentDidMount() {
         const { listPage, navigation } = this.props;
         let params = navigation.state.params;
-        let thisListPage = listPage['listPage'+params.channelId];
+        let thisListPage = params ? listPage['listPage'+params.channelId] : listPage['listPageSearch'];
 
-        if(thisListPage.listPageData.data.length == 0){
+        if(thisListPage.listPageData.data.length == 0 && params){//搜索页默认不显示数据
             this._headRefresh();
         }
     }
@@ -95,7 +96,7 @@ class NewsList extends React.Component {
     render() {
         const { listPage, navigation } = this.props;
         let params = navigation.state.params;
-        let thisListPage = listPage['listPage'+params.channelId];
+        let thisListPage = params ? listPage['listPage'+params.channelId] : listPage['listPageSearch'];
 
         let refreshState;
         if(thisListPage){

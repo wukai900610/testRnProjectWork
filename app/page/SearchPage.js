@@ -6,49 +6,58 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-// import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
 
-// import {connect} from 'react-redux';
-// import {ajaxHomeData,loadFail} from '../actions/actions';
+import {connect} from 'react-redux';
+import { ajaxListPageData, listSearch } from '../actions/actions';
+
+import HomeSearchBox from '../components/HomeSearchBox';
+import NewsList from '../components/NewsList';
 
 import Util from '../libs/libs';
 
 class SearchPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+    }
+
+    _fetchData(){
+        const { listPage, dispatch } = this.props;
+
+        let thisListPage = listPage['listPageSearch'];
+        let payload = thisListPage.payload;
+        let title = this.listSearchBox.newInput.state.text;
+
+
+        dispatch(listSearch(title,payload));
+        dispatch(ajaxListPageData(Util.api.list,payload,'refresh'));
     }
 
     render() {
-        // const {dispatch, homePage, navigation} = this.props;
-
         return (
             <View style={styles.SearchPage}>
-                <View style={styles.SearchBox}>
-                    <Text>
-                        SearchPage
-                    </Text>
-                </View>
+                <HomeSearchBox {...this.props} ref={(e) => {this.listSearchBox = e;}} search={()=>{this._fetchData()}} />
+
+                <NewsList {...this.props}/>
             </View>
         )
     }
 }
 
-// function mapStateToProps(state) {
-//     const {homePage} = state;
-//
-//     return {
-//         homePage
-//     }
-// }
+function mapStateToProps(state) {
+    const {listPage} = state;
 
-export default SearchPage;
+    return {
+        listPage
+    }
+}
+
+export default connect(mapStateToProps)(SearchPage);
 
 const styles = {
     SearchPage: {
+        flex:1
     },
     SearchBox: {
-        
+
     }
 }

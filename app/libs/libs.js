@@ -53,6 +53,9 @@ util.api = {
     // xyxx:util.domain + '/list.jspx',
     //统一社会信用代码公示 searchVal pageNo pageSize
     // xydm:util.domain + '/xydm.jspx',
+
+    bindingAuthen:'/frontUser/bindingAuthen.jspx',//前台网站用户后台认证绑定接口
+    bindingAuthen:'/frontUse/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码
 }
 
 export default util;
