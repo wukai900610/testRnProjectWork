@@ -36,9 +36,9 @@ class NewInput extends React.PureComponent {
     render() {
         return (
             <View style={[styles.newInput,this.props.style]}>
-                {this.renderClearTextBtn()}
-
                 <TextInput {...this.props} style={styles.inputText} value={this.state.text} autoCorrect={false} onChangeText={(text) => {this.setText(text)}} />
+
+                {this.renderClearTextBtn()}
             </View>
         );
     }
@@ -49,21 +49,19 @@ const styles = {
     newInput: {
         flex:1,
         height: 30,
-        justifyContent: 'center',
+        flexDirection:'row',
         borderRadius:5,
         borderWidth:1,
         borderColor:'#ccc',
         backgroundColor:'#fff',
     },
     clearText:{
-        position:'absolute',
-        top:5,
-        right:8,
-        zIndex:1
+        justifyContent: 'center',
+        marginRight:10
     },
     inputText: {
+        flex:1,
         paddingLeft:5,
-        marginRight:30,
         color:'#363636',
         fontSize:14
     }

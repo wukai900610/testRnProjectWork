@@ -45,8 +45,6 @@ const styles = {
     LoginPage: {
         padding:20,
         flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center'
         backgroundColor:'#fff'
     },
     LoginInputBox: {
