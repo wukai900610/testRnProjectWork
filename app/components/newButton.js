@@ -12,11 +12,9 @@ class newButton extends React.PureComponent {
 
     render() {
         return (
-            <View>
-                <TouchableOpacity style={[styles.button,this.props.style]} onPress={this.props.onPress}>
-                    <Text style={[styles.buttonText,this.props.textStyle]}>{this.props.title}</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={[styles.button,this.props.style]} onPress={this.props.onPress}>
+                <Text style={[styles.buttonText,this.props.textStyle]}>{this.props.title}</Text>
+            </TouchableOpacity>
         );
     }
 }

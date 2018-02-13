@@ -37,8 +37,12 @@ util.ajax = axios.create({
     // }]
 });
 
+// util.domain = 'http://www.gyxyw.gov.cn';
+util.domain = 'http://10.10.136.32:5050';
 // util.domain = 'http://10.10.136.56:5050';
-util.domain = 'http://www.gyxyw.gov.cn';
+
+
+
 
 util.api = {
     list:util.domain + '/api/content/list.jspx',
@@ -54,8 +58,18 @@ util.api = {
     //统一社会信用代码公示 searchVal pageNo pageSize
     // xydm:util.domain + '/xydm.jspx',
 
-    bindingAuthen:'/frontUser/bindingAuthen.jspx',//前台网站用户后台认证绑定接口
-    bindingAuthen:'/frontUse/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码
+    bindingAuthen:util.domain + '/frontUser/bindingAuthen.jspx',//前台网站用户后台认证绑定接口
+    bindingAuthen:util.domain + '/frontUse/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码
+
+    detail:util.domain + '/frontUser/detail.jspx',//检查用户是否登陆
+	userLogin: util.domain + '/frontUser/userLogin.jspx',
+	authCode: util.domain + '/frontUser/authCode.jspx',//发送验证码
+	checkUsername: util.domain + '/frontUser/checkUsername.jspx',
+	userRegist: util.domain + '/frontUser/userRegist.jspx',
+	forgetPassword: util.domain + '/frontUser/forgetPassword.jspx',
+	sendMess: util.domain + '/frontUser/sendMess.jspx',
+	updatePhone: util.domain + '/frontUser/updatePhone.jspx',
+	updatePasswork: util.domain + '/frontUser/updatePasswork.jspx',
 }
 
 export default util;
