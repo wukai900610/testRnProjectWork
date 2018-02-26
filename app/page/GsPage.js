@@ -83,7 +83,7 @@ class GsPage extends React.Component {
         data.map((item,index)=>{
             if(index == 0){
                 navLevelArr.push(
-                    <View style={[styles.navItem,{borderRightWidth:1}]} key={index}>
+                    <View style={[styles.navItem,{borderRightWidth:0.5}]} key={index}>
                         <TouchableOpacity style={{alignItems: 'center'}} onPress={()=>{this._goToPage(item)}}>
                             <Image source={item.ico} style={styles.navImg} />
                             <Text>

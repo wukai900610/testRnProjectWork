@@ -1,7 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-class aboutUs extends React.Component {
+// import Util from '../libs/libs';
+
+class AboutPage extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (<View style={{
@@ -13,4 +18,4 @@ class aboutUs extends React.Component {
         </View>);
     }
 }
-export default aboutUs;
+export default AboutPage;

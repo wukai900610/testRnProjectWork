@@ -15,6 +15,9 @@ import ListPageWithTabBar from './page/ListPageWithTabBar';
 import NewsDetailPage from './page/NewsDetailPage';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/RegisterPage';
+import FindPassPage from './page/FindPassPage';
+
+import Util from './libs/libs';
 
 const RootTabs = TabNavigator({
     HomePage: {
@@ -40,12 +43,6 @@ const RootTabs = TabNavigator({
                 : 'ios-person-outline'} size={26} style={{
                 color: tintColor
             }}/>)
-        },
-        onTransitionStart: ()=>{
-            console.log('导航栏切换开始1');
-        },
-        onTransitionEnd: ()=>{
-            console.log('导航栏切换开始2');
         }
     },
     serviceHallPage: {
@@ -72,6 +69,9 @@ const RootTabs = TabNavigator({
             }}/>)
         }
     }
+},{
+    // lazy:false,
+    // initialRouteName:'HomePage'
 });
 
 const AppNavigator = StackNavigator({
@@ -143,7 +143,31 @@ const AppNavigator = StackNavigator({
             title: '注册',
             headerBackTitle:null,
         }
+    },
+    FindPassPage: {
+        screen: FindPassPage,
+        navigationOptions: {
+            title: '找回密码',
+            headerBackTitle:null,
+        }
     }
+},{
+    initialRouteName:'FindPassPage',
+    onTransitionStart: (current,prev)=>{
+        let index = current.scene.route.index;
+        // console.log(current);
+        // console.log(current.scene.route.routeName);
+        // console.log(current.scene.route.routes[index].routeName);
+
+        if(current.scene.route.routeName == 'RootTabs'){
+            if(current.scene.route.routes[index].routeName == 'AboutPage'){
+                // Util.checkLogin(current.navigation)
+            }
+        }
+    },
+    // onTransitionEnd: ()=>{
+    //     console.log('导航栏切换结束');
+    // }
 });
 
 export default AppNavigator;

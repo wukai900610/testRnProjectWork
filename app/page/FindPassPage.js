@@ -4,11 +4,11 @@ import {View, Text} from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import NewButton from '../components/NewButton';
 import NewInput from '../components/NewInput';
+import SendMessWithInput from '../components/SendMessWithInput';
 
-// import Immutable from 'immutable';
 import Util from '../libs/libs';
 
-class LoginPage extends React.Component {
+class FindPassPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -31,19 +31,30 @@ class LoginPage extends React.Component {
         });
     };
 
-    login(){
+    save(){
         let _this = this
         let { navigation } = _this.props
         let payload = {
             username:this.username.state.text,
-            password:this.password.state.text,
+            authCode:this.authCode.newInput.state.text,
         }
 
-        if(!(payload.username && payload.password)){
+        if(!(payload.username)){
             _this.setState({
                 showAlert:{
                     show:true,
-                    message:'请输入用户名或密码'
+                    message:'请输入用户名'
+                }
+            })
+
+            return false
+        }
+
+        if(!(payload.authCode)){
+            _this.setState({
+                showAlert:{
+                    show:true,
+                    message:'请输入验证码'
                 }
             })
 
@@ -56,7 +67,7 @@ class LoginPage extends React.Component {
             loginSuccess:false
         })
 
-        Util.ajax.get(Util.api.userLogin, {params: payload}).then((response) => {
+        Util.ajax.get(Util.api.forgetPassword, {params: payload}).then((response) => {
             setTimeout(()=>{
                 _this.setState({
                     showLoad:false,
@@ -70,7 +81,7 @@ class LoginPage extends React.Component {
                             loginSuccess:true,
                             showAlert:{
                                 show:true,
-                                message:'登陆成功'
+                                message:'重置成功'
                             }
                         })
                     },600)
@@ -94,7 +105,7 @@ class LoginPage extends React.Component {
                     _this.setState({
                         showAlert:{
                             show:true,
-                            message:'登陆失败'
+                            message:'重置失败'
                         }
                     })
                 },600)
@@ -122,23 +133,17 @@ class LoginPage extends React.Component {
 
         return (
             <View style={{flex:1}}>
-                <View style={styles.LoginPage}>
-                    <View style={styles.LoginInputBox}>
-                        <View style={styles.LoginLabel}>
+                <View style={styles.FindPassPage}>
+                    <View style={styles.FindPassInputBox}>
+                        <View style={styles.FindPassLabel}>
                             <NewInput placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
                         </View>
-                        <View style={styles.LoginLabel}>
-                            <NewInput placeholder="密码" secureTextEntry={true} ref={(e) => {this.password = e;}} style={styles.TextInput} />
+                        <View style={styles.FindPassLabel}>
+                            <SendMessWithInput ref={(e) => {this.authCode = e;}}/>
                         </View>
                     </View>
 
-                    <NewButton title="登陆" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{this.login()}} />
-
-                    <View style={styles.LoginButtom}>
-                        <NewButton title="注册" onPress={()=>{navigation.navigate('RegisterPage')}} />
-
-                        <NewButton title="忘记密码" onPress={()=>{navigation.navigate('FindPassPage')}} />
-                    </View>
+                    <NewButton title="保存" style={styles.FindPassBtn} textStyle={styles.FindPassBtnText} onPress={()=>{this.save()}} />
                 </View>
 
                 <AwesomeAlert
@@ -160,7 +165,7 @@ class LoginPage extends React.Component {
                         let {loginSuccess} = this.state
 
                         if(loginSuccess){
-                            navigation.navigate('AboutPage')
+                            // navigation.navigate('AboutPage')
                         }
                         this._hideAlert();
                     }}
@@ -178,18 +183,18 @@ class LoginPage extends React.Component {
         );
     }
 }
-export default LoginPage;
+export default FindPassPage;
 
 const styles = {
-    LoginPage: {
+    FindPassPage: {
         padding:20,
         flex: 1,
         backgroundColor:'#fff'
     },
-    LoginInputBox: {
+    FindPassInputBox: {
         marginBottom:20,
     },
-    LoginLabel: {
+    FindPassLabel: {
         flexDirection: 'row',
     },
     TextInput: {
@@ -199,16 +204,16 @@ const styles = {
         borderColor: '#ccc',
         borderBottomWidth: 1,
     },
-    LoginBtn: {
+    FindPassBtn: {
         marginBottom: 10,
         height: 40,
         backgroundColor: '#2795ee'
     },
-    LoginBtnText: {
+    FindPassBtnText: {
         color:'#fff',
         fontSize:16
     },
-    LoginButtom: {
+    FindPassButtom: {
         flexDirection:'row',
         justifyContent:'flex-end'
     }
