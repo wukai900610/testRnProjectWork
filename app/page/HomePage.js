@@ -60,14 +60,21 @@ class HomePage extends React.Component {
                 </ScrollView>
 
                 <Banner banner={[{
-                    name:'banner1',
-                    id:1
+                    name:'信用巩义1',
+                    id:1,
+                    src:Util.domain+'/r/cms/www/mobile/images/banner1.jpg'
                 },{
-                    name:'banner2',
-                    id:2
+                    name:'信用巩义2',
+                    id:2,
+                    src:Util.domain+'/r/cms/www/mobile/images/banner2.jpg'
                 },{
-                    name:'banner3',
-                    id:3
+                    name:'信用巩义3',
+                    id:3,
+                    src:Util.domain+'/r/cms/www/mobile/images/banner3.jpg'
+                },{
+                    name:'信用巩义4',
+                    id:4,
+                    src:Util.domain+'/r/cms/www/mobile/images/banner4.jpg'
                 }]}></Banner>
 
                 <HomeNav navigation={navigation}></HomeNav>
