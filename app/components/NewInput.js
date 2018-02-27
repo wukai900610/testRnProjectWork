@@ -15,6 +15,10 @@ class NewInput extends React.PureComponent {
         this.setState({
             text:text
         });
+
+        if(this.props.inputChange != undefined){
+            this.props.inputChange(text)
+        }
     }
 
     clearText(){

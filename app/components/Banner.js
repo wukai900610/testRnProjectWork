@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 class Banner extends React.Component {
@@ -19,6 +19,18 @@ class Banner extends React.Component {
         return false;
     }
 
+    rendPic(item){
+        if(item.src){
+            return (
+                <Image source={{uri: item.src}} style={{width:'100%',height:'100%'}}/>
+            )
+        }else{
+            return (
+                <Text style={styles.text}>{item.name}</Text>
+            )
+        }
+    }
+
     render() {
 
         return (
@@ -32,7 +44,10 @@ class Banner extends React.Component {
                                 style={styles.slide}
                                 key={item.id}
                                 title={<Text>{item.name}</Text>}>
-                                <Text style={styles.text}>{item.name}</Text>
+                                {
+                                    this.rendPic(item)
+                                }
+
                             </View>
                         )
                     }

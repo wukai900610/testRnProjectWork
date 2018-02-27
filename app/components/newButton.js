@@ -10,10 +10,25 @@ class newButton extends React.PureComponent {
         super(props);
     }
 
+    rendTitle(){
+        if(typeof this.props.icon == 'object'){
+            return (
+                <View style={{flexDirection:'row',alignItems: 'center',paddingRight:5}}>
+                    <Text style={[styles.buttonText,this.props.textStyle]}>{this.props.title}</Text>
+                    {this.props.icon}
+                </View>
+            );
+        }else{
+            return (
+                <Text style={[styles.buttonText,this.props.textStyle]}>{this.props.title}</Text>
+            );
+        }
+    }
+
     render() {
         return (
             <TouchableOpacity style={[styles.button,this.props.style]} onPress={this.props.onPress}>
-                <Text style={[styles.buttonText,this.props.textStyle]}>{this.props.title}</Text>
+                {this.rendTitle()}
             </TouchableOpacity>
         );
     }
