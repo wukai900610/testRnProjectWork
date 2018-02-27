@@ -14,7 +14,7 @@ class SendMessWithInput extends React.Component {
         super(props);
 
         this.state={
-            seconds:maxTime,
+            countDown:maxTime,
             status:'',
         }
     }
@@ -24,8 +24,6 @@ class SendMessWithInput extends React.Component {
         let payload = {
             username:global.authCode,
         }
-
-        console.log(payload);
 
         if(payload.username == '' || payload.username == undefined){
             Alert.alert(
@@ -46,7 +44,7 @@ class SendMessWithInput extends React.Component {
         })
 
         setTimeout(function () {
-            Util.ajax.post(Util.api.authCode, {params: payload}).then((response) => {
+            Util.ajax.get(Util.api.authCode, {params: payload}).then((response) => {
                 if(response.status==200){
                     if(response.data.resultObj.code == 1000){
                         _this.setState({
@@ -54,17 +52,18 @@ class SendMessWithInput extends React.Component {
                         })
 
                         let intervalTime = setInterval(function () {
-                            let seconds = _this.state.seconds-1;
+                            let countDown = _this.state.countDown-1;
 
-                            if(_this.state.seconds == 0){
+                            if(_this.state.countDown == 0){
                                 clearInterval(intervalTime);
 
                                 _this.setState({
-                                    seconds:maxTime
+                                    countDown:maxTime,
+                                    status:''
                                 })
                             }else{
                                 _this.setState({
-                                    seconds:seconds
+                                    countDown:countDown
                                 })
                             }
                         }, 1000);
@@ -103,7 +102,7 @@ class SendMessWithInput extends React.Component {
             )
         }else if(status == 'sendSuccess'){
             return (
-                <NewButton title={'发送成功'+this.state.seconds} style={styles.seconds} textStyle={styles.sendMessBtnText} onPress={()=>{this.sendMessBtn()}} />
+                <NewButton title={'发送成功'+this.state.countDown} style={[styles.countDown]} textStyle={styles.sendMessBtnText} onPress={()=>{this.sendMessBtn()}} />
             )
         }else if(status == 'sendFail'){
             return (
@@ -147,8 +146,8 @@ const styles = {
     sendMessBtnText: {
         color:'#fff'
     },
-    seconds:{
+    countDown:{
         marginTop:5,
-        backgroundColor:'#a1a1a1'
+        backgroundColor:'#4caf50'
     }
 }

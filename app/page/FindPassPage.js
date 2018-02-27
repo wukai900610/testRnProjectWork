@@ -18,7 +18,7 @@ class FindPassPage extends React.Component {
                 show:false,
                 message:''
             },
-            loginSuccess:false
+            loginSuccess:false,
         }
     }
 
@@ -31,11 +31,17 @@ class FindPassPage extends React.Component {
         });
     };
 
+    inputChange(data){
+        global.authCode = data.text
+    }
+
     save(){
         let _this = this
         let { navigation } = _this.props
+
         let payload = {
-            username:this.username.state.text,
+            // username:this.username.state.text,
+            username:global.authCode,
             authCode:this.authCode.newInput.state.text,
         }
 
@@ -85,11 +91,6 @@ class FindPassPage extends React.Component {
                             }
                         })
                     },600)
-
-                    STORAGE.save({
-                        key:'frontUser',
-                        data:response.data.frontUser
-                    })
                 }else{
                     setTimeout(()=>{
                         _this.setState({
@@ -136,7 +137,7 @@ class FindPassPage extends React.Component {
                 <View style={styles.FindPassPage}>
                     <View style={styles.FindPassInputBox}>
                         <View style={styles.FindPassLabel}>
-                            <NewInput placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
+                            <NewInput inputChange={this.inputChange} placeholder="帐号" style={styles.TextInput} />
                         </View>
                         <View style={styles.FindPassLabel}>
                             <SendMessWithInput ref={(e) => {this.authCode = e;}}/>
@@ -165,7 +166,7 @@ class FindPassPage extends React.Component {
                         let {loginSuccess} = this.state
 
                         if(loginSuccess){
-                            // navigation.navigate('AboutPage')
+                            navigation.goBack();
                         }
                         this._hideAlert();
                     }}
