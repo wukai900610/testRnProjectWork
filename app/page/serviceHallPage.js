@@ -21,24 +21,25 @@ class serviceHallPage extends React.Component {
             navLevel1:[
                 {
                     title:'信用报告',
+                    type:'xybg',
                     ico:require('../images/serviceHallPageIco1.png')
                 },{
-                    title:'自主查询',
-                    ico:require('../images/serviceHallPageIco2.png')
-                },{
                     title:'企业直报',
-                    ico:require('../images/serviceHallPageIco3.png')
+                    type:'qyzb',
+                    ico:require('../images/serviceHallPageIco2.png')
                 }
             ],
             navLevel2:[
                 {
                     title:'举报信箱',
+                    type:'jbxx',
                     ico:require('../images/serviceHallPageIco4.png')
                 }
             ],
             navLevel3:[
                 {
                     title:'我的审批',
+                    type:'111',
                     ico:require('../images/serviceHallPageIco5.png')
                 }
             ]
@@ -48,8 +49,7 @@ class serviceHallPage extends React.Component {
     _goToPage(detailItem){
         const { navigation } = this.props;
 
-        // navigation.navigate("GsListPage",detailItem);
-        console.log(detailItem);
+        navigation.navigate("serviceHallPageList",detailItem);
     }
 
     renderNavLevel(data){

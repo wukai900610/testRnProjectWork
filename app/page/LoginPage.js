@@ -124,10 +124,10 @@ class LoginPage extends React.Component {
             <View style={{flex:1}}>
                 <View style={styles.LoginPage}>
                     <View style={styles.LoginInputBox}>
-                        <View style={styles.LoginLabel}>
+                        <View style={styles.label}>
                             <NewInput placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
                         </View>
-                        <View style={styles.LoginLabel}>
+                        <View style={styles.label}>
                             <NewInput placeholder="密码" secureTextEntry={true} ref={(e) => {this.password = e;}} style={styles.TextInput} />
                         </View>
                     </View>
@@ -189,7 +189,7 @@ const styles = {
     LoginInputBox: {
         marginBottom:20,
     },
-    LoginLabel: {
+    label: {
         flexDirection: 'row',
     },
     TextInput: {
