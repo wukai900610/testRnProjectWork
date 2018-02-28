@@ -39,9 +39,9 @@ class NewPick extends React.PureComponent {
                         width:'100%',
                         height:200,
                     }}>
-                        <View style={{flexDirection:'row',backgroundColor:'#ccc'}}>
-                            <NewButton title="取消" onPress={()=>{this.props.onCancel()}} />
-                            <NewButton title="确定" onPress={()=>{this.props.onConfirm(selected)}} />
+                        <View style={{flexDirection:'row',justifyContent:'space-between',padding:5,backgroundColor:'#efefef'}}>
+                            <NewButton title="确定" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onConfirm(selected)}} />
+                            <NewButton title="取消" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onCancel()}} />
                         </View>
                         <View>
                             <Picker
