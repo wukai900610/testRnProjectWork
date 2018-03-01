@@ -9,7 +9,7 @@ import SendMessWithInput from '../components/SendMessWithInput';
 import Util from '../libs/libs';
 
 let _that;
-class FindPassPage extends React.Component {
+class ModifyPass extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,8 +19,13 @@ class FindPassPage extends React.Component {
                 show:false,
                 message:''
             },
-            loginSuccess:false,
-            username:''
+            ModifyPassSuccess:false,
+            frontUser:{
+                name:'法人',
+                phone:'15252127367'
+            },
+            password:{},
+            password1:{}
         }
     }
 
@@ -33,31 +38,28 @@ class FindPassPage extends React.Component {
         });
     };
 
-
-    _inputChange(data){
+    _passwordChange(params){
         _that.setState({
-            username:data.text
+            password:params
+        })
+    }
+
+    _password1Change(params){
+        _that.setState({
+            password1:params
         })
     }
 
     save(){
-        let _this = this
-        let { navigation } = _this.props
+        let { navigation } = this.props;
+        let _this = this;
 
         let payload = {
-            username:this.state.username,
+            username:this.state.frontUser.name,
+            phone:this.state.frontUser.phone,
             authCode:this.authCode.newInput.state.text,
-        }
-
-        if(!(payload.username)){
-            _this.setState({
-                showAlert:{
-                    show:true,
-                    message:'请输入用户名'
-                }
-            })
-
-            return false
+            password:this.state.password1.text,
+            sureNunber:this.state.password1.text
         }
 
         if(!(payload.authCode)){
@@ -74,10 +76,10 @@ class FindPassPage extends React.Component {
         // 显示加载器
         _this.setState({
             showLoad:true,
-            loginSuccess:false
+            ModifyPassSuccess:false
         })
 
-        Util.ajax.get(Util.api.forgetPassword, {params: payload}).then((response) => {
+        Util.ajax.get(Util.api.updatePasswork, {params: payload}).then((response) => {
             setTimeout(()=>{
                 _this.setState({
                     showLoad:false,
@@ -88,10 +90,10 @@ class FindPassPage extends React.Component {
                 if(response.data.resultObj.code == 1000){
                     setTimeout(()=>{
                         _this.setState({
-                            loginSuccess:true,
+                            ModifyPassSuccess:true,
                             showAlert:{
                                 show:true,
-                                message:'重置成功'
+                                message:'修改成功'
                             }
                         })
                     },600)
@@ -110,7 +112,7 @@ class FindPassPage extends React.Component {
                     _this.setState({
                         showAlert:{
                             show:true,
-                            message:'重置失败'
+                            message:'修改失败'
                         }
                     })
                 },600)
@@ -141,22 +143,29 @@ class FindPassPage extends React.Component {
         const {showAlert,showLoad} = this.state;
 
         let outLinkData={
-            username:this.state.username,
-            tipText:'请输入帐号'
+            username:this.state.frontUser.name,
+            tipText:''
         }
+
         return (
             <View style={{flex:1}}>
-                <View style={styles.FindPassPage}>
-                    <View style={styles.FindPassInputBox}>
-                        <View style={styles.FindPassLabel}>
-                            <NewInput inputChange={this._inputChange} placeholder="帐号" style={styles.TextInput} />
+                <View style={styles.ModifyPass}>
+                    <View style={styles.ModifyPassInputBox}>
+                        <View style={styles.ModifyPassLabel}>
+                            <NewInput editable={false} showClearTextBtn={false} defaultText={this.state.frontUser.phone} placeholder="手机号" style={styles.TextInput} />
                         </View>
-                        <View style={styles.FindPassLabel}>
+                        <View style={styles.ModifyPassLabel}>
                             <SendMessWithInput outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>
+                        </View>
+                        <View style={styles.ModifyPassLabel}>
+                            <NewInput rule={{test:"s6-20"}} placeholder="新密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._passwordChange} />
+                        </View>
+                        <View style={styles.ModifyPassLabel}>
+                            <NewInput rule={{test:"checkPassword",password:this.state.password.text,passwodRule:"s6-20"}} placeholder="确认密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._password1Change} />
                         </View>
                     </View>
 
-                    <NewButton title="保存" style={styles.FindPassBtn} textStyle={styles.FindPassBtnText} onPress={()=>{this.save()}} />
+                    <NewButton title="保存" style={styles.ModifyPassBtn} textStyle={styles.ModifyPassBtnText} onPress={()=>{this.save()}} />
                 </View>
 
                 <AwesomeAlert
@@ -175,9 +184,9 @@ class FindPassPage extends React.Component {
                         // this._hideAlert();
                     }}
                     onConfirmPressed={() => {
-                        let {loginSuccess} = this.state
+                        let {ModifyPassSuccess} = this.state
 
-                        if(loginSuccess){
+                        if(ModifyPassSuccess){
                             navigation.goBack();
                         }
                         this._hideAlert();
@@ -196,18 +205,18 @@ class FindPassPage extends React.Component {
         );
     }
 }
-export default FindPassPage;
+export default ModifyPass;
 
 const styles = {
-    FindPassPage: {
+    ModifyPass: {
         padding:20,
         flex: 1,
         backgroundColor:'#fff'
     },
-    FindPassInputBox: {
+    ModifyPassInputBox: {
         marginBottom:20,
     },
-    FindPassLabel: {
+    ModifyPassLabel: {
         flexDirection: 'row',
     },
     TextInput: {
@@ -217,16 +226,16 @@ const styles = {
         borderColor: '#ccc',
         borderBottomWidth: 1,
     },
-    FindPassBtn: {
+    ModifyPassBtn: {
         marginBottom: 10,
         height: 40,
         backgroundColor: '#2795ee'
     },
-    FindPassBtnText: {
+    ModifyPassBtnText: {
         color:'#fff',
         fontSize:16
     },
-    FindPassButtom: {
+    ModifyPassButtom: {
         flexDirection:'row',
         justifyContent:'flex-end'
     }

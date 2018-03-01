@@ -19,7 +19,10 @@ import Util from '../libs/libs';
     "z2-4":/^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/
 */
 
-class NewInput extends React.PureComponent {
+// showClearTextBtn 是否显示清除按钮
+// inputChange 事件
+// rule 规则
+class NewInput extends React.Component {
     constructor(props) {
         super(props);
 
@@ -38,94 +41,8 @@ class NewInput extends React.PureComponent {
         let status = '';
         //规则库
         if(rule){
-            if(rule.test == 'email'){
-                if(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(text)){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == 'phone'){
-                if(/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/.test(text)){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == 'idCard'){
-                let idCardCheck = checkFun.checkIdCard(text);
-
-                if(idCardCheck){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == 'n'){//数字
-                if(/^\d+$/.test(text)){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == 'z2-4'){//中文
-                if(/^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/.test(text)){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == 's'){//除符号以外的字符串和数字
-                if(/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]+$/.test(text)){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == 's2-20'){//除符号以外的字符串和数字
-                if(/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{2,20}$/.test(text)){
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }else if(rule.test == '*'){
-                if(/[\w\W]+/.test(text)){
+            if(rule.test == 'checkPassword'){
+                if(ruleFun[rule.passwodRule](text) && text == this.props.rule.password){
                     status = 'pass'
                     this.setState({
                         status:status
@@ -137,7 +54,7 @@ class NewInput extends React.PureComponent {
                     })
                 }
             }else{
-                if(rule.test.test(text)){
+                if(ruleFun[rule.test](text)){
                     status = 'pass'
                     this.setState({
                         status:status
@@ -149,6 +66,18 @@ class NewInput extends React.PureComponent {
                     })
                 }
             }
+
+            //     if(rule.test.test(text)){
+            //         status = 'pass'
+            //         this.setState({
+            //             status:status
+            //         })
+            //     }else{
+            //         status = 'fail'
+            //         this.setState({
+            //             status:status
+            //         })
+            //     }
         }
 
         if(this.props.inputChange != undefined){
@@ -160,7 +89,8 @@ class NewInput extends React.PureComponent {
 
     _clearText(){
         this.setState({
-            text:''
+            text:'',
+            status:'fail'
         });
 
         if(this.props.inputChange != undefined){
@@ -172,13 +102,16 @@ class NewInput extends React.PureComponent {
     }
 
     renderClearTextBtn(){
-        if(this.state.text.length > 0){
-            return (
-                <TouchableOpacity style={styles.clearText} onPress={()=>{this._clearText()}}>
-                    <Ionicons color='#666' name='ios-trash' size={20}/>
-                </TouchableOpacity>
-            )
+        if(this.props.showClearTextBtn != false){
+            if(this.state.text.length > 0){
+                return (
+                    <TouchableOpacity style={styles.clearText} onPress={()=>{this._clearText()}}>
+                        <Ionicons color='#666' name='ios-trash' size={20}/>
+                    </TouchableOpacity>
+                )
+            }
         }
+
     }
 
     renderIconStatus(){
@@ -239,9 +172,14 @@ class NewInput extends React.PureComponent {
 }
 export default NewInput;
 
-
-let checkFun = {
-    checkIdCard:function (gets) {
+let ruleFun={
+    'email':function (text) {
+        return /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(text);
+    },
+    'phone':function (text) {
+        return /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/.test(text);
+    },
+    'idCard':function (gets) {
         var reg = /^[^ ]$/; //不包含空格
         //该方法由佚名网友提供;
         var Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1]; // 加权因子;
@@ -296,6 +234,24 @@ let checkFun = {
             }
             return true;
         }
+    },
+    'n':function (text) {
+        return /^\d+$/.test(text);
+    },
+    'z2-4':function (text) {
+        return /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/.test(text);
+    },
+    's':function (text) {
+        return /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]+$/.test(text);
+    },
+    's2-20':function (text) {
+        return /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{2,20}$/.test(text);
+    },
+    's6-20':function (text) {
+        return /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,20}$/.test(text);
+    },
+    '*':function (text) {
+        return /[\w\W]+/.test(text);
     }
 }
 

@@ -9,6 +9,7 @@ import NewPick from '../components/NewPick';
 // import Immutable from 'immutable';
 import Util from '../libs/libs';
 
+let _that;
 class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +25,9 @@ class RegisterPage extends React.Component {
                 name:'法人',
                 value:'fr'
             },
-            pickVisible:false
+            pickVisible:false,
+            password:{},
+            password1:{}
         }
     }
 
@@ -137,6 +140,22 @@ class RegisterPage extends React.Component {
         }
     }
 
+    _passwordChange(params){
+        _that.setState({
+            password:params
+        })
+    }
+
+    _password1Change(params){
+        _that.setState({
+            password1:params
+        })
+    }
+
+    componentDidMount(){
+        _that=this;
+    }
+
     render() {
         let { navigation } = this.props;
         const {showAlert,showLoad,type} = this.state;
@@ -149,10 +168,10 @@ class RegisterPage extends React.Component {
                             <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
                         </View>
                         <View style={styles.label}>
-                            <NewInput placeholder="密码" secureTextEntry={true} ref={(e) => {this.password = e;}} style={styles.TextInput} />
+                            <NewInput rule={{test:"s6-20"}} placeholder="密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._passwordChange} />
                         </View>
                         <View style={styles.label}>
-                            <NewInput placeholder="确认密码" secureTextEntry={true} ref={(e) => {this.password2 = e;}} style={styles.TextInput} />
+                            <NewInput rule={{test:"checkPassword",password:this.state.password.text,passwodRule:"s6-20"}} placeholder="确认密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._password1Change} />
                         </View>
                         <View style={styles.label}>
                             <NewInput rule={{test:"z2-4"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />

@@ -62,7 +62,7 @@ util.api = {
 	userRegist: util.domain + '/frontUser/userRegist.jspx',
 	forgetPassword: util.domain + '/frontUser/forgetPassword.jspx',
 	sendMess: util.domain + '/frontUser/sendMess.jspx',
-	updatePhone: util.domain + '/frontUser/updatePhone.jspx',
+	// updatePhone: util.domain + '/frontUser/updatePhone.jspx',
 	updatePasswork: util.domain + '/frontUser/updatePasswork.jspx',
     sendMessForPhone:util.domain + '/frontUser/sendMessForPhone.jspx',//注册时验证手机号
 

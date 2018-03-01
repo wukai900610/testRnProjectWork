@@ -1,8 +1,6 @@
 import React from 'react';
 import {
     View,
-    ScrollView,
-    PixelRatio,
     Text,
     Linking
 } from 'react-native';
@@ -251,5 +249,4 @@ const styles = {
         padding:5,
         textAlign:'center'
     }
-
 }

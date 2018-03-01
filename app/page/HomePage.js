@@ -53,12 +53,6 @@ class HomePage extends React.Component {
 
                 <HomeHeader navigation={navigation}></HomeHeader>
 
-                <ScrollView horizontal={true}>
-
-                    <TouchableOpacity onPress={()=>{navigation.navigate("LoginPage")}}><Text>LoginPage</Text></TouchableOpacity>
-
-                </ScrollView>
-
                 <Banner banner={[{
                     name:'信用巩义1',
                     id:1,

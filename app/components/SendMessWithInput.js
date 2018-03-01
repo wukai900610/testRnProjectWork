@@ -7,8 +7,9 @@ import NewInput from '../components/NewInput';
 import Util from '../libs/libs';
 
 // const maxTime = 60;
-const maxTime = 3;
+const maxTime = 10;
 
+// outLinkData外部关联的数据
 class SendMessWithInput extends React.Component {
     constructor(props) {
         super(props);
@@ -21,14 +22,15 @@ class SendMessWithInput extends React.Component {
 
     sendMessBtn(){
         let _this = this;
+        let {outLinkData} = this.props;
         let payload = {
-            username:global.authCode,
+            username:outLinkData.username,
         }
 
         if(payload.username == '' || payload.username == undefined){
             Alert.alert(
                 '提示',
-                '请输入帐户名称',
+                outLinkData.tipText,
                 [
                     {text: '确认'},
                 ],
@@ -88,7 +90,7 @@ class SendMessWithInput extends React.Component {
                 }
             }).catch((err) => {
                 _this.setState({
-                    status:'sendFail'
+                    status:'networkFail'
                 })
             });
         }, 200);
@@ -107,6 +109,10 @@ class SendMessWithInput extends React.Component {
         }else if(status == 'sendFail'){
             return (
                 <NewButton title="发送失败,重新发送" style={styles.sendMessBtn} textStyle={styles.sendMessBtnText} onPress={()=>{this.sendMessBtn()}} />
+            )
+        }else if(status == 'networkFail'){
+            return (
+                <NewButton title="网络出错,重新发送" style={styles.sendMessBtn} textStyle={styles.sendMessBtnText} onPress={()=>{this.sendMessBtn()}} />
             )
         }else{
             return (
