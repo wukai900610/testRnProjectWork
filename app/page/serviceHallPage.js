@@ -49,7 +49,7 @@ class serviceHallPage extends React.Component {
     _goToPage(detailItem){
         const { navigation } = this.props;
 
-        navigation.navigate("serviceHallPageList",detailItem);
+        navigation.navigate("ServiceHallPageList",detailItem);
     }
 
     renderNavLevel(data){

@@ -18,22 +18,22 @@ class AboutPage extends React.Component {
             viewList:[
                 {
                     name:'我的收藏',
-                    type:'favtory',
+                    type:'Favtory',
                     ico:''
                 },
                 {
                     name:'我的代办',
-                    type:'agentMission',
+                    type:'AgentMission',
                     ico:''
                 },
                 {
                     name:'我的认证',
-                    type:'certification',
+                    type:'Certification',
                     ico:''
                 },
                 {
                     name:'修改密码',
-                    type:'modifyPass',
+                    type:'ModifyPass',
                     ico:''
                 }
             ]
@@ -42,9 +42,8 @@ class AboutPage extends React.Component {
 
     _goToPage(item){
         let { navigation } = this.props;
-        if(item.type == 'modifyPass'){
-            navigation.navigate("ModifyPass");
-        }
+
+        navigation.navigate(item.type,item);
     }
 
     renderViewList(){

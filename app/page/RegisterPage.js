@@ -40,90 +40,118 @@ class RegisterPage extends React.Component {
         });
     };
 
-    // login(){
-    //     let _this = this
-    //     let { navigation } = _this.props
-    //     let payload = {
-    //         username:this.username.state.text,
-    //         password:this.password.state.text,
-    //     }
-    //
-    //     if(!(payload.username && payload.password)){
-    //         _this.setState({
-    //             showAlert:{
-    //                 show:true,
-    //                 message:'请输入用户名或密码'
-    //             }
-    //         })
-    //
-    //         return false
-    //     }
-    //
-    //     // 显示加载器
-    //     _this.setState({
-    //         showLoad:true,
-    //         loginSuccess:false
-    //     })
-    //
-    //     Util.ajax.get(Util.api.userLogin, {params: payload}).then((response) => {
-    //         setTimeout(()=>{
-    //             _this.setState({
-    //                 showLoad:false,
-    //             })
-    //         },300)
-    //
-    //         if(response.status==200){
-    //             if(response.data.resultObj.code == 1000){
-    //                 setTimeout(()=>{
-    //                     _this.setState({
-    //                         loginSuccess:true,
-    //                         showAlert:{
-    //                             show:true,
-    //                             message:'登陆成功'
-    //                         }
-    //                     })
-    //                 },600)
-    //
-    //                 STORAGE.save({
-    //                     key:'frontUser',
-    //                     data:response.data.frontUser
-    //                 })
-    //             }else{
-    //                 setTimeout(()=>{
-    //                     _this.setState({
-    //                         showAlert:{
-    //                             show:true,
-    //                             message:response.data.resultObj.mess
-    //                         }
-    //                     })
-    //                 },600)
-    //             }
-    //         }else{
-    //             setTimeout(()=>{
-    //                 _this.setState({
-    //                     showAlert:{
-    //                         show:true,
-    //                         message:'登陆失败'
-    //                     }
-    //                 })
-    //             },600)
-    //         }
-    //     }).catch((err) => {
-    //         setTimeout(()=>{
-    //             _this.setState({
-    //                 showLoad:false,
-    //             })
-    //         },300)
-    //         setTimeout(()=>{
-    //             _this.setState({
-    //                 showAlert:{
-    //                     show:true,
-    //                     message:'请检查网络'
-    //                 }
-    //             })
-    //         },600)
-    //     });
-    // }
+    register(){
+        let _this = this
+        let { navigation } = _this.props
+        let payload
+
+        if(_this.state.type.value == 'fr'){
+            payload = {
+                username:_this.username.state.text,
+                password:_this.state.password1.text,
+                realname:_this.realname.state.text,
+                idcard:_this.idcard.state.text,
+                phone:_this.phone.state.text,
+                type:_this.state.type.value,
+
+                // zrrPicFront:_this.state.zrrPicFront,
+                // zrrPicBack:_this.state.zrrPicBack,
+                // frPicOrg:_this.state.frPicOrg,
+                // frPicCopy:_this.state.frPicCopy,
+                wtqy:_this.wtqy.state.text
+            }
+        }else{
+            payload = {
+                username:_this.username.state.text,
+                password:_this.state.password1.text,
+                realname:_this.realname.state.text,
+                idcard:_this.idcard.state.text,
+                phone:_this.phone.state.text,
+                type:_this.state.type.value,
+
+                // zrrPicFront:_this.state.zrrPicFront,
+                // zrrPicBack:_this.state.zrrPicBack,
+            }
+        }
+
+        console.log(payload);
+
+        // if(!(payload.username && payload.password)){
+        //     _this.setState({
+        //         showAlert:{
+        //             show:true,
+        //             message:'请输入用户名或密码'
+        //         }
+        //     })
+        //
+        //     return false
+        // }
+
+        // 显示加载器
+        // _this.setState({
+        //     showLoad:true,
+        //     loginSuccess:false
+        // })
+        //
+        // Util.ajax.get(Util.api.userLogin, {params: payload}).then((response) => {
+        //     setTimeout(()=>{
+        //         _this.setState({
+        //             showLoad:false,
+        //         })
+        //     },300)
+        //
+        //     if(response.status==200){
+        //         if(response.data.resultObj.code == 1000){
+        //             setTimeout(()=>{
+        //                 _this.setState({
+        //                     loginSuccess:true,
+        //                     showAlert:{
+        //                         show:true,
+        //                         message:'登陆成功'
+        //                     }
+        //                 })
+        //             },600)
+        //
+        //             STORAGE.save({
+        //                 key:'frontUser',
+        //                 data:response.data.frontUser
+        //             })
+        //         }else{
+        //             setTimeout(()=>{
+        //                 _this.setState({
+        //                     showAlert:{
+        //                         show:true,
+        //                         message:response.data.resultObj.mess
+        //                     }
+        //                 })
+        //             },600)
+        //         }
+        //     }else{
+        //         setTimeout(()=>{
+        //             _this.setState({
+        //                 showAlert:{
+        //                     show:true,
+        //                     message:'登陆失败'
+        //                 }
+        //             })
+        //         },600)
+        //     }
+        // }).catch((err) => {
+        //     setTimeout(()=>{
+        //         _this.setState({
+        //             showLoad:false,
+        //         })
+        //     },300)
+        //     setTimeout(()=>{
+        //         _this.setState({
+        //             showAlert:{
+        //                 show:true,
+        //                 message:'请检查网络'
+        //             }
+        //         })
+        //     },600)
+        // });
+    }
 
     renderType(){
         if(this.state.type.value == 'fr'){
@@ -209,7 +237,7 @@ class RegisterPage extends React.Component {
 
                     </View>
 
-                    <NewButton title="注册" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{}} />
+                    <NewButton title="注册" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{this.register()}} />
                 </View>
 
                 <AwesomeAlert

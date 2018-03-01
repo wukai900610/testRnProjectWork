@@ -148,10 +148,10 @@ class FindPassPage extends React.Component {
             <View style={{flex:1}}>
                 <View style={styles.FindPassPage}>
                     <View style={styles.FindPassInputBox}>
-                        <View style={styles.FindPassLabel}>
+                        <View style={styles.Label}>
                             <NewInput inputChange={this._inputChange} placeholder="帐号" style={styles.TextInput} />
                         </View>
-                        <View style={styles.FindPassLabel}>
+                        <View style={styles.Label}>
                             <SendMessWithInput outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>
                         </View>
                     </View>
@@ -207,7 +207,7 @@ const styles = {
     FindPassInputBox: {
         marginBottom:20,
     },
-    FindPassLabel: {
+    Label: {
         flexDirection: 'row',
     },
     TextInput: {
