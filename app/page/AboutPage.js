@@ -2,7 +2,9 @@ import React from 'react';
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
+    PixelRatio
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,22 +22,22 @@ class AboutPage extends React.Component {
                 // {
                 //     name:'我的收藏',
                 //     type:'Favtory',
-                //     ico:''
+                //     ico:require('./images/favtory.png')
                 // },
                 {
                     name:'我的代办',
                     type:'AgentMission',
-                    ico:''
+                    ico:require('../images/agentMission.png')
                 },
                 {
                     name:'我的认证',
                     type:'Certification',
-                    ico:''
+                    ico:require('../images/certification.png')
                 },
                 {
                     name:'修改密码',
                     type:'ModifyPass',
-                    ico:''
+                    ico:require('../images/modifyPass.png')
                 }
             ],
             frontUser:{
@@ -82,7 +84,7 @@ class AboutPage extends React.Component {
                         this._goToPage(item)
                     }}>
                         <View style={{flexDirection:'row',alignItems: 'center',}}>
-                            <Ionicons style={{marginRight:10}} name='ios-search' size={20}/>
+                            <Image source={item.ico} style={styles.viewListItemIco} />
                             <Text style={{fontSize:16}}>{item.name}</Text>
                         </View>
                         <Ionicons name='ios-arrow-forward' color="#999" size={26}/>
@@ -95,7 +97,7 @@ class AboutPage extends React.Component {
                 arr.push(
                     <TouchableOpacity style={styles.viewListItem} key={index}>
                         <View style={{flexDirection:'row',alignItems: 'center',}}>
-                            <Ionicons style={{marginRight:10}} name='ios-search' size={20}/>
+                            <Image source={item.ico} style={styles.viewListItemIco} />
                             <Text style={{fontSize:16}}>{item.name}</Text>
                         </View>
                         <Ionicons name='ios-arrow-forward' color="#999" size={26}/>
@@ -186,6 +188,11 @@ const styles = {
         borderBottomWidth:0.5,
         borderColor:'#ccc',
         // backgroundColor:'#ddd'
+    },
+    viewListItemIco:{
+        marginRight:5,
+        width:44 / PixelRatio.get(),
+        height: 44 / PixelRatio.get()
     },
     LoginOutBtn: {
         marginTop: 10,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View,Platform} from 'react-native';
 
 import NewButton from '../components/NewButton';
 import NewInput from '../components/NewInput';
@@ -30,8 +30,10 @@ const styles = {
     },
     NewInput: {
         marginRight:10,
+        height:(Platform.OS === 'ios') ? 30 : 42,
     },
     searchBtn: {
+        height:(Platform.OS === 'ios') ? null : 42,
         backgroundColor:'#2795ee'
     },
     searchBtnText: {

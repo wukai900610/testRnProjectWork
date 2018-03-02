@@ -87,6 +87,24 @@ const RootTabs = TabNavigator({
 },{
     // lazy:false,
     // initialRouteName:'HomePage'
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+        // style: {
+        //     height:49
+        // },
+        // 安卓
+        showIcon:true,
+        activeTintColor:'#008ff2',
+        inactiveTintColor:'#999',
+        indicatorStyle:{
+            height:0
+        },
+        style:{
+            backgroundColor:'#f7f7f7'
+        }
+        // inactiveBackgroundColor:'#f00',
+        // activeBackgroundColor:'#fff',
+    }
 });
 
 const AppNavigator = StackNavigator({
