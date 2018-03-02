@@ -27,7 +27,7 @@ class newButton extends React.PureComponent {
 
     render() {
         return (
-            <TouchableOpacity style={[styles.button,this.props.style]} onPress={this.props.onPress}>
+            <TouchableOpacity {...this.props} style={[styles.button,this.props.style]} onPress={this.props.onPress}>
                 {this.rendTitle()}
             </TouchableOpacity>
         );

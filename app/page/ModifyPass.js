@@ -20,10 +20,7 @@ class ModifyPass extends React.Component {
                 message:''
             },
             ModifyPassSuccess:false,
-            frontUser:{
-                name:'法人',
-                phone:'15252127367'
-            },
+            frontUser:{},
             password:{},
             password1:{}
         }
@@ -55,7 +52,7 @@ class ModifyPass extends React.Component {
         let _this = this;
 
         let payload = {
-            username:this.state.frontUser.name,
+            username:this.state.frontUser.username,
             phone:this.state.frontUser.phone,
             authCode:this.authCode.newInput.state.text,
             password:this.state.password1.text,
@@ -134,6 +131,24 @@ class ModifyPass extends React.Component {
         });
     }
 
+    componentWillMount(){
+        STORAGE.load({
+            key:'frontUser',
+        }).then(ret => {
+            this.setState({
+                frontUser:ret
+            })
+        })
+    }
+
+    renderUserName(outLinkData){
+        if(this.state.frontUser.phone){
+            return (
+                <NewInput editable={false} showClearTextBtn={false} defaultText={this.state.frontUser.phone} placeholder="手机号" style={styles.TextInput} />
+            )
+        }
+    }
+
     componentDidMount(){
         _that=this;
     }
@@ -143,7 +158,7 @@ class ModifyPass extends React.Component {
         const {showAlert,showLoad} = this.state;
 
         let outLinkData={
-            username:this.state.frontUser.name,
+            username:this.state.frontUser.username,
             tipText:''
         }
 
@@ -152,7 +167,9 @@ class ModifyPass extends React.Component {
                 <View style={styles.ModifyPass}>
                     <View style={styles.ModifyPassInputBox}>
                         <View style={styles.ModifyPassLabel}>
-                            <NewInput editable={false} showClearTextBtn={false} defaultText={this.state.frontUser.phone} placeholder="手机号" style={styles.TextInput} />
+                            {
+                                this.renderUserName(outLinkData)
+                            }
                         </View>
                         <View style={styles.ModifyPassLabel}>
                             <SendMessWithInput outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>

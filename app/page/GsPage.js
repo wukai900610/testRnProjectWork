@@ -111,6 +111,7 @@ class GsPage extends React.Component {
 
     render() {
         let {navLevel1,navLevel2,navLevel3} = this.state;
+        
         return (
             <ScrollView style={styles.GsPage}>
                 <View style={styles.navLevelBox}>

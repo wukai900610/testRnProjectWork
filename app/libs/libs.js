@@ -69,7 +69,7 @@ util.api = {
     qyhcInfo:util.domain+'/frontUser/qyhcInfo.jspx',//信用报告 法人
     grhcInfo:util.domain+'/frontUser/grhcInfo.jspx',//信用报告 自然人
     frzbList:util.domain+'/frontUser/frzbList.jspx',//直报 法人
-    // zrrzbList:util.domain+'/frontUser/zrrzbList.jspx',//直报 自然人
+    zrrzbList:util.domain+'/frontUser/zrrzbList.jspx',//直报 自然人
     sxjbList:util.domain+'/frontUser/sxjbList.jspx',//举报信箱
     // taskList:util.domain+'/frontUser/taskList.jspx?backUserName=admin',//我的审批 backUserName  page   rows
     // taskHistoryComment:util.domain+'/frontUser/taskHistoryComment.jspx?procId=590046',//自助查询 自然人
@@ -80,26 +80,24 @@ util.api = {
 }
 
 util.checkLogin = function (navigation) {
-    // let { navigation } = _this.props
-    navigation.navigate('LoginPage')
-    //
-    return false;
-
+    // console.log(navigation);
     STORAGE.load({
         key:'frontUser'
     }).then(ret => {
-        util.ajax.post(util.api.checkLogin, {params: {
-            username:ret.username,
-            password:ret.password,
-            authCode:ret.authCode
-        }}).then((response) => {
-            if(response.data.resultObj.code !== 1000){
-                navigation.navigate('LoginPage')
-            }
-        }).catch((err) => {
-            navigation.navigate('LoginPage')
-            console.log(err);
-        });
+        // console.log(ret);
+        // util.ajax.post(util.api.checkLogin, {params: {
+        //     username:ret.username,
+        //     password:ret.password,
+        //     authCode:ret.authCode
+        // }}).then((response) => {
+        //     if(response.data.resultObj.code !== 1000){
+        //         navigation.navigate('LoginPage')
+        //     }
+        // }).catch((err) => {
+        //     navigation.navigate('LoginPage')
+        // });
+    }).catch((e)=>{
+        navigation.navigate('LoginPage',{from:'ServiceHallPage'})
     })
 }
 

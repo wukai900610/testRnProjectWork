@@ -14,37 +14,83 @@ class serviceHallPageList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:[],
-            status:''
+            data:{
+                rows:[]
+            },
+            status:'',
+            frontUser:{},
+            payload:{
+                pageSize:10,
+                pageNo:1
+            }
         };
     }
 
-    _fetchData(){
-        let payload = {
-            userIdcard:'342224199011200490',
-            pageSize:12,
-            pageNo:1
-        }
-
-        this.setState({
-            status:'listLoadingHead'
-        })
+    _fetchData(status,payload){
+        let params;
 
         let {navigation} = this.props;
+        let {frontUser,data} = this.state;
         let url;
         if(navigation.state.params.type == 'xybg'){
-            url = Util.api.qyhcInfo;
+            url = frontUser.type == 'F' ? Util.api.qyhcInfo : Util.api.grhcInfo;
+            params = {
+                idcard:frontUser.idcard,
+                pageSize:payload.pageSize,
+                pageNo:payload.pageNo
+            }
         }else if(navigation.state.params.type == 'qyzb'){
-            url = Util.api.frzbList;
+            url = frontUser.type == 'F' ? Util.api.frzbList : Util.api.zrrzbList;
+            params = {
+                userIdcard:frontUser.idcard,
+                pageSize:payload.pageSize,
+                pageNo:payload.pageNo
+            }
         }else if(navigation.state.params.type == 'jbxx'){
             url = Util.api.sxjbList;
+            params = {
+                userIdcard:frontUser.idcard,
+                pageSize:payload.pageSize,
+                pageNo:payload.pageNo
+            }
         }
-        Util.ajax.get(url, {params: payload}).then((response) => {
+
+        Util.ajax.get(url, {params: params}).then((response) => {
             if(response.data.resultObj.code == 1000){
-                this.setState({
-                    data:response.data.data ? response.data.data : response.data.application,
-                    status:''
-                })
+                let sourceData = response.data.data ? response.data.data : response.data.application;
+
+                if(sourceData.rows.length == 0){
+                    this.setState({
+                        status:'noData'
+                    })
+                }else{
+                    if(status == 'listLoadingHead'){
+                        this.setState({
+                            data:sourceData,
+                            status:''
+                        })
+                    }else if(status == 'listLoadingFoot'){
+                        let oldData = data;
+                        let tempData = data;
+
+                        // if(sourceData.rows.length < payload.pageSize){
+                        //     this.setState({
+                        //         status:'noData'
+                        //     })
+                        // }else{
+                        //     newData.rows = oldData.rows.concat(sourceData.rows);
+                        //     this.setState({
+                        //         data:newData,
+                        //         status:''
+                        //     })
+                        // }
+                        tempData.rows = oldData.rows.concat(sourceData.rows);
+                        this.setState({
+                            data:tempData,
+                            status:''
+                        })
+                    }
+                }
             }
         }).catch((err) => {
             this.setState({
@@ -53,8 +99,45 @@ class serviceHallPageList extends React.Component {
         });
     }
 
+    _headRefresh(){
+        let status = 'listLoadingHead';
+        this.setState({
+            status:status,
+            payload:{
+                pageSize:10,
+                pageNo:1
+            }
+        })
+
+        this._fetchData(status,this.state.payload)
+    }
+
+    _footRefresh(){
+        let {payload} = this.state;
+        let newPayload = payload
+        let status = 'listLoadingFoot';
+
+        newPayload.pageNo = newPayload.pageNo + 1
+
+        this.setState({
+            status:status,
+            payload:newPayload
+        })
+
+        this._fetchData(status,newPayload)
+    }
+
     componentDidMount(){
-        this._fetchData()
+        STORAGE.load({
+            key:'frontUser',
+        }).then(ret => {
+            this.setState({
+                isLogin:true,
+                frontUser:ret
+            },()=>{
+                this._headRefresh()
+            })
+        })
     }
 
     renderTdHead(){
@@ -210,8 +293,8 @@ class serviceHallPageList extends React.Component {
                     ItemSeparatorComponent={() => <View style={{height:1,backgroundColor:'#f1f1f1'}}></View>}
                     renderItem={this.renderItem}
                     refreshState={refreshState}
-                    onHeaderRefresh={()=>{this._fetchData()}}
-                    // onFooterRefresh={this._footRefresh}
+                    onHeaderRefresh={()=>{this._headRefresh()}}
+                    onFooterRefresh={()=>{this._footRefresh()}}
 
                     getItemLayout={(data, index) => (
                         //优化

@@ -88,10 +88,25 @@ class NewInput extends React.Component {
     }
 
     _clearText(){
-        this.setState({
-            text:'',
-            status:'fail'
-        });
+        let {rule} = this.props;
+        if(rule !==undefined){
+            if(rule.required){
+                this.setState({
+                    text:'',
+                    status:'fail'
+                });
+            }else{
+                this.setState({
+                    text:'',
+                    status:''
+                });
+            }
+        }else{
+            this.setState({
+                text:'',
+                status:''
+            });
+        }
 
         if(this.props.inputChange != undefined){
             this.props.inputChange({
