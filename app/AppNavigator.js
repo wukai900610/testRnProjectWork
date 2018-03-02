@@ -1,6 +1,12 @@
 import React from 'react';
+import {
+    TouchableOpacity,
+    Image,
+    PixelRatio
+} from 'react-native';
 import {TabNavigator,StackNavigator} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import NewButton from './components/NewButton';
 
 import SearchPage from './page/SearchPage';
 import HomePage from './page/HomePage';
@@ -8,7 +14,8 @@ import GsPage from './page/GsPage';
 import GsListPage from './page/GsListPage';
 import HhbListPageWithTabBar from './page/HhbListPageWithTabBar';
 import GsDetailPage from './page/GsDetailPage';
-import serviceHallPage from './page/serviceHallPage';
+import ServiceHallPage from './page/ServiceHallPage';
+import ServiceHallPageList from './page/ServiceHallPageList';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
 import ListPageWithTabBar from './page/ListPageWithTabBar';
@@ -16,6 +23,8 @@ import NewsDetailPage from './page/NewsDetailPage';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/RegisterPage';
 import FindPassPage from './page/FindPassPage';
+import Certification from './page/Certification';
+import ModifyPass from './page/ModifyPass';
 
 import Util from './libs/libs';
 
@@ -25,11 +34,16 @@ const RootTabs = TabNavigator({
         navigationOptions: {
             tabBarLabel: '主页',
             header: null,
-            tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
-                ? 'ios-home'
-                : 'ios-home-outline'} size={26} style={{
-                color: tintColor
-            }}/>)
+            // tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
+            //     ? 'ios-home'
+            //     : 'ios-home-outline'} size={26} style={{
+            //     color: tintColor
+            // }}/>)
+            tabBarIcon: ({tintColor, focused}) => {
+                return (
+                    <Image source={focused ? require('./images/home.png') : require('./images/home-outline.png')} style={styles.tabIco} />
+                )
+            }
         }
     },
     GsPage: {
@@ -38,23 +52,24 @@ const RootTabs = TabNavigator({
             tabBarLabel: '信用公示',
             headerTitle: '信用公示',
             headerBackTitle:null,
-            tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
-                ? 'ios-person'
-                : 'ios-person-outline'} size={26} style={{
-                color: tintColor
-            }}/>)
+            headerLeft:null,
+            tabBarIcon: ({tintColor, focused}) => {
+                return (
+                    <Image source={focused ? require('./images/xygs.png') : require('./images/xygs-outline.png')} style={styles.tabIco} />
+                )
+            }
         }
     },
-    serviceHallPage: {
-        screen: serviceHallPage,
+    ServiceHallPage: {
+        screen: ServiceHallPage,
         navigationOptions: {
             tabBarLabel: '服务大厅',
             headerTitle: '服务大厅',
-            tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
-                ? 'ios-person'
-                : 'ios-person-outline'} size={26} style={{
-                color: tintColor
-            }}/>)
+            tabBarIcon: ({tintColor, focused}) => {
+                return (
+                    <Image source={focused ? require('./images/serviceHall.png') : require('./images/serviceHall-outline.png')} style={styles.tabIco} />
+                )
+            }
         }
     },
     AboutPage: {
@@ -62,11 +77,11 @@ const RootTabs = TabNavigator({
         navigationOptions: {
             tabBarLabel: '我的',
             header: null,
-            tabBarIcon: ({tintColor, focused}) => (<Ionicons name={focused
-                ? 'ios-person'
-                : 'ios-person-outline'} size={26} style={{
-                color: tintColor
-            }}/>)
+            tabBarIcon: ({tintColor, focused}) => {
+                return (
+                    <Image source={focused ? require('./images/about.png') : require('./images/about-outline.png')} style={styles.tabIco} />
+                )
+            }
         }
     }
 },{
@@ -132,9 +147,27 @@ const AppNavigator = StackNavigator({
     },
     LoginPage: {
         screen: LoginPage,
-        navigationOptions: {
-            title: '登陆',
-            headerBackTitle:null,
+        navigationOptions: ({navigation,screenProps}) => {
+            if(navigation.state.params){
+                if(navigation.state.params.from == 'ServiceHallPage'){
+                    return {
+                        title: '登陆',
+                        headerBackTitle:null,
+                        headerLeft:function () {
+                            return (
+                                <TouchableOpacity style={{marginLeft:10}} onPress={()=>{navigation.navigate('AboutPage');}}>
+                                    <Ionicons name='ios-arrow-back-outline' color="#0e6aff" size={33}/>
+                                </TouchableOpacity>
+                            )
+                        }
+                    }
+                }
+            }else{
+                return {
+                    title: '登陆',
+                    headerBackTitle:null
+                }
+            }
         }
     },
     RegisterPage: {
@@ -147,20 +180,58 @@ const AppNavigator = StackNavigator({
     FindPassPage: {
         screen: FindPassPage,
         navigationOptions: {
-            title: '找回密码',
+            title: '重置密码',
             headerBackTitle:null,
         }
-    }
+    },
+    Certification: {
+        screen: Certification,
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.title,
+                headerBackTitle:null,
+            }
+        }
+    },
+    ModifyPass: {
+        screen: ModifyPass,
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.name,
+                headerBackTitle:null,
+            }
+        }
+    },
+    ServiceHallPageList: {
+        screen: ServiceHallPageList,
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.name,
+                headerBackTitle:null,
+            }
+        }
+    },
 },{
-    initialRouteName:'FindPassPage',
+    initialRouteName:'RootTabs',
     onTransitionStart: (current,prev)=>{
         let index = current.scene.route.index;
+
+        STORAGE.load({
+        	key: 'frontUser'
+        }).then(ret => {
+            console.log(ret);
+        }).catch((e)=>{
+            console.log(e);
+        });
+        // console.log(current.navigation);
         // console.log(current);
         // console.log(current.scene.route.routeName);
         // console.log(current.scene.route.routes[index].routeName);
 
         if(current.scene.route.routeName == 'RootTabs'){
-            if(current.scene.route.routes[index].routeName == 'AboutPage'){
+            if(current.scene.route.routes[index].routeName == 'ServiceHallPage'){
+                Util.checkLogin(current.navigation)
+            }else if(current.scene.route.routes[index].routeName == 'AboutPage'){
                 // Util.checkLogin(current.navigation)
             }
         }
@@ -169,5 +240,12 @@ const AppNavigator = StackNavigator({
     //     console.log('导航栏切换结束');
     // }
 });
+
+const styles = {
+    tabIco:{
+        width:48 / PixelRatio.get(),
+        height: 48 / PixelRatio.get()
+    }
+}
 
 export default AppNavigator;

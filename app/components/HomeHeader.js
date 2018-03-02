@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {View, Text, TouchableOpacity, Image, PixelRatio} from 'react-native';
 
 class Header extends React.PureComponent {
     constructor(props) {
@@ -16,7 +15,7 @@ class Header extends React.PureComponent {
             <View style={styles.header}>
                 <Text style={styles.headerText}>金电智诚</Text>
                 <TouchableOpacity style={styles.searchBox} onPress={this._goToPage.bind(this)}>
-                    <Ionicons style={styles.searchBtn} name='ios-search' size={26}/>
+                    <Image source={require('../images/search.png')} style={{width:44 / PixelRatio.get(),height: 44 / PixelRatio.get()}} />
                 </TouchableOpacity>
             </View>
         );

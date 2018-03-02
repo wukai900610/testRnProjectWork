@@ -2,7 +2,9 @@ import React from 'react';
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
+    PixelRatio
 } from 'react-native';
 
 class HomeNav extends React.PureComponent {
@@ -13,6 +15,7 @@ class HomeNav extends React.PureComponent {
             homeNavList:[{
                 name:'信用动态',
                 channelId:94,
+                ico:require('../images/homeNavIco1.png'),
                 hasChild:true,
                 child:[
                     {
@@ -31,6 +34,7 @@ class HomeNav extends React.PureComponent {
             },{
                 name:'政策法规',
                 channelId:95,
+                ico:require('../images/homeNavIco2.png'),
                 hasChild:true,
                 child:[
                     {
@@ -49,6 +53,7 @@ class HomeNav extends React.PureComponent {
             },{
                 name:'信用论丛',
                 channelId:96,
+                ico:require('../images/homeNavIco3.png'),
                 hasChild:true,
                 child:[
                     {
@@ -71,14 +76,17 @@ class HomeNav extends React.PureComponent {
             },{
                 name:'新闻动态',
                 channelId:135,
+                ico:require('../images/homeNavIco4.png'),
                 hasChild:false,
             },{
                 name:'通知公告',
                 channelId:136,
+                ico:require('../images/homeNavIco5.png'),
                 hasChild:false,
             },{
                 name:'信用报告',
                 channelId:149,
+                ico:require('../images/homeNavIco6.png'),
                 hasChild:false,
             }]
         };
@@ -104,6 +112,7 @@ class HomeNav extends React.PureComponent {
                 for(let i = index;i<=end;i++){
                     arrItem.push(
                         <TouchableOpacity key={i} style={styles.homeNavItem} onPress={()=>{this._goToPage(this.state.homeNavList[i])}}>
+                            <Image source={this.state.homeNavList[i].ico} style={styles.homeNavItemIco} />
                             <Text>{this.state.homeNavList[i].name}</Text>
                         </TouchableOpacity>
                     )
@@ -147,7 +156,11 @@ const styles = {
         // marginLeft: 10,
         // marginRight: 10,
         width: 70,
-        height: 70,
-        backgroundColor: '#f1f1f1'
+        height: 70
     },
+    homeNavItemIco:{
+        marginBottom:10,
+        width:87 / PixelRatio.get(),
+        height: 80 / PixelRatio.get()
+    }
 }
