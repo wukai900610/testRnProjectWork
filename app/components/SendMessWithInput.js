@@ -22,12 +22,10 @@ class SendMessWithInput extends React.Component {
 
     sendMessBtn(){
         let _this = this;
-        let {outLinkData} = this.props;
-        let payload = {
-            username:outLinkData.username,
-        }
+        let {outLinkData,ajaxUrl} = this.props;
+        let key = outLinkData.key;
 
-        if(payload.username == '' || payload.username == undefined){
+        if(outLinkData.params[key] == '' || outLinkData.params[key] == undefined){
             Alert.alert(
                 '提示',
                 outLinkData.tipText,
@@ -46,7 +44,7 @@ class SendMessWithInput extends React.Component {
         })
 
         setTimeout(function () {
-            Util.ajax.get(Util.api.authCode, {params: payload}).then((response) => {
+            Util.ajax.get(_this.props.ajaxUrl, {params: outLinkData.params}).then((response) => {
                 if(response.status==200){
                     if(response.data.resultObj.code == 1000){
                         _this.setState({

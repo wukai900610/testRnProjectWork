@@ -141,7 +141,7 @@ class ModifyPass extends React.Component {
         })
     }
 
-    renderUserName(outLinkData){
+    renderUserName(){
         if(this.state.frontUser.phone){
             return (
                 <NewInput editable={false} showClearTextBtn={false} defaultText={this.state.frontUser.phone} placeholder="手机号" style={styles.TextInput} />
@@ -158,7 +158,10 @@ class ModifyPass extends React.Component {
         const {showAlert,showLoad} = this.state;
 
         let outLinkData={
-            username:this.state.frontUser.username,
+            params:{
+                username:this.state.frontUser.username,
+            },
+            key:'username',
             tipText:''
         }
 
@@ -168,11 +171,11 @@ class ModifyPass extends React.Component {
                     <View style={styles.ModifyPassInputBox}>
                         <View style={styles.ModifyPassLabel}>
                             {
-                                this.renderUserName(outLinkData)
+                                this.renderUserName()
                             }
                         </View>
                         <View style={styles.ModifyPassLabel}>
-                            <SendMessWithInput outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>
+                            <SendMessWithInput ajaxUrl={Util.api.authCode} outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>
                         </View>
                         <View style={styles.ModifyPassLabel}>
                             <NewInput rule={{test:"s6-20"}} placeholder="新密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._passwordChange} />

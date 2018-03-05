@@ -71,12 +71,16 @@ util.api = {
     frzbList:util.domain+'/frontUser/frzbList.jspx',//直报 法人
     zrrzbList:util.domain+'/frontUser/zrrzbList.jspx',//直报 自然人
     sxjbList:util.domain+'/frontUser/sxjbList.jspx',//举报信箱
-    // taskList:util.domain+'/frontUser/taskList.jspx?backUserName=admin',//我的审批 backUserName  page   rows
-    // taskHistoryComment:util.domain+'/frontUser/taskHistoryComment.jspx?procId=590046',//自助查询 自然人
 
-    bindingAuthen:util.domain + '/frontUser/bindingAuthen.jspx',//前台网站用户后台认证绑定接口
-    bindingAuthen:util.domain + '/frontUse/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码
+    bindingAuthenSmsCode:util.domain + '/frontUser/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码 参数： userId   backUserName  backPhone
+    bindingAuthen:util.domain + '/frontUser/bindingAuthen.jspx',//前台用户认证绑定接口 参数：userId ； backUserName  ；backPhone
 
+    taskList:util.domain+'/frontUserTask/taskList.jspx',//前台用户审核列表 参数：backUserName  page  rows
+    // 用户审核相关
+    getOutgoings:util.domain+'/frontUserTask/getOutgoings.jspx',//参数：taskId
+    wflist:util.domain+'/frontUserTask/wflist.jspx',//kys
+    wfowener:util.domain+'/frontUserTask/wfowener.jspx',//recordId
+    examineTask:util.domain+'/frontUserTask/examineTask.jspx',//参数： taskId procId userId paramName paramValue tId comment
 }
 
 util.checkLogin = function (navigation) {

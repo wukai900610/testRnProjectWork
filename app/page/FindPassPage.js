@@ -141,7 +141,10 @@ class FindPassPage extends React.Component {
         const {showAlert,showLoad} = this.state;
 
         let outLinkData={
-            username:this.state.username,
+            params:{
+                username:this.state.username,
+            },
+            key:'username',
             tipText:'请输入帐号'
         }
         return (
@@ -152,7 +155,7 @@ class FindPassPage extends React.Component {
                             <NewInput inputChange={this._inputChange} placeholder="帐号" style={styles.TextInput} />
                         </View>
                         <View style={styles.Label}>
-                            <SendMessWithInput outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>
+                            <SendMessWithInput ajaxUrl={Util.api.authCode} outLinkData={outLinkData} ref={(e) => {this.authCode = e;}}/>
                         </View>
                     </View>
 

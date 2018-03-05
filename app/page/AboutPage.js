@@ -23,11 +23,11 @@ class AboutPage extends React.Component {
                 //     type:'Favtory',
                 //     ico:require('./images/favtory.png')
                 // },
-                {
-                    name:'我的代办',
-                    type:'AgentMission',
-                    ico:require('../images/agentMission.png')
-                },
+                // {
+                //     name:'我的代办',
+                //     type:'AgentMission',
+                //     ico:require('../images/agentMission.png')
+                // },
                 {
                     name:'我的认证',
                     type:'Certification',
