@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, ScrollView, Image, Text} from 'react-native';
 
 import AwesomeAlert from 'react-native-awesome-alerts';
 import NewButton from '../components/NewButton';
 import NewInput from '../components/NewInput';
 import NewPick from '../components/NewPick';
+import ImagePicker from 'react-native-image-crop-picker';
 
 // import Immutable from 'immutable';
 import Util from '../libs/libs';
@@ -20,14 +21,20 @@ class RegisterPage extends React.Component {
                 show:false,
                 message:''
             },
+            pickVisible:false,
             registerSuccess:false,
             type:{
                 name:'法人',
                 value:'fr'
             },
-            pickVisible:false,
             password:{},
-            password1:{}
+            password1:{},
+            choosePicBoxVisible:false,
+            picType:'',
+            zrrPicFront:{},
+            zrrPicBack:{},
+            frPicOrg:{},
+            frPicCopy:{},
         }
     }
 
@@ -54,10 +61,10 @@ class RegisterPage extends React.Component {
                 phone:_this.phone.state.text,
                 type:_this.state.type.value,
 
-                // zrrPicFront:_this.state.zrrPicFront,
-                // zrrPicBack:_this.state.zrrPicBack,
-                // frPicOrg:_this.state.frPicOrg,
-                // frPicCopy:_this.state.frPicCopy,
+                zrrPicFront:_this.state.zrrPicFront.path,
+                zrrPicBack:_this.state.zrrPicBack.path,
+                frPicOrg:_this.state.frPicOrg.path,
+                frPicCopy:_this.state.frPicCopy.path,
                 wtqy:_this.wtqy.state.text
             }
         }else{
@@ -69,8 +76,8 @@ class RegisterPage extends React.Component {
                 phone:_this.phone.state.text,
                 type:_this.state.type.value,
 
-                // zrrPicFront:_this.state.zrrPicFront,
-                // zrrPicBack:_this.state.zrrPicBack,
+                zrrPicFront:_this.state.zrrPicFront.path,
+                zrrPicBack:_this.state.zrrPicBack.path,
             }
         }
 
@@ -156,13 +163,33 @@ class RegisterPage extends React.Component {
     renderType(){
         if(this.state.type.value == 'fr'){
             return (
-                <View style={styles.label}>
+                <View style={{flex:1,marginBottom:10}}>
+                    <View>
+                        <View style={styles.Label}>
+                            <NewButton style={styles.UploadBtn} textStyle={styles.UploadBtnText} title="上传营业执照正本" onPress={()=>{this._choosePicBox('frPicOrg')}} />
+                        </View>
+                        {this.rendTypeImage('frPicOrg')}
+                    </View>
+
+                    <View>
+                        <View style={styles.Label}>
+                            <NewButton style={styles.UploadBtn} textStyle={styles.UploadBtnText} title="上传营业执照副本" onPress={()=>{this._choosePicBox('frPicCopy')}} />
+                        </View>
+                        {this.rendTypeImage('frPicCopy')}
+                    </View>
+
                     <NewInput rule={{test:'*'}} placeholder="委托企业" ref={(e) => {this.wtqy = e;}} style={styles.TextInput} />
                 </View>
             )
-        }else{
+        }
+    }
+
+    rendTypeImage(picType){
+        let pic = this.state[picType]
+        if(pic.path && pic.path != undefined){
             return (
-                <View style={styles.label}>
+                <View style={{marginBottom:10}}>
+                    <Image style={{width:80, height: 80}} source={{uri: pic.path}} />
                 </View>
             )
         }
@@ -184,33 +211,40 @@ class RegisterPage extends React.Component {
         _that=this;
     }
 
+    _choosePicBox(picType){
+        this.setState({
+            picType,
+            choosePicBoxVisible:true
+        })
+    }
+
     render() {
         let { navigation } = this.props;
         const {showAlert,showLoad,type} = this.state;
 
         return (
-            <View style={{flex:1}}>
+            <ScrollView style={{flex:1}}>
                 <View style={styles.RegisterPage}>
                     <View style={styles.LoginInputBox}>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
                         </View>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <NewInput rule={{test:"s6-20"}} placeholder="密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._passwordChange} />
                         </View>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <NewInput rule={{test:"checkPassword",password:this.state.password.text,passwodRule:"s6-20"}} placeholder="确认密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._password1Change} />
                         </View>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <NewInput rule={{test:"z2-4"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />
                         </View>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <NewInput rule={{test:'idCard'}} placeholder="身份证号" ref={(e) => {this.idcard = e;}} style={styles.TextInput} />
                         </View>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <NewInput rule={{test:'phone'}} placeholder="手机号" ref={(e) => {this.phone = e;}} style={styles.TextInput} />
                         </View>
-                        <View style={styles.label}>
+                        <View style={styles.Label}>
                             <View style={{height:50,justifyContent:'center'}}>
                                 <Text style={{paddingLeft:15,color:'#ccc'}}>注册类型</Text>
                             </View>
@@ -219,6 +253,19 @@ class RegisterPage extends React.Component {
                             </View>
                         </View>
 
+                        <View>
+                            <View style={styles.Label}>
+                                <NewButton style={styles.UploadBtn} textStyle={styles.UploadBtnText} title="上传身份证正面照片" onPress={()=>{this._choosePicBox('zrrPicFront')}} />
+                            </View>
+                            {this.rendTypeImage('zrrPicFront')}
+                        </View>
+
+                        <View>
+                            <View style={styles.Label}>
+                                <NewButton style={styles.UploadBtn} textStyle={styles.UploadBtnText} title="上传身份证背面照片" onPress={()=>{this._choosePicBox('zrrPicBack')}} />
+                            </View>
+                            {this.rendTypeImage('zrrPicBack')}
+                        </View>
 
                         {this.renderType()}
 
@@ -235,12 +282,46 @@ class RegisterPage extends React.Component {
                             }}
                          />
 
+                        {/* 选择照片 */}
+                        <NewPick
+                            data={[{'name':'从相册选择',value:'Album'},{'name':'拍照',value:'Camera'}]}
+                            pickVisible={this.state.choosePicBoxVisible}
+                            selected={0}
+                            onCancel={()=>{this.setState({choosePicBoxVisible:false})}}
+                            onConfirm={(selected)=>{
+                                let {picType} = this.state;
+                                if(selected.value == 'Album'){
+                                    ImagePicker.openPicker({
+                                        width: 300,
+                                        height: 400,
+                                        cropping: true
+                                    }).then(image => {
+                                        this.setState({
+                                            [picType]:image,
+                                            choosePicBoxVisible:false,
+                                        })
+                                    });
+                                }else{
+                                    ImagePicker.openCamera({
+                                        width: 300,
+                                        height: 400,
+                                        cropping: true
+                                    }).then(image => {
+                                        this.setState({
+                                            [picType]:image,
+                                            choosePicBoxVisible:false,
+                                        })
+                                    });
+                                }
+                            }}
+                          />
+
                     </View>
 
                     <NewButton title="注册" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{this.register()}} />
                 </View>
 
-                <AwesomeAlert
+                {/* <AwesomeAlert
                     show={showAlert.show}
                     showProgress={false}
                     // title="标题"
@@ -272,8 +353,8 @@ class RegisterPage extends React.Component {
                     // message="哈哈"
                     closeOnTouchOutside={false}
                     closeOnHardwareBackPress={false}
-                />
-            </View>
+                /> */}
+            </ScrollView>
         );
     }
 }
@@ -288,8 +369,9 @@ const styles = {
     LoginInputBox: {
         marginBottom:20,
     },
-    label: {
+    Label: {
         flexDirection: 'row',
+        // marginBottom: 10,
     },
     TextInput: {
         paddingLeft:10,
@@ -298,8 +380,16 @@ const styles = {
         borderColor: '#ccc',
         borderBottomWidth: 1,
     },
+    UploadBtn:{
+        marginBottom:10,
+        // backgroundColor:'#ccc'
+        borderColor:'#2795ee',
+        borderWidth:1
+    },
+    UploadBtnText:{
+        color:'#2795ee'
+    },
     LoginBtn: {
-        marginBottom: 10,
         height: 40,
         backgroundColor: '#2795ee'
     },

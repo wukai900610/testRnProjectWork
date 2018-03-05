@@ -1,0 +1,3 @@
+node_modules/react-native-image-crop-picker/ios/ImageCropPicker.m
+注释 @"Animated" 298行
+注释 @"LongExposure" 299行

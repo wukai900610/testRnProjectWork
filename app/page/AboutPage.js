@@ -9,7 +9,6 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NewButton from '../components/NewButton';
-import ImagePicker from 'react-native-image-crop-picker';
 
 import Util from '../libs/libs';
 
@@ -119,13 +118,6 @@ class AboutPage extends React.Component {
         }).catch((e)=>{
             this._loginOut()
         })
-        // ImagePicker.openPicker({
-        //     width: 300,
-        //     height: 400,
-        //     cropping: true
-        // }).then(image => {
-        //     console.log(' 图片路径：'+ image);
-        // });
     }
 
     _clearFontUser(){

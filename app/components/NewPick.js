@@ -38,6 +38,7 @@ class NewPick extends React.PureComponent {
                         bottom:0,
                         width:'100%',
                         height:200,
+                        backgroundColor:'#fff'
                     }}>
                         <View style={{flexDirection:'row',justifyContent:'space-between',padding:5,backgroundColor:'#efefef'}}>
                             <NewButton title="确定" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onConfirm(selected)}} />
