@@ -24,8 +24,8 @@ class RegisterPage extends React.Component {
             pickVisible:false,
             registerSuccess:false,
             type:{
-                name:'法人',
-                value:'fr'
+                name:'自然人',
+                value:'Z'
             },
             password:{},
             password1:{},
@@ -52,19 +52,23 @@ class RegisterPage extends React.Component {
         let { navigation } = _this.props
         let payload
 
-        if(_this.state.type.value == 'fr'){
+        console.log(_this.state.password);
+        console.log(_this.state.password1);
+
+        return false;
+        if(_this.state.type.value == 'F'){
             payload = {
                 username:_this.username.state.text,
-                password:_this.state.password1.text,
+                password:_this.state.password.text == _this.state.password1.text ? _this.state.password1.text : '',
                 realname:_this.realname.state.text,
                 idcard:_this.idcard.state.text,
                 phone:_this.phone.state.text,
                 type:_this.state.type.value,
 
-                zrrPicFront:_this.state.zrrPicFront.path,
-                zrrPicBack:_this.state.zrrPicBack.path,
-                frPicOrg:_this.state.frPicOrg.path,
-                frPicCopy:_this.state.frPicCopy.path,
+                zrrPicFront:_this.state.zrrPicFront,
+                zrrPicBack:_this.state.zrrPicBack,
+                frPicOrg:_this.state.frPicOrg,
+                frPicCopy:_this.state.frPicCopy,
                 wtqy:_this.wtqy.state.text
             }
         }else{
@@ -76,12 +80,51 @@ class RegisterPage extends React.Component {
                 phone:_this.phone.state.text,
                 type:_this.state.type.value,
 
-                zrrPicFront:_this.state.zrrPicFront.path,
-                zrrPicBack:_this.state.zrrPicBack.path,
+                zrrPicFront:_this.state.zrrPicFront,
+                zrrPicBack:_this.state.zrrPicBack,
             }
         }
 
-        console.log(payload);
+        //验证表单
+        let checkArr=[];
+        for(let i in payload){
+            let item = payload[i];
+            let obj = {}
+            if(i == 'zrrPicFront' || i == 'zrrPicBack' || i == 'frPicOrg' || i == 'frPicCopy'){
+                if(item.path && item.path != undefined){
+
+                    obj[i] = true
+                    checkArr.push(obj)
+                }else{
+                    obj[i] = false
+                    checkArr.push(obj)
+                }
+            }else{
+                if(item && item != undefined){
+                    obj[i] = true
+                    checkArr.push(obj)
+                }else{
+                    obj[i] = false
+                    checkArr.push(obj)
+                }
+            }
+        }
+
+        console.log(checkArr);
+
+        return false;
+
+        //表单提交
+        let formData = new FormData()
+        for(let i in payload){
+            let item = payload[i];
+
+            if(i == 'zrrPicFront' || i == 'zrrPicBack' || i == 'frPicOrg' || i == 'frPicCopy'){
+                formData.append(i,{uri: item.path, type: 'multipart/form-data', name: item.filename});
+            }else{
+                formData.append(i,item);
+            }
+        }
 
         // if(!(payload.username && payload.password)){
         //     _this.setState({
@@ -95,73 +138,68 @@ class RegisterPage extends React.Component {
         // }
 
         // 显示加载器
-        // _this.setState({
-        //     showLoad:true,
-        //     loginSuccess:false
-        // })
-        //
-        // Util.ajax.get(Util.api.userLogin, {params: payload}).then((response) => {
-        //     setTimeout(()=>{
-        //         _this.setState({
-        //             showLoad:false,
-        //         })
-        //     },300)
-        //
-        //     if(response.status==200){
-        //         if(response.data.resultObj.code == 1000){
-        //             setTimeout(()=>{
-        //                 _this.setState({
-        //                     loginSuccess:true,
-        //                     showAlert:{
-        //                         show:true,
-        //                         message:'登陆成功'
-        //                     }
-        //                 })
-        //             },600)
-        //
-        //             STORAGE.save({
-        //                 key:'frontUser',
-        //                 data:response.data.frontUser
-        //             })
-        //         }else{
-        //             setTimeout(()=>{
-        //                 _this.setState({
-        //                     showAlert:{
-        //                         show:true,
-        //                         message:response.data.resultObj.mess
-        //                     }
-        //                 })
-        //             },600)
-        //         }
-        //     }else{
-        //         setTimeout(()=>{
-        //             _this.setState({
-        //                 showAlert:{
-        //                     show:true,
-        //                     message:'登陆失败'
-        //                 }
-        //             })
-        //         },600)
-        //     }
-        // }).catch((err) => {
-        //     setTimeout(()=>{
-        //         _this.setState({
-        //             showLoad:false,
-        //         })
-        //     },300)
-        //     setTimeout(()=>{
-        //         _this.setState({
-        //             showAlert:{
-        //                 show:true,
-        //                 message:'请检查网络'
-        //             }
-        //         })
-        //     },600)
-        // });
+        _this.setState({
+            showLoad:true,
+            loginSuccess:false
+        })
+
+        Util.ajax.post(Util.api.userRegist, formData).then((response) => {
+            setTimeout(()=>{
+                _this.setState({
+                    showLoad:false,
+                })
+            },300)
+
+            if(response.status==200){
+                if(response.data.resultObj.code == 1000){
+                    setTimeout(()=>{
+                        _this.setState({
+                            loginSuccess:true,
+                            showAlert:{
+                                show:true,
+                                message:'注册成功'
+                            }
+                        })
+                    },600)
+                }else{
+                    setTimeout(()=>{
+                        _this.setState({
+                            showAlert:{
+                                show:true,
+                                message:response.data.resultObj.mess
+                            }
+                        })
+                    },600)
+                }
+            }else{
+                setTimeout(()=>{
+                    _this.setState({
+                        showAlert:{
+                            show:true,
+                            message:'注册失败'
+                        }
+                    })
+                },600)
+            }
+        }).catch((err) => {
+            setTimeout(()=>{
+                _this.setState({
+                    showLoad:false,
+                })
+            },300)
+            setTimeout(()=>{
+                _this.setState({
+                    showAlert:{
+                        show:true,
+                        message:'请检查网络'
+                    }
+                })
+            },600)
+        });
     }
 
     renderType(){
-        if(this.state.type.value == 'fr'){
+        if(this.state.type.value == 'F'){
             return (
                 <View style={{flex:1,marginBottom:10}}>
                     <View>
@@ -223,8 +261,8 @@ class RegisterPage extends React.Component {
         const {showAlert,showLoad,type} = this.state;
 
         return (
-            <ScrollView style={{flex:1}}>
-                <View style={styles.RegisterPage}>
+            <View style={{flex:1}}>
+                <ScrollView style={styles.RegisterPage}>
                     <View style={styles.LoginInputBox}>
                         <View style={styles.Label}>
                             <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
@@ -270,7 +308,7 @@ class RegisterPage extends React.Component {
                         {this.renderType()}
 
                         <NewPick
-                            data={[{'name':'法人',value:'fr'},{'name':'自然人',value:'zrr'}]}
+                            data={[{'name':'法人',value:'F'},{'name':'自然人',value:'Z'}]}
                             pickVisible={this.state.pickVisible}
                             selected={0}
                             onCancel={()=>{this.setState({pickVisible:false})}}
@@ -315,13 +353,12 @@ class RegisterPage extends React.Component {
                                 }
                             }}
                           />
-
                     </View>
 
                     <NewButton title="注册" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{this.register()}} />
-                </View>
+                </ScrollView>
 
-                {/* <AwesomeAlert
+                <AwesomeAlert
                     show={showAlert.show}
                     showProgress={false}
                     // title="标题"
@@ -353,8 +390,8 @@ class RegisterPage extends React.Component {
                     // message="哈哈"
                     closeOnTouchOutside={false}
                     closeOnHardwareBackPress={false}
-                /> */}
-            </ScrollView>
+                />
+            </View>
         );
     }
 }
@@ -362,8 +399,10 @@ export default RegisterPage;
 
 const styles = {
     RegisterPage: {
-        padding:20,
         flex: 1,
+        // paddingBottom:20,
+        paddingLeft:20,
+        paddingRight:20,
         backgroundColor:'#fff'
     },
     LoginInputBox: {
@@ -390,6 +429,7 @@ const styles = {
         color:'#2795ee'
     },
     LoginBtn: {
+        marginBottom:20,
         height: 40,
         backgroundColor: '#2795ee'
     },

@@ -16,6 +16,7 @@ import HhbListPageWithTabBar from './page/HhbListPageWithTabBar';
 import GsDetailPage from './page/GsDetailPage';
 import ServiceHallPage from './page/ServiceHallPage';
 import ServiceHallPageList from './page/ServiceHallPageList';
+import TaskPage from './page/TaskPage';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
 import ListPageWithTabBar from './page/ListPageWithTabBar';
@@ -229,22 +230,19 @@ const AppNavigator = StackNavigator({
             }
         }
     },
+    TaskPage: {
+        screen: TaskPage,
+        navigationOptions: ({navigation,screenProps}) => {
+            return {
+                title: navigation.state.params.name,
+                headerBackTitle:null,
+            }
+        }
+    },
 },{
     initialRouteName:'RootTabs',
     onTransitionStart: (current,prev)=>{
         let index = current.scene.route.index;
-
-        STORAGE.load({
-        	key: 'frontUser'
-        }).then(ret => {
-            console.log(ret);
-        }).catch((e)=>{
-            console.log(e);
-        });
-        // console.log(current.navigation);
-        // console.log(current);
-        // console.log(current.scene.route.routeName);
-        // console.log(current.scene.route.routes[index].routeName);
 
         if(current.scene.route.routeName == 'RootTabs'){
             if(current.scene.route.routes[index].routeName == 'ServiceHallPage'){

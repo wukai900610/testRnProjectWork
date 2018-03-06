@@ -10,7 +10,7 @@ import NewButton from '../components/NewButton';
 
 import Util from '../libs/libs';
 
-class serviceHallPageList extends React.Component {
+class TaskPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,35 +27,17 @@ class serviceHallPageList extends React.Component {
     }
 
     _fetchData(status,payload){
-        let params;
-
-        let {navigation} = this.props;
         let {frontUser,data} = this.state;
-        let url;
-        if(navigation.state.params.type == 'xybg'){
-            url = frontUser.type == 'F' ? Util.api.qyhcInfo : Util.api.grhcInfo;
-            params = {
-                idcard:frontUser.idcard,
-                pageSize:payload.pageSize,
-                pageNo:payload.pageNo
-            }
-        }else if(navigation.state.params.type == 'qyzb'){
-            url = frontUser.type == 'F' ? Util.api.frzbList : Util.api.zrrzbList;
-            params = {
-                userIdcard:frontUser.idcard,
-                pageSize:payload.pageSize,
-                pageNo:payload.pageNo
-            }
-        }else if(navigation.state.params.type == 'jbxx'){
-            url = Util.api.sxjbList;
-            params = {
-                userIdcard:frontUser.idcard,
-                pageSize:payload.pageSize,
-                pageNo:payload.pageNo
-            }
+
+        let params = {
+            backUserName:'keyuan',
+            rows:payload.pageSize,
+            page:payload.pageNo
         }
 
-        Util.ajax.get(url, {params: params}).then((response) => {
+        Util.ajax.get(Util.api.taskList, {params: params}).then((response) => {
+            console.log(params);
+            console.log(response);
             if(response.data.resultObj.code == 1000){
                 let sourceData = response.data.data ? response.data.data : response.data.application;
 
@@ -93,6 +75,7 @@ class serviceHallPageList extends React.Component {
                 }
             }
         }).catch((err) => {
+            console.log(err);
             this.setState({
                 status:'listLoadFail'
             })
@@ -104,8 +87,8 @@ class serviceHallPageList extends React.Component {
         this.setState({
             status:status,
             payload:{
-                pageSize:10,
-                pageNo:1
+                rows:10,
+                page:1
             }
         })
 
@@ -117,7 +100,7 @@ class serviceHallPageList extends React.Component {
         let newPayload = payload
         let status = 'listLoadingFoot';
 
-        newPayload.pageNo = newPayload.pageNo + 1
+        newPayload.page = newPayload.page + 1
 
         this.setState({
             status:status,
@@ -140,25 +123,14 @@ class serviceHallPageList extends React.Component {
     }
 
     renderTdHead(){
-        let {navigation} = this.props;
-        if(navigation.state.params.type == 'xybg'){
-            return(
-                <View style={styles.tr}>
-                    <Text style={styles.tdText}>申请时间</Text>
-                    <Text style={styles.tdText}>经办时间</Text>
-                    <Text style={styles.tdText}>状态</Text>
-                    <Text style={styles.tdText}>下载文件</Text>
-                </View>
-            )
-        }else if(navigation.state.params.type == 'qyzb' || navigation.state.params.type == 'jbxx'){
-            return(
-                <View style={styles.tr}>
-                    <Text style={styles.tdText}>申请时间</Text>
-                    <Text style={styles.tdText}>经办时间</Text>
-                    <Text style={styles.tdText}>状态</Text>
-                </View>
-            )
-        }
+        return(
+            <View style={styles.tr}>
+                <Text style={styles.tdText}>申请时间</Text>
+                <Text style={styles.tdText}>经办时间</Text>
+                <Text style={styles.tdText}>状态</Text>
+                <Text style={styles.tdText}>下载文件</Text>
+            </View>
+        )
     }
 
     renderItem = (info: Object) => {
@@ -281,16 +253,17 @@ class serviceHallPageList extends React.Component {
             refreshState = RefreshState.Idle;
         }
         return (
-            <View style={styles.serviceHallPageList}>
+            <View style={styles.TaskPage}>
                 {this.renderTdHead()}
 
-                <RefreshListView
+                {/* <RefreshListView
                     data={data.rows}
                     keyExtractor={(item: any, index: number) => {
                         return index
                     }}
                     ItemSeparatorComponent={() => <View style={{height:1,backgroundColor:'#f1f1f1'}}></View>}
-                    renderItem={this.renderItem}
+                    // renderItem={this.renderItem}
+                    renderItem={()=>{}}
                     refreshState={refreshState}
                     onHeaderRefresh={()=>{this._headRefresh()}}
                     onFooterRefresh={()=>{this._footRefresh()}}
@@ -304,16 +277,16 @@ class serviceHallPageList extends React.Component {
                     footerRefreshingText= '数据加载中...'
                     footerFailureText = '数据加载失败'
                     footerNoMoreDataText= '-没有数据-'
-                />
+                /> */}
             </View>
         )
     }
 }
 
-export default serviceHallPageList;
+export default TaskPage;
 
 const styles = {
-    serviceHallPageList: {
+    TaskPage: {
         flex:1,
         padding:10,
         backgroundColor:'#fff'

@@ -44,28 +44,20 @@ class NewInput extends React.Component {
             if(rule.test == 'checkPassword'){
                 if(ruleFun[rule.passwodRule](text) && text == this.props.rule.password){
                     status = 'pass'
-                    this.setState({
-                        status:status
-                    })
                 }else{
                     status = 'fail'
-                    this.setState({
-                        status:status
-                    })
                 }
             }else{
                 if(ruleFun[rule.test](text)){
                     status = 'pass'
-                    this.setState({
-                        status:status
-                    })
                 }else{
                     status = 'fail'
-                    this.setState({
-                        status:status
-                    })
                 }
             }
+
+            this.setState({
+                status:status
+            })
 
             //     if(rule.test.test(text)){
             //         status = 'pass'
@@ -129,8 +121,7 @@ class NewInput extends React.Component {
 
     }
 
-    renderIconStatus(){
-        let {status} = this.state;
+    renderIconStatus(status){
         if(status == 'pass'){
             return (
                 <View style={styles.status}>
@@ -173,14 +164,42 @@ class NewInput extends React.Component {
         this._checkRequired();
     }
 
+    // componentWillReceiveProps(nextProps){
+    //     if(this.props.rule.test == 'checkPassword'){
+    //         // console.log('old');
+    //         // console.log('props:'+this.props.rule.password);
+    //         // console.log('state:'+this.state.text);
+    //         // console.log('new');
+    //         // console.log('nextProps:'+nextProps.rule.password);
+    //         // console.log('state:'+this.state.text);
+    //         // console.log('------end--------');
+    //
+    //         let { text } =this.state.text;
+    //         let { rule } = nextProps;
+    //         let status = '';
+    //         if(rule.password){
+    //             if(ruleFun[rule.passwodRule](text) && text == rule.password){
+    //                 status = 'pass'
+    //             }else{
+    //                 status = 'fail'
+    //             }
+    //
+    //             this.setState({
+    //                 status:status
+    //             })
+    //         }
+    //     }
+    // }
+
     render() {
         let {status} = this.state;
+
         return (
             <View style={[styles.newInput,this.props.style,status=='fail'?styles.fail:'']}>
                 <TextInput autoCapitalize="none" {...this.props} style={styles.inputText} value={this.state.text} autoCorrect={false} onChangeText={(text) => {this.setText(text)}} />
 
                 {this.renderClearTextBtn()}
-                {this.renderIconStatus()}
+                {this.renderIconStatus(status)}
             </View>
         );
     }

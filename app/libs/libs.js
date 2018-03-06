@@ -25,7 +25,7 @@ const ajaxUrl = '';
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,
-    timeout: 2000,
+    // timeout: 2000,
     // headers: {'content-type':'application/json;charset=UTF-8'},
     responseType: 'json',
     // transformResponse: [function (data) {

@@ -39,7 +39,7 @@ class serviceHallPage extends React.Component {
             navLevel3:[
                 {
                     title:'我的审批',
-                    type:'111',
+                    type:'task',
                     ico:require('../images/serviceHallPageIco5.png')
                 }
             ]
@@ -49,7 +49,12 @@ class serviceHallPage extends React.Component {
     _goToPage(detailItem){
         const { navigation } = this.props;
 
-        navigation.navigate("ServiceHallPageList",detailItem);
+        if(detailItem.type == 'task'){
+            navigation.navigate("TaskPage",detailItem);
+        }else{
+            navigation.navigate("ServiceHallPageList",detailItem);
+        }
+
     }
 
     renderNavLevel(data){
