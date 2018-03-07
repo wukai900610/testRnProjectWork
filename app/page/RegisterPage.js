@@ -256,18 +256,11 @@ class RegisterPage extends React.Component {
             <View style={{flex:1}}>
                 <ScrollView style={styles.RegisterPage}>
                     <View style={styles.LoginInputBox}>
-                        {/* <View style={styles.Label}>
-                            <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
-                        </View> */}
-                        {/* <View style={styles.Label}>
-                            <NewInput rule={{test:"s6-20"}} placeholder="密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._passwordChange} />
-                        </View>
                         <View style={styles.Label}>
-                            <NewInput rule={{test:"checkPassword",password:this.state.password.text,passwodRule:"s6-20"}} placeholder="确认密码" password1Text={this.state.password1.text} secureTextEntry={true} ref={(e) => {this.password1 = e;}} style={styles.TextInput} />
-                        </View> */}
+                            <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
+                        </View>
 
                         <ValidLabel onPasswordChange={this._passwordChange} labelStyle={styles.Label} textInputStyle={styles.TextInput} />
-
 
                         <View style={styles.Label}>
                             <NewInput rule={{test:"z2-4"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />
