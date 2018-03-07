@@ -22,12 +22,11 @@ import Util from '../libs/libs';
 // showClearTextBtn 是否显示清除按钮
 // inputChange 事件
 // rule 规则
-class NewInput extends React.Component {
+class NewInputPass extends React.Component {
     constructor(props) {
         super(props);
 
         this.state={
-            status:'',
             text:this.props.defaultText ? this.props.defaultText : ''
         }
     }
@@ -38,72 +37,35 @@ class NewInput extends React.Component {
         });
 
         let {rule} = this.props;
-        let status = '';
-        //规则库
-        if(rule){
-            if(rule.test == 'checkPassword'){
-                if(ruleFun[rule.passwodRule](text) && text == this.props.rule.password){
-                    status = 'pass'
-                }else{
-                    status = 'fail'
-                }
-            }else{
-                if(ruleFun[rule.test](text)){
-                    status = 'pass'
-                }else{
-                    status = 'fail'
-                }
-            }
-
-            this.setState({
-                status:status
-            })
-
-            //     if(rule.test.test(text)){
-            //         status = 'pass'
-            //         this.setState({
-            //             status:status
-            //         })
-            //     }else{
-            //         status = 'fail'
-            //         this.setState({
-            //             status:status
-            //         })
-            //     }
-        }
 
         if(this.props.inputChange != undefined){
             this.props.inputChange({
-                text,status
+                text
             })
         }
     }
 
     _clearText(){
         let {rule} = this.props;
-        if(rule !==undefined){
+        if(rule !== undefined){
             if(rule.required){
                 this.setState({
                     text:'',
-                    status:'fail'
                 });
             }else{
                 this.setState({
                     text:'',
-                    status:''
                 });
             }
         }else{
             this.setState({
                 text:'',
-                status:''
             });
         }
 
         if(this.props.inputChange != undefined){
             this.props.inputChange({
                 text:'',
-                status:''
             })
         }
     }
@@ -118,7 +80,6 @@ class NewInput extends React.Component {
                 )
             }
         }
-
     }
 
     renderIconStatus(status){
@@ -138,55 +99,34 @@ class NewInput extends React.Component {
         // }
     }
 
-    _checkRequired(){
-        let {rule} = this.props;
-        let {text} = this.state;
-        let status = '';
-
-        if(rule){
-            if(rule.required){
-                if(text == ''){
-                    status = 'fail'
-                    this.setState({
-                        status:status
-                    })
-                }else{
-                    status = 'pass'
-                    this.setState({
-                        status:status
-                    })
-                }
-            }
-        }
-    }
-
-    componentDidMount(){
-        this._checkRequired();
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(this.props.rule.test == 'checkPassword'){
-            let { rule, password1Text } = nextProps;
-            let status = '';
-            if(rule.password){
-                if(ruleFun[rule.passwodRule](password1Text) && password1Text == rule.password){
-                    status = 'pass'
-                }else{
-                    status = 'fail'
-                }
-
-                console.log(password1Text);
-
-                this.setState({
-                    status:status,
-                    text:password1Text
-                })
-            }
-        }
-    }
+    // _checkRequired(){
+    //     let {rule} = this.props;
+    //     let {text} = this.state;
+    //     let status = '';
+    //
+    //     if(rule){
+    //         if(rule.required){
+    //             if(text == ''){
+    //                 status = 'fail'
+    //                 this.setState({
+    //                     status:status
+    //                 })
+    //             }else{
+    //                 status = 'pass'
+    //                 this.setState({
+    //                     status:status
+    //                 })
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // componentDidMount(){
+    //     this._checkRequired();
+    // }
 
     render() {
-        let {status} = this.state;
+        let {status} = this.props;
 
         return (
             <View style={[styles.newInput,this.props.style,status=='fail'?styles.fail:'']}>
@@ -198,7 +138,7 @@ class NewInput extends React.Component {
         );
     }
 }
-export default NewInput;
+export default NewInputPass;
 
 let ruleFun={
     'email':function (text) {

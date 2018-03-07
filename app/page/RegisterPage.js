@@ -5,6 +5,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import NewButton from '../components/NewButton';
 import NewInput from '../components/NewInput';
 import NewPick from '../components/NewPick';
+import ValidLabel from '../components/ValidLabel';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // import Immutable from 'immutable';
@@ -52,32 +53,28 @@ class RegisterPage extends React.Component {
         let { navigation } = _this.props
         let payload
 
-        console.log(_this.state.password);
-        console.log(_this.state.password1);
-
-        return false;
         if(_this.state.type.value == 'F'){
             payload = {
-                username:_this.username.state.text,
-                password:_this.state.password.text == _this.state.password1.text ? _this.state.password1.text : '',
-                realname:_this.realname.state.text,
-                idcard:_this.idcard.state.text,
-                phone:_this.phone.state.text,
-                type:_this.state.type.value,
+                username:_this.username.state,
+                password:_this.state.password,
+                realname:_this.realname.state,
+                idcard:_this.idcard.state,
+                phone:_this.phone.state,
+                type:_this.state.type,
 
                 zrrPicFront:_this.state.zrrPicFront,
                 zrrPicBack:_this.state.zrrPicBack,
                 frPicOrg:_this.state.frPicOrg,
                 frPicCopy:_this.state.frPicCopy,
-                wtqy:_this.wtqy.state.text
+                wtqy:_this.wtqy.state
             }
         }else{
             payload = {
-                username:_this.username.state.text,
-                password:_this.state.password1.text,
-                realname:_this.realname.state.text,
-                idcard:_this.idcard.state.text,
-                phone:_this.phone.state.text,
+                username:_this.username.state,
+                password:_this.password1.state,
+                realname:_this.realname.state,
+                idcard:_this.idcard.state,
+                phone:_this.phone.state,
                 type:_this.state.type.value,
 
                 zrrPicFront:_this.state.zrrPicFront,
@@ -89,30 +86,42 @@ class RegisterPage extends React.Component {
         let checkArr=[];
         for(let i in payload){
             let item = payload[i];
-            let obj = {}
+            let obj = {
+                name:i
+            }
             if(i == 'zrrPicFront' || i == 'zrrPicBack' || i == 'frPicOrg' || i == 'frPicCopy'){
                 if(item.path && item.path != undefined){
-
-                    obj[i] = true
-                    checkArr.push(obj)
+                    obj.value = true
                 }else{
-                    obj[i] = false
-                    checkArr.push(obj)
+                    obj.value = false
                 }
+            }else if(i == 'type'){
+                obj.value = true
             }else{
-                if(item && item != undefined){
-                    obj[i] = true
-                    checkArr.push(obj)
+                if(item.status == 'pass'){
+                    obj.value = true
                 }else{
-                    obj[i] = false
-                    checkArr.push(obj)
+                    obj.value = false
                 }
             }
+            checkArr.push(obj)
         }
 
-        console.log(checkArr);
+        let isValided = checkArr[0].value
+        for(let i=1;i<checkArr.length;i++){
+            isValided = isValided && checkArr[i].value
+        }
 
-        return false;
+        if(!isValided){
+            _this.setState({
+                showAlert:{
+                    show:true,
+                    message:'请输入用户名或密码'
+                }
+            })
+
+            return false
+        }
 
         //表单提交
         let formData = new FormData()
@@ -121,21 +130,12 @@ class RegisterPage extends React.Component {
 
             if(i == 'zrrPicFront' || i == 'zrrPicBack' || i == 'frPicOrg' || i == 'frPicCopy'){
                 formData.append(i,{uri: item.path, type: 'multipart/form-data', name: item.filename});
+            }else if(i == 'type'){
+                formData.append(i,obj);
             }else{
-                formData.append(i,item);
+                formData.append(i,item.text);
             }
         }
-
-        // if(!(payload.username && payload.password)){
-        //     _this.setState({
-        //         showAlert:{
-        //             show:true,
-        //             message:'请输入用户名或密码'
-        //         }
-        //     })
-        //
-        //     return false
-        // }
 
         // 显示加载器
         _this.setState({
@@ -234,15 +234,7 @@ class RegisterPage extends React.Component {
     }
 
     _passwordChange(params){
-        _that.setState({
-            password:params
-        })
-    }
-
-    _password1Change(params){
-        _that.setState({
-            password1:params
-        })
+        console.log(params);
     }
 
     componentDidMount(){
@@ -264,15 +256,19 @@ class RegisterPage extends React.Component {
             <View style={{flex:1}}>
                 <ScrollView style={styles.RegisterPage}>
                     <View style={styles.LoginInputBox}>
-                        <View style={styles.Label}>
+                        {/* <View style={styles.Label}>
                             <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
-                        </View>
-                        <View style={styles.Label}>
+                        </View> */}
+                        {/* <View style={styles.Label}>
                             <NewInput rule={{test:"s6-20"}} placeholder="密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._passwordChange} />
                         </View>
                         <View style={styles.Label}>
-                            <NewInput rule={{test:"checkPassword",password:this.state.password.text,passwodRule:"s6-20"}} placeholder="确认密码" secureTextEntry={true} style={styles.TextInput} inputChange={this._password1Change} />
-                        </View>
+                            <NewInput rule={{test:"checkPassword",password:this.state.password.text,passwodRule:"s6-20"}} placeholder="确认密码" password1Text={this.state.password1.text} secureTextEntry={true} ref={(e) => {this.password1 = e;}} style={styles.TextInput} />
+                        </View> */}
+
+                        <ValidLabel onPasswordChange={this._passwordChange} labelStyle={styles.Label} textInputStyle={styles.TextInput} />
+
+
                         <View style={styles.Label}>
                             <NewInput rule={{test:"z2-4"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />
                         </View>
