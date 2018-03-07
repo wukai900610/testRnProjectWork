@@ -25,15 +25,6 @@ class ValidLabel extends React.Component {
     _validInput(){
         let {password,password1} = this.state;
 
-        // if(password1.text != ''){
-        //     if(Util.ruleFun['s6-20'](password1.text) && password.text == password1.text){
-        //         password1.status = 'pass'
-        //     }else{
-        //         password1.status = 'fail'
-        //     }
-        // }else{
-        //     password.status = ''
-        // }
         if(Util.ruleFun['s6-20'](password1.text) && password.text == password1.text){
             password1.status = 'pass'
         }else{
