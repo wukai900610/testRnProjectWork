@@ -11,7 +11,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 // import Immutable from 'immutable';
 import Util from '../libs/libs';
 
-let _that;
 class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
@@ -74,7 +73,7 @@ class RegisterPage extends React.Component {
                 realname:_this.realname.state,
                 idcard:_this.idcard.state,
                 phone:_this.phone.state,
-                type:_this.state.type.value,
+                type:_this.state.type,
 
                 zrrPicFront:_this.state.zrrPicFront,
                 zrrPicBack:_this.state.zrrPicBack,
@@ -130,9 +129,13 @@ class RegisterPage extends React.Component {
             if(i == 'zrrPicFront' || i == 'zrrPicBack' || i == 'frPicOrg' || i == 'frPicCopy'){
                 formData.append(i,{uri: item.path, type: 'multipart/form-data', name: item.filename});
             }else if(i == 'type'){
-                formData.append(i,obj);
+                formData.append(i,item.value);
             }else{
-                formData.append(i,item.text);
+                if(i == 'password'){
+                    formData.append(i,item.password1Text);
+                }else{
+                    formData.append(i,item.text);
+                }
             }
         }
 
@@ -245,10 +248,6 @@ class RegisterPage extends React.Component {
         })
     }
 
-    componentWillMount(){
-        _that=this;
-    }
-
     render() {
         let { navigation } = this.props;
         const {showAlert,showLoad,type} = this.state;
@@ -261,7 +260,7 @@ class RegisterPage extends React.Component {
                             <NewInput rule={{test:"s2-20"}} placeholder="帐号" ref={(e) => {this.username = e;}} style={styles.TextInput} />
                         </View>
 
-                        <ValidLabel onPasswordChange={this._passwordChange} labelStyle={styles.Label} textInputStyle={styles.TextInput} />
+                        <ValidLabel onPasswordChange={(e)=>{this._passwordChange(e)}} labelStyle={styles.Label} textInputStyle={styles.TextInput} />
 
                         <View style={styles.Label}>
                             <NewInput rule={{test:"z2-4"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />
@@ -367,7 +366,7 @@ class RegisterPage extends React.Component {
                         let {loginSuccess} = this.state
 
                         if(loginSuccess){
-                            navigation.navigate('AboutPage')
+                            navigation.navigate('LoginPage')
                         }
                         this._hideAlert();
                     }}
