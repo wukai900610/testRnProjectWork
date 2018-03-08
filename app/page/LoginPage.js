@@ -5,7 +5,6 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import NewButton from '../components/NewButton';
 import NewInput from '../components/NewInput';
 
-// import Immutable from 'immutable';
 import Util from '../libs/libs';
 
 class LoginPage extends React.Component {
@@ -160,7 +159,7 @@ class LoginPage extends React.Component {
                         let {loginSuccess} = this.state
 
                         if(loginSuccess){
-                            navigation.navigate('AboutPage')
+                            Util.reset(this.props.navigation,{ routeName:'RootTabs'});
                         }
                         this._hideAlert();
                     }}

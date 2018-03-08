@@ -1,6 +1,52 @@
+import React, { Component } from 'react';
+import {NavigationActions} from 'react-navigation';
 import axios from 'axios';
 
 let util = {};
+
+// util.checkLogin = function loadFrontUser(WrappedComponent, HijackComponent) {
+//     return class extends Component {
+//         constructor(props) {
+//             super(props);
+//
+//             this.state={
+//                 isLogin:'',
+//                 frontUser:''
+//             }
+//         }
+//
+//         componentWillMount() {
+//             STORAGE.load({
+//                 key:'frontUser',
+//             }).then(ret => {
+//                 this.setState({
+//                     isLogin:true,
+//                     frontUser:ret
+//                 })
+//             }).catch((e)=>{
+//                 this.setState({
+//                     isLogin:false,
+//                 })
+//             })
+//         }
+//
+//         componentWillReceiveProps(){
+//             console.log('componentWillReceiveProps');
+//         }
+//
+//         render() {
+//         console.log(this.props);
+//             console.log('render');
+//             // 通过{...this.props} 把传递给当前组件的属性继续传递给被包装的组件WrappedComponent
+//             if(this.state.isLogin){
+//                 return <WrappedComponent {...this.props} frontUser={this.state.frontUser} />
+//             }else{
+//                 return <HijackComponent {...this.props} />
+//             }
+//
+//         }
+//     }
+// }
 
 //字符串截取
 util.strSplit = (str,strLength)=>{
@@ -122,7 +168,7 @@ util.ajax = axios.create({
 
 // util.domain = 'http://www.gyxyw.gov.cn';
 // util.domain = 'http://10.10.136.32:5010';
-util.domain = 'http://10.10.136.144:8080/';
+util.domain = 'http://10.10.136.144:8080';
 
 util.api = {
     list:util.domain + '/api/content/list.jspx',
@@ -166,7 +212,7 @@ util.api = {
     examineTask:util.domain+'/frontUserTask/examineTask.jspx',//参数： taskId procId userId paramName paramValue tId comment
 }
 
-util.checkLogin = function (navigation) {
+util.checkUserState = function (navigation) {
     // console.log(navigation);
     STORAGE.load({
         key:'frontUser'
@@ -184,8 +230,21 @@ util.checkLogin = function (navigation) {
         //     navigation.navigate('LoginPage')
         // });
     }).catch((e)=>{
-        navigation.navigate('LoginPage',{from:'ServiceHallPage'})
+        util.reset(navigation,{ routeName:'LoginPage',params:{from:'ServiceHallPage'} })
+        // navigation.navigate('LoginPage',{from:'ServiceHallPage'})
     })
+}
+
+util.reset = (navigation, route, params) => {
+    console.log(NavigationActions);
+    const resetAction = NavigationActions.reset({
+        index: 1,
+        actions: [
+            NavigationActions.navigate({routeName:'RootTabs'}),
+            NavigationActions.navigate(route),
+        ],
+    });
+    navigation.dispatch(resetAction);
 }
 
 export default util;

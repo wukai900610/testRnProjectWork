@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import {TabNavigator,StackNavigator} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import NewButton from './components/NewButton';
 
 import SearchPage from './page/SearchPage';
 import HomePage from './page/HomePage';
@@ -26,6 +25,7 @@ import RegisterPage from './page/RegisterPage';
 import FindPassPage from './page/FindPassPage';
 import Certification from './page/Certification';
 import ModifyPass from './page/ModifyPass';
+import Other from './page/DefaultComponent';
 
 import Util from './libs/libs';
 
@@ -174,7 +174,7 @@ const AppNavigator = StackNavigator({
                         headerBackTitle:null,
                         headerLeft:function () {
                             return (
-                                <TouchableOpacity style={{marginLeft:10}} onPress={()=>{navigation.navigate('AboutPage');}}>
+                                <TouchableOpacity style={{marginLeft:10}} onPress={()=>{navigation.navigate('RootTabs');}}>
                                     <Ionicons name='ios-arrow-back-outline' color="#0e6aff" size={33}/>
                                 </TouchableOpacity>
                             )
@@ -239,16 +239,22 @@ const AppNavigator = StackNavigator({
             }
         }
     },
+    Other: {
+        screen: Other,
+        navigationOptions: {
+            title: '其他'
+        }
+    },
 },{
     initialRouteName:'RootTabs',
     onTransitionStart: (current,prev)=>{
         let index = current.scene.route.index;
-
+console.log(current);
         if(current.scene.route.routeName == 'RootTabs'){
             if(current.scene.route.routes[index].routeName == 'ServiceHallPage'){
-                Util.checkLogin(current.navigation)
+                Util.checkUserState(current.navigation)
             }else if(current.scene.route.routes[index].routeName == 'AboutPage'){
-                // Util.checkLogin(current.navigation)
+                // Util.checkUserState(current.navigation)
             }
         }
     },

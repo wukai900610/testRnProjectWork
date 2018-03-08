@@ -29,7 +29,6 @@ class RegisterPage extends React.Component {
                 value:'Z'
             },
             password:{},
-            password1:{},
             choosePicBoxVisible:false,
             picType:'',
             zrrPicFront:{},
@@ -71,7 +70,7 @@ class RegisterPage extends React.Component {
         }else{
             payload = {
                 username:_this.username.state,
-                password:_this.password1.state,
+                password:_this.state.password,
                 realname:_this.realname.state,
                 idcard:_this.idcard.state,
                 phone:_this.phone.state,
@@ -116,7 +115,7 @@ class RegisterPage extends React.Component {
             _this.setState({
                 showAlert:{
                     show:true,
-                    message:'请输入用户名或密码'
+                    message:'请完善用户信息'
                 }
             })
 
@@ -234,11 +233,9 @@ class RegisterPage extends React.Component {
     }
 
     _passwordChange(params){
-        console.log(params);
-    }
-
-    componentDidMount(){
-        _that=this;
+        this.setState({
+            password:params
+        })
     }
 
     _choosePicBox(picType){
@@ -246,6 +243,10 @@ class RegisterPage extends React.Component {
             picType,
             choosePicBoxVisible:true
         })
+    }
+
+    componentWillMount(){
+        _that=this;
     }
 
     render() {
