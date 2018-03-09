@@ -7,9 +7,11 @@ class NewPick extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        let {data,selected} = this.props;
         this.state={
-            selected:data[selected],
+            selected:{
+                name:'',
+                value:''
+            }
         }
     }
 
@@ -23,47 +25,61 @@ class NewPick extends React.PureComponent {
         return arr;
     }
 
-    render() {
-        let {data} = this.props;
-        let {selected} = this.state;
+    renderPick(){
+        let {data,selectedIndex} = this.props;
+        let selectedValue = data[selectedIndex];
 
+        if(data.length > 0){
+            return (
+                <Picker
+                    selectedValue={selectedValue.value}
+                    onValueChange={(type) => {
+                        let selected;
+                        data.map((item,index)=>{
+                            if(type == item.value){
+                                selected = {
+                                    selectedIndex:index,
+                                    name:item.name,
+                                    value:item.value
+                                }
+                            }
+                        });
+                        this.props.selectChange(selected)
+                    }}>
+
+                    {this.renderItem(data)}
+                </Picker>
+            )
+        }
+    }
+
+    render() {
         return (
             <Modal
-                animationType={"slide"}
+                animationType="fade"
                 transparent={true}
                 visible={this.props.pickVisible}
                 onRequestClose={() => {alert("Modal has been closed.")}}>
                     <View style={{
-                        position:'absolute',
-                        bottom:0,
-                        width:'100%',
-                        height:200,
-                        backgroundColor:'#fff'
+                        flex:1,
+                        backgroundColor:'rgba(0, 0, 0, 0.5)'
                     }}>
-                        <View style={{flexDirection:'row',justifyContent:'space-between',padding:5,backgroundColor:'#efefef'}}>
-                            <NewButton title="确定" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onConfirm(selected)}} />
-                            <NewButton title="取消" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onCancel()}} />
-                        </View>
-                        <View>
-                            <Picker
-                                selectedValue={selected.value}
-                                onValueChange={(type) => {
-                                    data.map((item,index)=>{
-                                        if(type == item.value){
-                                            this.setState({
-                                                selected: {
-                                                    name:item.name,
-                                                    value:item.value
-                                                }
-                                            })
-                                        }
-                                    })
-                                }}>
+                        <View style={{
+                            position:'absolute',
+                            bottom:0,
+                            width:'100%',
+                            height:200,
+                            backgroundColor:'#fff'
+                        }}>
+                            <View style={{flexDirection:'row',justifyContent:'space-between',padding:5,backgroundColor:'#efefef'}}>
+                                <NewButton title="确定" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onConfirm()}} />
+                                <NewButton title="取消" style={{backgroundColor:'#ccc'}} onPress={()=>{this.props.onCancel()}} />
+                            </View>
+                            <View>
+                                {this.renderPick()}
+                            </View>
 
-                                {this.renderItem(data)}
-                            </Picker>
                         </View>
-
                     </View>
             </Modal>
         );

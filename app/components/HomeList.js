@@ -20,7 +20,9 @@ class HomeNav extends React.Component {
         this.props.navigation.navigate("NewsDetailPage",detailItem);
     }
 
-    renderListUl(homePage){
+    renderListUl(){
+        const {homePage} = this.props;
+
         if(homePage.isLoading){
             return (
                 <View style={styles.loadingBox}>
@@ -34,50 +36,40 @@ class HomeNav extends React.Component {
             let data = [];
             homePage.homeList.data.map((item,index)=>
                 data.push(<TouchableHighlight key={index} underlayColor="#f1f1f1" activeOpacity={0.35} onPress={this._goToPage.bind(this,item)}>
-                        <View style={styles.newsBoxItemBox}>
-                    <Text style={styles.newsBoxItemChannel}>
-                        [{item.channel}]
-                    </Text>
-                    <Text style={styles.newsBoxItemTitle}>
-                        {Util.strSplit(item.title,20)}
-                    </Text>
-                    <View style={styles.newsBoxItemDate}>
-                        <Text style={styles.newsBoxItemDateText}>
-                            {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
+                    <View style={styles.newsBoxItemBox}>
+                        <Text style={styles.newsBoxItemChannel}>
+                            [{item.channel}]
                         </Text>
-                    </View>
+                        <Text style={styles.newsBoxItemTitle}>
+                            {Util.strSplit(item.title,20)}
+                        </Text>
+                        <View style={styles.newsBoxItemDate}>
+                            <Text style={styles.newsBoxItemDateText}>
+                                {DateFormat(item.releaseDate).format('YYYY-MM-DD')}
+                            </Text>
                         </View>
+                    </View>
                 </TouchableHighlight>)
             )
 
             return data;
+        }else if(homePage.status == 'loadFail'){
+            return (
+                <View style={{padding:20,alignItems: 'center'}}>
+                    <Text>数据加载失败</Text>
+                </View>
+            );
         }
     }
 
     render() {
-        const {dispatch, homePage} = this.props;
-        let {status} = homePage;
-
-        if(status == 'loadFail'){
-            Alert.alert(
-                '警告',
-                '数据加载失败了',
-                [
-                    {text: '确认', onPress: () => {
-
-                    }},
-                ],
-                { cancelable: false }
-            )
-        }
-
         return (
             <View style={styles.newsBox}>
                 <View style={styles.newsBoxTitle}>
                     <Text style={styles.newsBoxTitleText}>头条</Text>
                 </View>
 
-                {this.renderListUl(homePage)}
+                {this.renderListUl()}
             </View>
         );
     }

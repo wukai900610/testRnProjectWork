@@ -204,7 +204,7 @@ util.api = {
     bindingAuthenSmsCode:util.domain + '/frontUser/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码 参数： userId   backUserName  backPhone
     bindingAuthen:util.domain + '/frontUser/bindingAuthen.jspx',//前台用户认证绑定接口 参数：userId ； backUserName  ；backPhone
 
-    taskList:util.domain+'/frontUserTask/taskList.jspx',//前台用户审核列表 参数：backUserName  page  rows
+    taskList:util.domain+'/frontUserTask/taskList.jspx',//前台用户审核列表 参数：bindManagerId  page  rows
     // 用户审核相关
     getOutgoings:util.domain+'/frontUserTask/getOutgoings.jspx',//参数：taskId
     wflist:util.domain+'/frontUserTask/wflist.jspx',//kys
@@ -236,7 +236,7 @@ util.checkUserState = function (navigation) {
 }
 
 util.reset = (navigation, route, params) => {
-    console.log(NavigationActions);
+    // console.log(NavigationActions);
     const resetAction = NavigationActions.reset({
         index: 1,
         actions: [

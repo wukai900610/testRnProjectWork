@@ -15,20 +15,30 @@ class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
 
+        let pickTypeBoxSelectedIndex = 1;
+        let pickTypeBoxData = [{'name':'法人',value:'F'},{'name':'自然人',value:'Z'}];
+        let pickPicBoxSelectedIndex = 0;
+        let pickPicBoxData = [{'name':'从相册选择',value:'Album'},{'name':'拍照',value:'Camera'}];
         this.state={
             showLoad:false,
             showAlert:{
                 show:false,
                 message:''
             },
-            pickVisible:false,
             registerSuccess:false,
-            type:{
-                name:'自然人',
-                value:'Z'
+            pickTypeBox:{
+                selectedIndex:pickTypeBoxSelectedIndex,
+                selectedItem:pickTypeBoxData[pickTypeBoxSelectedIndex],
+                data:pickTypeBoxData,
+                visible:false
+            },
+            pickPicBox:{
+                selectedIndex:pickPicBoxSelectedIndex,
+                selectedItem:pickPicBoxData[pickPicBoxSelectedIndex],
+                data:pickPicBoxData,
+                visible:false
             },
             password:{},
-            choosePicBoxVisible:false,
             picType:'',
             zrrPicFront:{},
             zrrPicBack:{},
@@ -47,37 +57,28 @@ class RegisterPage extends React.Component {
     };
 
     register(){
-        let _this = this
-        let { navigation } = _this.props
-        let payload
+        let _this = this;
+        let { navigation } = _this.props;
+        let { pickTypeBox } = _this.state;
 
-        if(_this.state.type.value == 'F'){
-            payload = {
-                username:_this.username.state,
-                password:_this.state.password,
-                realname:_this.realname.state,
-                idcard:_this.idcard.state,
-                phone:_this.phone.state,
-                type:_this.state.type,
+        let payload = {
+            username:_this.username.state,
+            password:_this.state.password,
+            realname:_this.realname.state,
+            idcard:_this.idcard.state,
+            phone:_this.phone.state,
+            type:pickTypeBox.selectedItem
+        };
 
-                zrrPicFront:_this.state.zrrPicFront,
-                zrrPicBack:_this.state.zrrPicBack,
-                frPicOrg:_this.state.frPicOrg,
-                frPicCopy:_this.state.frPicCopy,
-                wtqy:_this.wtqy.state
-            }
+        if(pickTypeBox.selectedItem.value == 'F'){
+            payload.zrrPicFront = _this.state.zrrPicFront;
+            payload.zrrPicBack = _this.state.zrrPicBack;
+            payload.frPicOrg = _this.state.frPicOrg;
+            payload.frPicCopy = _this.state.frPicCopy;
+            payload.wtqy = _this.state.wtqy;
         }else{
-            payload = {
-                username:_this.username.state,
-                password:_this.state.password,
-                realname:_this.realname.state,
-                idcard:_this.idcard.state,
-                phone:_this.phone.state,
-                type:_this.state.type,
-
-                zrrPicFront:_this.state.zrrPicFront,
-                zrrPicBack:_this.state.zrrPicBack,
-            }
+            payload.zrrPicFront = _this.state.zrrPicFront;
+            payload.zrrPicBack = _this.state.zrrPicBack;
         }
 
         //验证表单
@@ -201,7 +202,8 @@ class RegisterPage extends React.Component {
     }
 
     renderType(){
-        if(this.state.type.value == 'F'){
+        let { pickTypeBox } = this.state;
+        if(pickTypeBox.selectedItem.value == 'F'){
             return (
                 <View style={{flex:1,marginBottom:10}}>
                     <View>
@@ -242,15 +244,18 @@ class RegisterPage extends React.Component {
     }
 
     _choosePicBox(picType){
+        let {pickPicBox} = this.state;
+        pickPicBox.visible = true;
+
         this.setState({
             picType,
-            choosePicBoxVisible:true
+            pickPicBox:pickPicBox
         })
     }
 
     render() {
         let { navigation } = this.props;
-        const {showAlert,showLoad,type} = this.state;
+        let {showAlert,showLoad,type,picType,pickTypeBox,pickPicBox} = this.state;
 
         return (
             <View style={{flex:1}}>
@@ -276,7 +281,12 @@ class RegisterPage extends React.Component {
                                 <Text style={{paddingLeft:15,color:'#ccc'}}>注册类型</Text>
                             </View>
                             <View style={{height:50,justifyContent:'center'}}>
-                                <NewButton title={type.name} style={{marginLeft:10,backgroundColor:'#ccc'}} textStyle={{color:'#fff'}} onPress={()=>{this.setState({pickVisible:true})}} />
+                                <NewButton title={pickTypeBox.selectedItem.name} style={{marginLeft:10,backgroundColor:'#ccc'}} textStyle={{color:'#fff'}} onPress={()=>{
+                                    pickTypeBox.visible = true;
+                                    this.setState({
+                                        pickTypeBox:pickTypeBox
+                                    })
+                                }} />
                             </View>
                         </View>
 
@@ -297,27 +307,46 @@ class RegisterPage extends React.Component {
                         {this.renderType()}
 
                         <NewPick
-                            data={[{'name':'法人',value:'F'},{'name':'自然人',value:'Z'}]}
-                            pickVisible={this.state.pickVisible}
-                            selected={0}
-                            onCancel={()=>{this.setState({pickVisible:false})}}
-                            onConfirm={(selected)=>{
+                            data={pickTypeBox.data}
+                            pickVisible={pickTypeBox.visible}
+                            selectedIndex={pickTypeBox.selectedIndex}
+                            onCancel={()=>{
+                                pickTypeBox.visible = false;
                                 this.setState({
-                                    pickVisible:false,
-                                    type:selected
-                                })
+                                    pickTypeBox:pickTypeBox
+                                });
                             }}
-                         />
+                            onConfirm={()=>{
+                                pickTypeBox.visible = false;
+                                this.setState({
+                                    pickTypeBox:pickTypeBox
+                                });
+                            }}
+                            selectChange={(e)=>{
+                                pickTypeBox.selectedIndex = e.selectedIndex;
+                                pickTypeBox.selectedItem = e;
+                                this.setState({
+                                    pickTypeBox:pickTypeBox
+                                });
+                            }}
+                        />
 
                         {/* 选择照片 */}
                         <NewPick
-                            data={[{'name':'从相册选择',value:'Album'},{'name':'拍照',value:'Camera'}]}
-                            pickVisible={this.state.choosePicBoxVisible}
-                            selected={0}
-                            onCancel={()=>{this.setState({choosePicBoxVisible:false})}}
-                            onConfirm={(selected)=>{
-                                let {picType} = this.state;
-                                if(selected.value == 'Album'){
+                            data={pickPicBox.data}
+                            pickVisible={pickPicBox.visible}
+                            selectedIndex={pickPicBox.selectedIndex}
+                            onCancel={()=>{
+                                pickPicBox.visible = false;
+                                this.setState({
+                                    pickPicBox:pickPicBox
+                                });
+                            }}
+                            onConfirm={()=>{
+                                pickPicBox.visible = false;
+
+                                //打开相册或相机
+                                if(pickPicBox.selectedItem.value == 'Album'){
                                     ImagePicker.openPicker({
                                         width: 300,
                                         height: 400,
@@ -325,7 +354,7 @@ class RegisterPage extends React.Component {
                                     }).then(image => {
                                         this.setState({
                                             [picType]:image,
-                                            choosePicBoxVisible:false,
+                                            pickPicBox:pickPicBox
                                         })
                                     });
                                 }else{
@@ -336,12 +365,19 @@ class RegisterPage extends React.Component {
                                     }).then(image => {
                                         this.setState({
                                             [picType]:image,
-                                            choosePicBoxVisible:false,
+                                            pickPicBox:pickPicBox
                                         })
                                     });
                                 }
                             }}
-                          />
+                            selectChange={(e)=>{
+                                pickPicBox.selectedIndex = e.selectedIndex;
+                                pickPicBox.selectedItem = e;
+                                this.setState({
+                                    pickPicBox:pickPicBox
+                                });
+                            }}
+                        />
                     </View>
 
                     <NewButton title="注册" style={styles.LoginBtn} textStyle={styles.LoginBtnText} onPress={()=>{this.register()}} />
@@ -366,7 +402,7 @@ class RegisterPage extends React.Component {
                         let {loginSuccess} = this.state
 
                         if(loginSuccess){
-                            navigation.navigate('LoginPage')
+                            Util.reset(navigation,{ routeName:'LoginPage' })
                         }
                         this._hideAlert();
                     }}
