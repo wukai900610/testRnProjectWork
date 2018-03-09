@@ -30,10 +30,9 @@ const styles = {
     },
     NewInput: {
         marginRight:10,
-        height:(Platform.OS === 'ios') ? 30 : 42,
+        height:30,
     },
     searchBtn: {
-        height:(Platform.OS === 'ios') ? null : 42,
         backgroundColor:'#2795ee'
     },
     searchBtnText: {

@@ -199,6 +199,7 @@ const styles = {
     },
     inputText: {
         flex:1,
+        padding:0,
         paddingLeft:5,
         color:'#363636',
         fontSize:14
