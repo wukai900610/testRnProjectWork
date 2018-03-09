@@ -1,8 +1,7 @@
 import React from 'react';
 import {
     View,
-    Text,
-    Linking
+    Text
 } from 'react-native';
 
 import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
@@ -149,7 +148,7 @@ class TaskPage extends React.Component {
                     }else{
                         _this.props.navigation.navigate('TaskDetailPage',{
                             taskId:item.taskId,
-                            proc_id:item.proc_id,
+                            procId:item.proc_id,
                             tId:item.id,
                             yw_id2:item.yw_id2
                         });

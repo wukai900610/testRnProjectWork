@@ -16,6 +16,7 @@ import GsDetailPage from './page/GsDetailPage';
 import ServiceHallPage from './page/ServiceHallPage';
 import ServiceHallPageList from './page/ServiceHallPageList';
 import TaskPage from './page/TaskPage';
+import TaskDetailPage from './page/TaskDetailPage';
 import AboutPage from './page/AboutPage';
 import ListPage from './page/ListPage';
 import ListPageWithTabBar from './page/ListPageWithTabBar';
@@ -232,11 +233,16 @@ const AppNavigator = StackNavigator({
     },
     TaskPage: {
         screen: TaskPage,
-        navigationOptions: ({navigation,screenProps}) => {
-            return {
-                title: navigation.state.params.name,
-                headerBackTitle:null,
-            }
+        navigationOptions: {
+            title: '我的审批',
+            headerBackTitle:null,
+        }
+    },
+    TaskDetailPage: {
+        screen: TaskDetailPage,
+        navigationOptions: {
+            title: '审批详情',
+            headerBackTitle:null,
         }
     },
     Other: {
@@ -244,12 +250,12 @@ const AppNavigator = StackNavigator({
         navigationOptions: {
             title: '其他'
         }
-    },
+    }
 },{
-    initialRouteName:'RootTabs',
+    initialRouteName:'TaskPage',
     onTransitionStart: (current,prev)=>{
         let index = current.scene.route.index;
-console.log(current);
+// console.log(current);
         if(current.scene.route.routeName == 'RootTabs'){
             if(current.scene.route.routes[index].routeName == 'ServiceHallPage'){
                 Util.checkUserState(current.navigation)
