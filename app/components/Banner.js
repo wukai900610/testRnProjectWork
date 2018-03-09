@@ -35,7 +35,7 @@ class Banner extends React.Component {
 
         return (
             <View style={styles.banner}>
-                <Swiper height={this.state.height} autoplay={true} paginationStyle={{
+                <Swiper hasFloatingParent={true} height={this.state.height} autoplay={true} paginationStyle={{
                       bottom: -23, left: null, right: 30
                     }}>
                     {

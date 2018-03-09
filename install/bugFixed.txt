@@ -1,0 +1,7 @@
+node_modules/react-native-image-crop-picker/ios/ImageCropPicker.m
+注释 @"Animated" 298行
+注释 @"LongExposure" 299行
+
+react-native-swiper 在安卓上当父级是Model 或者 scrollView时会不显示内容
+修正：当处于这种情况时设置 hasFloatingParent={true} (默认是false)
+并将node_modules下react-native-swiper的主文件替换成fixed-swiper.js内的文件内容

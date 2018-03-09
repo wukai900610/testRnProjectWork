@@ -169,7 +169,7 @@ class NewInput extends React.Component {
 
         return (
             <View style={[styles.newInput,this.props.style,status=='fail'?styles.fail:'']}>
-                <TextInput autoCapitalize="none" {...this.props} style={styles.inputText} value={this.state.text} autoCorrect={false} onChangeText={(text) => {this.setText(text)}} />
+                <TextInput underlineColorAndroid="transparent" autoCapitalize="none" {...this.props} style={styles.inputText} value={this.state.text} autoCorrect={false} onChangeText={(text) => {this.setText(text)}} />
 
                 {this.renderClearTextBtn()}
                 {this.renderIconStatus(status)}

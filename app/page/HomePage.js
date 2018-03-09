@@ -21,6 +21,23 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            banner:[{
+                name:'信用巩义1',
+                id:1,
+                src:Util.domain+'/r/cms/www/mobile/images/banner1.jpg'
+            },{
+                name:'信用巩义2',
+                id:2,
+                src:Util.domain+'/r/cms/www/mobile/images/banner2.jpg'
+            },{
+                name:'信用巩义3',
+                id:3,
+                src:Util.domain+'/r/cms/www/mobile/images/banner3.jpg'
+            },{
+                name:'信用巩义4',
+                id:4,
+                src:Util.domain+'/r/cms/www/mobile/images/banner4.jpg'
+            }]
         };
     }
 
@@ -53,23 +70,7 @@ class HomePage extends React.Component {
 
                 <HomeHeader navigation={navigation}></HomeHeader>
 
-                <Banner banner={[{
-                    name:'信用巩义1',
-                    id:1,
-                    src:Util.domain+'/r/cms/www/mobile/images/banner1.jpg'
-                },{
-                    name:'信用巩义2',
-                    id:2,
-                    src:Util.domain+'/r/cms/www/mobile/images/banner2.jpg'
-                },{
-                    name:'信用巩义3',
-                    id:3,
-                    src:Util.domain+'/r/cms/www/mobile/images/banner3.jpg'
-                },{
-                    name:'信用巩义4',
-                    id:4,
-                    src:Util.domain+'/r/cms/www/mobile/images/banner4.jpg'
-                }]}></Banner>
+                <Banner banner={this.state.banner}></Banner>
 
                 <HomeNav navigation={navigation}></HomeNav>
 

@@ -153,7 +153,6 @@ console.log({
             userId:selectedItem.value,
             paramName:newGetOutgoings.condition.paramName,
             paramValue:newGetOutgoings.condition.paramValue
-            // taskId procId userId paramName paramValue tId comment
         }}).then((response) => {
             console.log('examineTask');
             console.log(response);
