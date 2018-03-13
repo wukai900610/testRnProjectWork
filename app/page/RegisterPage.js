@@ -75,7 +75,7 @@ class RegisterPage extends React.Component {
             payload.zrrPicBack = _this.state.zrrPicBack;
             payload.frPicOrg = _this.state.frPicOrg;
             payload.frPicCopy = _this.state.frPicCopy;
-            payload.wtqy = _this.state.wtqy;
+            payload.wtqy = _this.wtqy.state;
         }else{
             payload.zrrPicFront = _this.state.zrrPicFront;
             payload.zrrPicBack = _this.state.zrrPicBack;
