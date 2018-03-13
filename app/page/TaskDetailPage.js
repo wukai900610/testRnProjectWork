@@ -24,12 +24,14 @@ class TaskDetailPage extends React.Component {
                 data:[],
                 visible:false
             },
-            getOutgoings:'',
+            getOutgoings:[],
             // comment:'',
             presentation:[],
             showAlert:{
                 show:false,
-                message:''
+                message:'',
+                showCancelButton:false,
+                showConfirmButton:true
             }
         };
     }
@@ -42,24 +44,27 @@ class TaskDetailPage extends React.Component {
         Util.ajax.get(Util.api.getOutgoings, {params: {taskId:params.taskId}}).then((response) => {
             // console.log('getOutgoings');
             // console.log(response);
-            this.setState({
-                getOutgoings:response.data
-            })
+
+            if(typeof(response.data) == 'object' && response.data.length > 0){
+                this.setState({
+                    getOutgoings:response.data
+                })
+            }
         }).catch((err) => {
             // console.log('getOutgoings');
             // console.log(err);
             this.setState({
-                getOutgoings:''
+                getOutgoings:[]
             })
         });
     }
 
-    _myStep2(e){
+    _myStep2(type){
         let {navigation} = this.props;
         let {params}=navigation.state;
         let {getOutgoings,comment} = this.state;
         let url,payload;
-        let newGetOutgoings;
+        let candidateGroup,newGetOutgoings;
 
         if(!(comment && comment !='')){
             Alert.alert(
@@ -73,18 +78,19 @@ class TaskDetailPage extends React.Component {
             return false;
         }
 
-        if(e == 'confirm'){
-            newGetOutgoings = getOutgoings[0];
-        }else{
-            newGetOutgoings = getOutgoings[1];
-        }
-        this.setState({
-            newGetOutgoings:newGetOutgoings
-        })
+        getOutgoings.map((item,index)=>{
+            if(item.outGoing == type){
+                candidateGroup = getOutgoings[index].candidateGroup;
+            }else{
+                candidateGroup = getOutgoings[index].candidateGroup;
+            }
+        });
 
-        if(newGetOutgoings.candidateGroup == ''){
+        candidateGroup = (candidateGroup == undefined) ? '' : candidateGroup;
 
-        }else if(newGetOutgoings.candidateGroup=='owner'){
+        if(candidateGroup == ''){
+
+        }else if(candidateGroup=='owner'){
             url = Util.api.wfowener;
             payload = {
                 recordId : params.yw_id2
@@ -92,10 +98,15 @@ class TaskDetailPage extends React.Component {
         }else{
             url = Util.api.wflist;
             payload = {
-                kys : newGetOutgoings.candidateGroup
+                kys : candidateGroup
             }
         }
 
+        // console.log('candidateGroup:'+candidateGroup);
+        // console.log('url:'+url);
+        // console.log('payload:'+payload);
+        // //
+        // return false;
         if(url && url != ''){
             Util.ajax.get(url, {params: payload}).then((response) => {
                 console.log('presentation');
@@ -118,76 +129,110 @@ class TaskDetailPage extends React.Component {
                         presentation:newPresentation,
                         pick:pick
                     })
-                }else{
-                    this._myStep3();
                 }
             }).catch((err) => {
                 console.log('presentation');
                 console.log(err);
             });
+        }else{
+            this._myStep3();
         }
     }
 
     _myStep3 = () => {
         let {navigation} = this.props;
         let {params}=navigation.state;
-        let {comment,pick,newGetOutgoings,showAlert} = this.state;
+        let {comment,pick,getOutgoings,showAlert,frontUser} = this.state;
+        let newGetOutgoings;
         //判断是否有下级用户
         let selectedItem = pick.data > 0 ? pick.data[pick.selectedIndex] : {};
 
-console.log({
-    taskId:params.taskId,
-    procId:params.procId,
-    tId:params.tId,
-    comment:comment,
-    userId:selectedItem.value,
-    paramName:newGetOutgoings.condition.paramName,
-    paramValue:newGetOutgoings.condition.paramValue
-    // taskId procId userId paramName paramValue tId comment
-});
+        getOutgoings.map((item,index)=>{
+            if(item.outGoing == '审核通过'){
+                newGetOutgoings = getOutgoings[index];
+            }else{
+                newGetOutgoings = getOutgoings[index];
+            }
+        });
+
         Util.ajax.get(Util.api.examineTask, {params: {
             taskId:params.taskId,
             procId:params.procId,
             tId:params.tId,
             comment:comment,
-            userId:selectedItem.value,
+            userId:selectedItem.value || selectedItem.value == undefined ? '' : selectedItem.value,
             paramName:newGetOutgoings.condition.paramName,
-            paramValue:newGetOutgoings.condition.paramValue
+            paramValue:newGetOutgoings.condition.paramValue,
+            bindManagerId:frontUser.bindManagerId
         }}).then((response) => {
-            console.log('examineTask');
-            console.log(response);
+            // console.log('examineTask');
+            // console.log(response);
 
+            if(response.data.code == 1000){
+                showAlert.showCancelButton = false;
+                showAlert.showConfirmButton = true;
+            }else{
+                showAlert.showCancelButton = true;
+                showAlert.showConfirmButton = false;
+            }
             showAlert.show = true;
             showAlert.message = response.data.mess;
             this.setState({
                 showAlert:showAlert
             })
         }).catch((err) => {
-            console.log('examineTask');
-            console.log(err);
+            // console.log('examineTask');
+            // console.log(err);
+            showAlert.show = true;
+            showAlert.message = '网络出错';
+            this.setState({
+                showAlert:showAlert
+            })
         });
     };
 
     renderButton(){
         let {getOutgoings,showAlert} = this.state;
-        if(getOutgoings && getOutgoings != ''){
-            let btn0Value = getOutgoings[0].outGoing;
-            let btn1Value= getOutgoings[1].outGoing;
+
+        if(getOutgoings && getOutgoings.length > 0){
+            let btnArr = [];
+            let itemStyle={};
+            getOutgoings.map((item,index)=>{
+                if(index == 0){
+                    itemStyle = {marginRight:20};
+                }
+
+                if(item.outGoing == '审核通过'){
+                    btnArr.push(<NewButton key={index} style={[{backgroundColor:'#2795ee'},itemStyle]} textStyle={{color:'#fff'}} title={item.outGoing} onPress={(e)=>{this._myStep2(item.outGoing)}} />)
+
+                }else{
+                    btnArr.push(<NewButton key={index} style={[{backgroundColor:'#c30c22'},itemStyle]} textStyle={{color:'#fff'}} title={item.outGoing} onPress={(e)=>{this._myStep2(item.outGoing)}} />)
+                }
+            });
+
             return (
                 <View style={{flexDirection:'row',justifyContent:'center',marginTop:10}}>
-                    <NewButton style={{marginRight:20,backgroundColor:'#2795ee'}} textStyle={{color:'#fff'}} title={btn0Value} onPress={(e)=>{this._myStep2('confirm')}} />
-                    <NewButton style={{backgroundColor:'#c30c22'}} textStyle={{color:'#fff'}} title={btn1Value} onPress={(e)=>{this._myStep2('cancel')}} />
+                    {btnArr}
                 </View>
             )
         }
     }
 
     componentDidMount(){
-        this._myStep1()
+        STORAGE.load({
+            key:'frontUser',
+        }).then(ret => {
+            this.setState({
+                frontUser:ret
+            },()=>{
+                this._myStep1();
+            })
+        })
     }
 
     render() {
-        let {showAlert,getOutgoings,pick} = this.state;
+        let {navigation} = this.props;
+        let {showAlert,pick} = this.state;
 
         return (
             <View style={{flex:1,backgroundColor:'#fff'}}>
@@ -235,16 +280,24 @@ console.log({
                     message={showAlert.message}
                     closeOnTouchOutside={false}
                     closeOnHardwareBackPress={false}
-                    // showCancelButton={false}
-                    showConfirmButton={true}
-                    // cancelText="取消"
+                    showCancelButton={showAlert.showCancelButton}
+                    showConfirmButton={showAlert.showConfirmButton}
+                    cancelText="关闭"
                     confirmText="确定"
                     confirmButtonColor="#DD6B55"
+                    onCancelPressed={() => {
+                        showAlert.show = false;
+                        this.setState({
+                            showAlert
+                        });
+                    }}
                     onConfirmPressed={() => {
                         showAlert.show = false;
                         this.setState({
                             showAlert
-                        })
+                        },()=>{
+                            navigation.goBack();
+                        });
                     }}
                 />
             </View>

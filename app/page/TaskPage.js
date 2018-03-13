@@ -51,7 +51,7 @@ class TaskPage extends React.Component {
 
         Util.ajax.get(Util.api.taskList, {params: params}).then((response) => {
             let sourceData = response.data;
-            console.log(sourceData);
+            // console.log(sourceData);
             if(sourceData.rows.length == 0){
                 this.setState({
                     status:'noData'

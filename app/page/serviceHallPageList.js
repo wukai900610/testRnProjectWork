@@ -181,8 +181,7 @@ class serviceHallPageList extends React.Component {
                 if(item.status == 'Y'){
                     return (
                         <NewButton title="下载" onPress={()=>{
-                            // Linking.openURL('http://10.10.136.144:8080/downPDF.html?id='+item.id+'&applicant_unit='+item.applicant_unit+'').catch(err => console.error('An error occurred', err));
-                            Linking.openURL('http://10.10.136.144:8080/r/cms/www/aaa.html?id='+item.id+'&applicant_unit='+item.applicant_unit+'').catch(err => console.error('An error occurred', err));
+                            Linking.openURL(Util.domain+'/r/cms/www/credit/APP_PDFDown.html?id='+item.id+'&fileName='+item.applicant_unit+'').catch(err => console.error('打开下载链接出错', err));
                         }} />
                     )
                 }else{

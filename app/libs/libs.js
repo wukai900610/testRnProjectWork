@@ -167,7 +167,6 @@ util.ajax = axios.create({
 });
 
 // util.domain = 'http://www.gyxyw.gov.cn';
-// util.domain = 'http://10.10.136.32:5010';
 util.domain = 'http://10.10.136.144:8080';
 
 util.api = {

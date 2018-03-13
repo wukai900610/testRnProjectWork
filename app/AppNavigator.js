@@ -252,7 +252,7 @@ const AppNavigator = StackNavigator({
         }
     }
 },{
-    initialRouteName:'TaskPage',
+    initialRouteName:'RootTabs',
     onTransitionStart: (current,prev)=>{
         let index = current.scene.route.index;
 // console.log(current);
