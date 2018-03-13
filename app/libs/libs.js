@@ -199,6 +199,8 @@ util.api = {
     frzbList:util.domain+'/frontUser/frzbList.jspx',//直报 法人
     zrrzbList:util.domain+'/frontUser/zrrzbList.jspx',//直报 自然人
     sxjbList:util.domain+'/frontUser/sxjbList.jspx',//举报信箱
+    applicationPreview:util.domain+'/applicationPreview.jspx',//PDF预览
+
 
     bindingAuthenSmsCode:util.domain + '/frontUser/bindingAuthenSmsCode.jspx',//前台网站用户后台认证绑定发送验证码 参数： userId   backUserName  backPhone
     bindingAuthen:util.domain + '/frontUser/bindingAuthen.jspx',//前台用户认证绑定接口 参数：userId ； backUserName  ；backPhone

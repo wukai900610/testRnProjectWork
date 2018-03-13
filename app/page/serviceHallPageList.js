@@ -2,6 +2,7 @@ import React from 'react';
 import {
     View,
     Text,
+    Alert,
     Linking
 } from 'react-native';
 
@@ -147,7 +148,7 @@ class serviceHallPageList extends React.Component {
                     <Text style={styles.tdText}>申请时间</Text>
                     <Text style={styles.tdText}>经办时间</Text>
                     <Text style={styles.tdText}>状态</Text>
-                    <Text style={styles.tdText}>下载文件</Text>
+                    <Text style={styles.tdText}>操作</Text>
                 </View>
             )
         }else if(navigation.state.params.type == 'qyzb' || navigation.state.params.type == 'jbxx'){
@@ -161,10 +162,45 @@ class serviceHallPageList extends React.Component {
         }
     }
 
+    _previewPDF(fileName,id){
+        let params = {
+            fileName:fileName,
+            id:id
+        }
+        Util.ajax.get(Util.api.applicationPreview, {params: params}).then((response) => {
+            let pdfName = response.data;
+            if(pdfName != ''){
+                let url = Util.domain+'/xyhcbg/'+pdfName;
+                // console.log(url);
+                // return false;
+                Linking.openURL(url).catch(err => console.error('打开下载链接出错', err));
+            }else{
+                Alert.alert(
+                  '提示',
+                  '预览失败,请重试',
+                    [
+                        {text: '确认'},
+                    ],
+                    { cancelable: false }
+                )
+            }
+        }).catch((err) => {
+            Alert.alert(
+              '提示',
+              '预览失败,请重试',
+                [
+                    {text: '确认'},
+                ],
+                { cancelable: false }
+            )
+        });
+    }
+
     renderItem = (info: Object) => {
         let item = info.item;
+        let _this = this;
 
-        let {navigation} = this.props;
+        let {navigation} = _this.props;
         if(navigation.state.params.type == 'xybg'){
             let status;
             let manager_date = item.manager_date;
@@ -180,8 +216,8 @@ class serviceHallPageList extends React.Component {
             function isDownload(item) {
                 if(item.status == 'Y'){
                     return (
-                        <NewButton title="下载" onPress={()=>{
-                            Linking.openURL(Util.domain+'/r/cms/www/credit/APP_PDFDown.html?id='+item.id+'&fileName='+item.applicant_unit+'').catch(err => console.error('打开下载链接出错', err));
+                        <NewButton title="预览" onPress={()=>{
+                            _this._previewPDF(item.applicant_unit,item.id);
                         }} />
                     )
                 }else{
@@ -284,6 +320,7 @@ class serviceHallPageList extends React.Component {
                 {this.renderTdHead()}
 
                 <RefreshListView
+                    style={{padding:10}}
                     data={data.rows}
                     keyExtractor={(item: any, index: number) => {
                         return index
@@ -314,7 +351,6 @@ export default serviceHallPageList;
 const styles = {
     serviceHallPageList: {
         flex:1,
-        padding:10,
         backgroundColor:'#fff'
     },
     tr: {
