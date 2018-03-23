@@ -67,7 +67,7 @@ class RegisterPage extends React.Component {
             realname:_this.realname.state,
             idcard:_this.idcard.state,
             phone:_this.phone.state,
-            type:pickTypeBox.selectedItem
+            type:pickTypeBox.selectedItem,
         };
 
         if(pickTypeBox.selectedItem.value == 'F'){
@@ -128,7 +128,7 @@ class RegisterPage extends React.Component {
             let item = payload[i];
 
             if(i == 'zrrPicFront' || i == 'zrrPicBack' || i == 'frPicOrg' || i == 'frPicCopy'){
-                formData.append(i,{uri: item.path, type: 'multipart/form-data', name: item.filename});
+                formData.append(i,{uri: item.path, type: 'multipart/form-data', name: i+'.JPG'});
             }else if(i == 'type'){
                 formData.append(i,item.value);
             }else{
@@ -139,6 +139,8 @@ class RegisterPage extends React.Component {
                 }
             }
         }
+
+        formData.append('navigator','app');
 
         // 显示加载器
         _this.setState({
@@ -268,7 +270,7 @@ class RegisterPage extends React.Component {
                         <ValidLabel onPasswordChange={(e)=>{this._passwordChange(e)}} labelStyle={styles.Label} textInputStyle={styles.TextInput} />
 
                         <View style={styles.Label}>
-                            <NewInput rule={{test:"z2-4"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />
+                            <NewInput rule={{test:"s2-20"}} placeholder="姓名" ref={(e) => {this.realname = e;}} style={styles.TextInput} />
                         </View>
                         <View style={styles.Label}>
                             <NewInput rule={{test:'idCard'}} placeholder="身份证号" ref={(e) => {this.idcard = e;}} style={styles.TextInput} />
