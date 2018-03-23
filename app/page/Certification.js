@@ -167,18 +167,22 @@ class Certification extends React.Component {
                 if(response.data.resultObj.code == 1000){
                     let payload = this.state.payload;
                     payload.userId = response.data.frontUser.id;
-                    this.setState({
-                        frontUser:response.data.frontUser,
-                        payload:payload,
-                        certificationSuccess:response.data.frontUser.isBind == 'Y' ? true : false,
-                        certificationSuccessText:'认证成功',
-                    })
 
-                    //更新本地用户信息
-                    STORAGE.save({
-                        key:'frontUser',
-                        data:response.data.frontUser
-                    })
+                    if(response.data.frontUser.isBind == 'Y'){
+                        this.setState({
+                            frontUser:response.data.frontUser,
+                            payload:payload,
+                            certificationSuccess:response.data.frontUser.isBind == 'Y' ? true : false,
+                            certificationSuccessText:'认证成功',
+                        })
+
+                        //更新本地用户信息
+                        STORAGE.save({
+                            key:'frontUser',
+                            data:response.data.frontUser
+                        })
+                    }
+
                 }
             }).catch((err) => {
                 // navigation.navigate('LoginPage')
