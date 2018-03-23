@@ -136,7 +136,7 @@ class TaskPage extends React.Component {
         let _this = this;
         function operate(item) {
             return (
-                <NewButton title="我要审核" style={{backgroundColor:'#2795ee'}} textStyle={{color:'#fff'}} onPress={()=>{
+                <NewButton title="我要审核" style={{backgroundColor:'#2795ee'}} textStyle={{fontSize:11,color:'#fff'}} onPress={()=>{
                     if(item.yw_id2 == undefined){
                         let {showAlert} = _this.state
                         showAlert.show = true

@@ -11,6 +11,7 @@ import NewPick from '../components/NewPick';
 
 import Util from '../libs/libs';
 
+let condition;
 class TaskDetailPage extends React.Component {
     constructor(props) {
         super(props);
@@ -81,13 +82,11 @@ class TaskDetailPage extends React.Component {
         getOutgoings.map((item,index)=>{
             if(item.outGoing == type){
                 candidateGroup = getOutgoings[index].candidateGroup;
-            }else{
-                candidateGroup = getOutgoings[index].candidateGroup;
             }
         });
 
         candidateGroup = (candidateGroup == undefined) ? '' : candidateGroup;
-
+// console.log('dddd:'+candidateGroup);
         if(candidateGroup == ''){
 
         }else if(candidateGroup=='owner'){
@@ -109,8 +108,8 @@ class TaskDetailPage extends React.Component {
         // return false;
         if(url && url != ''){
             Util.ajax.get(url, {params: payload}).then((response) => {
-                console.log('presentation');
-                console.log(response.data);
+                // console.log('presentation');
+                // console.log(response.data);
                 let presentation = response.data;
 
                 if(presentation.length > 0){
@@ -142,27 +141,19 @@ class TaskDetailPage extends React.Component {
     _myStep3 = () => {
         let {navigation} = this.props;
         let {params}=navigation.state;
-        let {comment,pick,getOutgoings,showAlert,frontUser} = this.state;
-        let newGetOutgoings;
+        let {comment,pick,showAlert,frontUser} = this.state;
+        // let newGetOutgoings;
         //判断是否有下级用户
-        let selectedItem = pick.data > 0 ? pick.data[pick.selectedIndex] : {};
-
-        getOutgoings.map((item,index)=>{
-            if(item.outGoing == '审核通过'){
-                newGetOutgoings = getOutgoings[index];
-            }else{
-                newGetOutgoings = getOutgoings[index];
-            }
-        });
+        let selectedItem = pick.data.length > 0 ? pick.data[pick.selectedIndex] : {};
 
         Util.ajax.get(Util.api.examineTask, {params: {
             taskId:params.taskId,
             procId:params.procId,
             tId:params.tId,
             comment:comment,
-            userId:selectedItem.value || selectedItem.value == undefined ? '' : selectedItem.value,
-            paramName:newGetOutgoings.condition.paramName,
-            paramValue:newGetOutgoings.condition.paramValue,
+            userId:selectedItem.value && selectedItem !='' ?selectedItem.value : '',
+            paramName:condition.paramName,
+            paramValue:condition.paramValue,
             bindManagerId:frontUser.bindManagerId
         }}).then((response) => {
             // console.log('examineTask');
@@ -203,10 +194,16 @@ class TaskDetailPage extends React.Component {
                 }
 
                 if(item.outGoing == '审核通过'){
-                    btnArr.push(<NewButton key={index} style={[{backgroundColor:'#2795ee'},itemStyle]} textStyle={{color:'#fff'}} title={item.outGoing} onPress={(e)=>{this._myStep2(item.outGoing)}} />)
+                    btnArr.push(<NewButton key={index} style={[{backgroundColor:'#2795ee'},itemStyle]} textStyle={{color:'#fff'}} title={item.outGoing} onPress={(e)=>{
+                        condition = item.condition;
+                        this._myStep2(item.outGoing)
+                    }} />)
 
                 }else{
-                    btnArr.push(<NewButton key={index} style={[{backgroundColor:'#c30c22'},itemStyle]} textStyle={{color:'#fff'}} title={item.outGoing} onPress={(e)=>{this._myStep2(item.outGoing)}} />)
+                    btnArr.push(<NewButton key={index} style={[{backgroundColor:'#c30c22'},itemStyle]} textStyle={{color:'#fff'}} title={item.outGoing} onPress={(e)=>{
+                        condition = item.condition;
+                        this._myStep2(item.outGoing)
+                    }} />)
                 }
             });
 
