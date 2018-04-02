@@ -13,7 +13,7 @@ class Header extends React.PureComponent {
     render() {
         return (
             <View style={styles.header}>
-                <Text style={styles.headerText}>金电智诚</Text>
+                <Text style={styles.headerText}>信用巩义</Text>
                 <TouchableOpacity style={styles.searchBox} onPress={this._goToPage.bind(this)}>
                     <Image source={require('../images/search.png')} style={{width:44 / PixelRatio.get(),height: 44 / PixelRatio.get()}} />
                 </TouchableOpacity>
