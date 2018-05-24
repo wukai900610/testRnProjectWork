@@ -52,6 +52,7 @@ let util = {};
 util.strSplit = (str,strLength)=>{
     var newStr='';
     var realLength = 0, len = str.length, charCode = -1;
+    if(str){
     for (var i = 0; i < len; i++) {
         if(realLength >= strLength){
             return newStr + '...';
@@ -65,6 +66,9 @@ util.strSplit = (str,strLength)=>{
         newStr = newStr + str[i];
     }
     return newStr;
+    }else{
+        return '';
+    }
 }
 
 util.ruleFun = {
