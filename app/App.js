@@ -5,7 +5,7 @@ import store from './store/store'
 import AppNavigator from './AppNavigator'
 
 import Storage from 'react-native-storage';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, BackHandler, ToastAndroid, Platform } from 'react-native';
 var storage = new Storage({
   // 最大容量，默认值1000条数据循环存储
   size: 1000,
@@ -31,11 +31,33 @@ var storage = new Storage({
 global.STORAGE = storage;
 
 export default class App extends Component {
-  render () {
-    return (
-      <Provider store={store}>
-        <AppNavigator />
-      </Provider>
-    )
-  }
+    onBackAndroid = () => {
+        if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+            BackHandler.exitApp()
+            return false
+        }
+        this.lastBackPressed = Date.now()
+        ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT)
+        return true
+    };
+
+    componentWillMount() {
+        if (Platform.OS === 'android') {
+            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+        }
+    }
+
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+        }
+    }
+
+    render () {
+        return (
+            <Provider store={store}>
+                <AppNavigator />
+            </Provider>
+        )
+    }
 }
