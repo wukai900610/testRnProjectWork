@@ -4,7 +4,8 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    PixelRatio
+    PixelRatio,
+    Platform
 } from 'react-native';
 
 class HomeNav extends React.PureComponent {
@@ -140,19 +141,20 @@ export default HomeNav;
 
 const styles = {
     homeNav: {
-        paddingTop: 20,
-        paddingLeft: 40,
-        paddingRight: 40,
+        paddingTop: Platform.OS === "ios" ? 20 : 0,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     homeNavBox: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
     },
     homeNavItem: {
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20,
+        // backgroundColor:'#ccc',
         // marginLeft: 10,
         // marginRight: 10,
         width: 70,

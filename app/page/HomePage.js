@@ -4,7 +4,8 @@ import {
     Text,
     Button,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
 import PullRefreshScrollView from 'react-native-pullrefresh-scrollview';
 
@@ -95,7 +96,7 @@ export default connect(mapStateToProps)(HomePage);
 
 const styles = {
     homePageView: {
-        marginTop: 20,
+        marginTop: Platform.OS === "ios" ? 20 : 0,
         backgroundColor: '#fff'
     }
 }
