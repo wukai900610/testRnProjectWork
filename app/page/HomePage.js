@@ -75,7 +75,7 @@ class HomePage extends React.Component {
 
                 <HomeNav navigation={navigation}></HomeNav>
 
-                <HomeList homePage={homePage} navigation={navigation}></HomeList>
+                <HomeList _fetchData={this._fetchData.bind(this)} homePage={homePage} navigation={navigation}></HomeList>
             </PullRefreshScrollView>
         )
     }

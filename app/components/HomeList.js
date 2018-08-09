@@ -10,6 +10,7 @@ import {
 
 import DateFormat from 'moment';
 import Util from '../libs/libs';
+import NewButton from '../components/NewButton';
 
 class HomeNav extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class HomeNav extends React.Component {
     }
 
     renderListUl(){
-        const {homePage} = this.props;
+        const {homePage,_fetchData} = this.props;
 
         if(homePage.isLoading){
             return (
@@ -54,9 +55,11 @@ class HomeNav extends React.Component {
 
             return data;
         }else if(homePage.status == 'loadFail'){
+        // }else if(homePage.status == 'loadSuccess'){
             return (
                 <View style={{padding:20,alignItems: 'center'}}>
                     <Text>数据加载失败</Text>
+                    <NewButton title="重新加载" onPress={_fetchData}></NewButton>
                 </View>
             );
         }
